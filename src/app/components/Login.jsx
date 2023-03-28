@@ -1,14 +1,23 @@
 "use client";
-import { useState } from "react";
-import { Box, Typography, Paper, Button } from "@mui/material";
-import Input from "../commons/Input";
+import axios from "axios";
 import Image from "next/image";
+import Input from "../commons/Input";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../redux/user";
+import { Box, Typography, Paper, Button } from "@mui/material";
+import { message } from "antd";
 
 const Login = () => {
   const initialFormState = {
     email: "",
     password: "",
   };
+  // Redux
+  const dispatch = useDispatch();
+  // Router
+  const router = useRouter();
   // States
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialFormState);
@@ -17,9 +26,31 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleEmail = (email) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    }
+    return false;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    const validEmail = handleEmail(formData.email);
+    validEmail === true
+      ? axios
+          .post("http://localhost:3001/auth/login", formData, {
+            withCredentials: true,
+          })
+          .then((cookie) => {
+            if (cookie.data !== "") {
+              dispatch(logIn(cookie.data));
+              message.success("Sesión iniciada!");
+              router.push("/");
+            } else {
+              message.error("Credenciales inválidas");
+            }
+          })
+          .catch((err) => console.log(err))
+      : message.warning("Email incorrecto, intente otra vez");
   };
 
   return (
@@ -88,6 +119,11 @@ const Login = () => {
           type="submit"
           fullWidth
           color="primary"
+          variant={
+            formData.email === "" || formData.password.length < 8
+              ? "disabled"
+              : "contained"
+          }
         >
           Ingresar
         </Button>
@@ -97,25 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/**
- * <TextField
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          id="email"
-          label="Correo electrónico"
-        />
-        <TextField
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          label="Contraseña"
-        />
-        <Button variant="contained">Ingresá</Button>
- */

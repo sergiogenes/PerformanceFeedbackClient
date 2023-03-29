@@ -1,8 +1,6 @@
 import "./globals.css";
 import { Providers } from "@/redux/provider";
 import { Navigation } from "./components/Navigation";
-
-import { NavAdmin } from "./components/NavAdmin";
 import { Inter } from "next/font/google";
 
 export const metadata = {

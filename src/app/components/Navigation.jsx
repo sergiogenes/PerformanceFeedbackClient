@@ -15,7 +15,7 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
-export function NavAdmin() {
+export function Navigation() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 

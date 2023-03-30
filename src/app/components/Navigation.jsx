@@ -1,82 +1,168 @@
 "use client";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { logOut } from "@/redux/user";
+import { message } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-import styles from "./Navigation.module.css";
 import {
   AppBar,
-  Container,
-  Toolbar,
-  Grid,
-  Button,
   Avatar,
-  Divider,
+  IconButton,
+  Toolbar,
+  Menu,
+  MenuItem,
+  Container,
+  Button,
 } from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
+import { Box } from "@mui/system";
+import axios from "axios";
 
-const links = [
-  { label: "Dashboard", route: "/" },
-  { label: "Mi Historial", route: "/mi-historial" },
-  { label: "Indicadores", route: "/indicadores" },
-  { label: "Mi Equipo", route: "/mi-equipo" },
-];
+/* 
+const user = {
+  name: "John",
+  lastName: "Doe",
+  isAdmin: false,
+  puesto: "Software Engineer",
+  categoría: "IT",
+  avatar: "https://avatars.dicebear.com/api/pixel-art-neutral/fotoperfil.svg",
+}; */
 
-export function Navigation() {
+export function Navigation({ user }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = () => {
+    axios
+      .post("http://localhost:3001/auth/logout", {}, { withCredentials: true })
+      .then(() => {
+        dispatch(logOut());
+        message.success("Sesión Finalizada");
+        router.push("/login");
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  };
+
   return (
-    <AppBar sx={{ background: "##1686f7;" }} position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Grid
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-            position="relative"
-          >
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <Link href="/me">
             <Image
               src="/logoGN.png"
               alt="GlobalNews Group Logo"
               width={190}
               height={50}
               priority
-            />
-          </Grid>
-
-          <Grid
-            container
-            spacing={{ xs: 2, md: 1 }}
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            position="relative"
+            ></Image>
+          </Link>
+          <Container
+            sx={{
+              display: "flex",
+              direction: "row",
+              justifyContent: "flex-end",
+              alignContent: "center",
+            }}
           >
-            {links.map(({ label, route }) => (
-              <Grid key={route} item>
-                <Link href={route}>
+            {user.isAdmin ? (
+              <>
+                <Box sx={{ margin: "auto 10px" }}>
+                  <Link href="/dashboard" style={{ textDecoration: "none" }}>
+                    <Button variant="contained">Dashboard</Button>
+                  </Link>
+                </Box>
+
+                <Box style={{ order: 1 }}>
                   <Button
-                    sx={{ color: "white", background: "#0571DF" }}
+                    onClick={handleLogout}
                     variant="contained"
+                    color="error"
                   >
-                    {label}
+                    Logout
                   </Button>
-                </Link>
-              </Grid>
-            ))}
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              sx={{
-                marginLeft: 8,
-              }}
-            ></Divider>
-            <Grid item>
-              <Link href="/me">
-                <Avatar
-                  src="/broken-image.jpg"
-                  sx={{ width: 48, height: 48, marginLeft: 6 }}
-                />
-              </Link>
-            </Grid>
-          </Grid>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box sx={{ margin: "auto 10px" }}>
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <Link href="/me" style={{ textDecoration: "none" }}>
+                      <MenuItem onClick={handleClose}>Mi Perfil</MenuItem>
+                    </Link>
+                    <Link
+                      href="/indicadores"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MenuItem onClick={handleClose}>Indicadores</MenuItem>
+                    </Link>
+                    <Link
+                      href="/mi-historial"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MenuItem onClick={handleClose}>Historial</MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </Box>
+
+                <Box style={{ order: 1 }}>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    <Link href="/me">
+                      <Avatar
+                        width="48"
+                        height="48"
+                        alt="User Image"
+                        src={`https://avatars.dicebear.com/api/pixel-art-neutral/user.svg`}
+                      />
+                    </Link>
+                  </IconButton>
+                </Box>
+              </>
+            )}
+          </Container>
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+    </div>
   );
 }

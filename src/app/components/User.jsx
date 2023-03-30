@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 
-export function Me() {
+export function User() {
   return (
     <div className={styles.container}>
       <Grid container sx={{ marginLeft: 20 }}>

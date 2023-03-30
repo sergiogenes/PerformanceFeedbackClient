@@ -44,7 +44,7 @@ export function Navigation({ user }) {
   };
   const handleLogout = () => {
     axios
-      .post("http://localhost:3001/auth/logout")
+      .post("http://localhost:3001/auth/logout", {}, { withCredentials: true })
       .then(() => {
         dispatch(logOut());
         message.success("Sesión Finalizada");

@@ -12,7 +12,7 @@ const initialState = user;
 
 const userReducer = createReducer(initialState, {
   [logIn]: (state, action) => (state = action.payload),
-  [logOut]: (state, action) => (state = null),
+  [logOut]: (state, action) => (state = {}),
 });
 
 export default userReducer;

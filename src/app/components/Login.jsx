@@ -44,7 +44,7 @@ const Login = () => {
             if (cookie.data !== "") {
               dispatch(logIn(cookie.data));
               message.success("Sesión iniciada!");
-              router.push("/");
+              router.push("/me");
             } else {
               message.error("Credenciales inválidas");
             }

@@ -6,6 +6,7 @@ export const logIn = createAction("LOG_IN");
 export const logOut = createAction("LOG_OUT");
 
 const token = Cookies.get("token");
+
 const user = token ? jwt_decode(token) : {};
 
 const initialState = user;

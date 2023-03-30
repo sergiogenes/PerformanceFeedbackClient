@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Grid,
   Typography,
@@ -25,6 +26,8 @@ import {
 import { useSelector } from "react-redux";
 import UserModal from "../commons/AdminModals/UserModal";
 import OfficeModal from "../commons/AdminModals/OfficeModal";
+import PositionModal from "../commons/AdminModals/PositionModal";
+import { message } from "antd";
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -44,10 +47,28 @@ const teamData = [
   },
 ];
 
+/* const getPositions = async () => {
+  try {
+    const response = await axios.get("http://localhost:3001/positions", {
+      withCredentials: true,
+    });
+    const positions = response.data;
+    return positions;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const positionsData = getPositions(); 
+console.log(positionsData);*/
+
 const Dashboard = () => {
   // States
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [officeModalOpen, setOfficeModalOpen] = useState(false);
+  const [positionModalOpen, setPositionModalOpen] = useState(false);
+  const [positions, setPositions] = useState([]);
+
   // Handlers
   const handleUserModalOpen = () => {
     setUserModalOpen(true);
@@ -61,8 +82,31 @@ const Dashboard = () => {
   const handleOfficeModalClose = () => {
     setOfficeModalOpen(false);
   };
+  const handlePositionModalOpen = () => {
+    setPositionModalOpen(true);
+  };
+  const handlePositionModalClose = () => {
+    setPositionModalOpen(false);
+  };
+  const handleDeletePositions = (position) => {
+    console.log("position", position);
+    axios
+      .delete(`http://localhost:3001/positions/${position.id}`, {
+        withCredentials: true,
+      })
+      .then((response) => message.success(response.data))
+      .catch((error) => message.error(error.message));
+  };
+
   // Redux
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/positions", { withCredentials: true })
+      .then((response) => setPositions(response.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -126,6 +170,55 @@ const Dashboard = () => {
                               <Edit />
                             </IconButton>
                             <IconButton aria-label="delete">
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <People />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <div style={{ marginBottom: "2rem" }}>
+                <Container
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography variant="h6">Puestos</Typography>
+                  <Button onClick={handlePositionModalOpen}>
+                    Agregar Puesto
+                    <Add />
+                  </Button>
+                  <PositionModal
+                    open={positionModalOpen}
+                    onClose={handlePositionModalClose}
+                  />
+                </Container>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>PUESTO</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {positions.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell component="th" scope="row">
+                            {row.id}
+                          </TableCell>
+                          <TableCell>{row.name}</TableCell>
+                          <TableCell style={{ display: "flex" }}>
+                            <IconButton aria-label="edit">
+                              <Edit />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeletePositions(row)}
+                            >
                               <Delete />
                             </IconButton>
                           </TableCell>

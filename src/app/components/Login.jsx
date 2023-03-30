@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import Image from "next/image";
-import Input from "../commons/Input";
+import Input from "../commons/Input/Input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -120,7 +120,7 @@ const Login = () => {
           fullWidth
           color="primary"
           variant={
-            formData.email === "" || formData.password.length < 8
+            formData.email === "" || formData.password.length < 2
               ? "disabled"
               : "contained"
           }

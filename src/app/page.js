@@ -1,3 +1,10 @@
-export default function Dashboard() {
-  return <h1>ACA MOSTRARIAMOS EL DASHBOARD UNA VEZ LOGUEADO</h1>;
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+export default function Home() {
+  return (
+    <>
+      <Navbar />
+      <Dashboard />
+    </>
+  );
 }

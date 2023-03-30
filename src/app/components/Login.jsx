@@ -44,7 +44,7 @@ const Login = () => {
             if (cookie.data !== "") {
               dispatch(logIn(cookie.data));
               message.success("Sesión iniciada!");
-              router.push("/");
+              router.push("/me");
             } else {
               message.error("Credenciales inválidas");
             }
@@ -54,81 +54,92 @@ const Login = () => {
   };
 
   return (
-    <Paper
+    <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        width: "50%",
-        height: "450px",
-        paddingTop: "56px",
-        paddingLeft: "40px",
-        paddingRight: "40px",
-        paddingBottom: "56px",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "primary.dark",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          height: "66px",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography>Te damos la bienvenida a</Typography>
-        <Image
-          src="/GlobalNews.svg"
-          alt="GlobalNews Group Logo"
-          width={100}
-          height={24}
-          priority
-        />
-      </Box>
-      <Box
+      <Paper
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          height: "200px",
+          width: "50%",
+          height: "450px",
+          paddingTop: "56px",
+          paddingLeft: "40px",
+          paddingRight: "40px",
+          paddingBottom: "56px",
         }}
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
       >
-        <Input
-          name="email"
-          label="Correo electrónico"
-          handleChange={handleChange}
-          type="email"
-        />
-        <Input
-          name="password"
-          label="Contraseña"
-          handleChange={handleChange}
-          type={showPassword ? "text" : "password"}
-          handleShowPassword={handleShowPassword}
-        />
-        <Button
-          style={{
-            marginTop: "1rem",
-            backgroundColor: "#E4E4E4",
-            color: "#8D8D8D",
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            height: "66px",
+            justifyContent: "space-between",
           }}
-          type="submit"
-          fullWidth
-          color="primary"
-          variant={
-            formData.email === "" || formData.password.length < 8
-              ? "disabled"
-              : "contained"
-          }
         >
-          Ingresar
-        </Button>
-      </Box>
-    </Paper>
+          <Typography>Te damos la bienvenida a</Typography>
+          <Image
+            src="/GlobalNews.svg"
+            alt="GlobalNews Group Logo"
+            width={100}
+            height={24}
+            priority
+          />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "200px",
+          }}
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <Input
+            name="email"
+            label="Correo electrónico"
+            handleChange={handleChange}
+            type="email"
+          />
+          <Input
+            name="password"
+            label="Contraseña"
+            handleChange={handleChange}
+            type={showPassword ? "text" : "password"}
+            handleShowPassword={handleShowPassword}
+          />
+          <Button
+            style={{
+              marginTop: "1rem",
+              backgroundColor: "#E4E4E4",
+              color: "#8D8D8D",
+            }}
+            type="submit"
+            fullWidth
+            color="primary"
+            variant={
+              formData.email === "" || formData.password.length < 8
+                ? "disabled"
+                : "contained"
+            }
+          >
+            Ingresar
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
 

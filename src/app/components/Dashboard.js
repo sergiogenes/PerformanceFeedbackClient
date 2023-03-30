@@ -25,6 +25,7 @@ import {
 import { useSelector } from "react-redux";
 import UserModal from "../commons/AdminModals/UserModal";
 import OfficeModal from "../commons/AdminModals/OfficeModal";
+import axios from "axios";
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -61,6 +62,19 @@ const Dashboard = () => {
   const handleOfficeModalClose = () => {
     setOfficeModalOpen(false);
   };
+
+  const handleDeleteUser = (userId) => {
+    axios
+      .put(
+        `http://localhost:3001/users/deactivate/${userId.id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((user) => console.log(user));
+  };
+
   // Redux
   const user = useSelector((state) => state.user);
 
@@ -125,7 +139,10 @@ const Dashboard = () => {
                             <IconButton aria-label="edit">
                               <Edit />
                             </IconButton>
-                            <IconButton aria-label="delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeleteUser(row)}
+                            >
                               <Delete />
                             </IconButton>
                           </TableCell>

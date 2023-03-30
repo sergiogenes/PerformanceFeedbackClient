@@ -33,8 +33,10 @@ const UserModal = ({ open, onClose }) => {
     e.preventDefault();
     axios
       .post("http://localhost:3001/user", formData, { withCredentials: true })
-      .then((newUser) => console.log(newUser))
-      .catch((err) => message.error("Malio Sal"));
+      .then((newUser) =>
+        message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
+      )
+      .catch((err) => message.error(err));
     onClose();
   };
 

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logOut } from "@/redux/user";
+import { logOut } from "../../redux/user";
 import { message } from "antd";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,16 +19,6 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import axios from "axios";
-
-/* 
-const user = {
-  name: "John",
-  lastName: "Doe",
-  isAdmin: false,
-  puesto: "Software Engineer",
-  categoría: "IT",
-  avatar: "https://avatars.dicebear.com/api/pixel-art-neutral/fotoperfil.svg",
-}; */
 
 export function Navigation({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);

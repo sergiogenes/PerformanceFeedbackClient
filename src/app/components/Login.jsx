@@ -27,6 +27,7 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleEmail = (email) => {
+    // eslint-disable-next-line
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       return true;
     }
@@ -130,7 +131,7 @@ const Login = () => {
             fullWidth
             color="primary"
             variant={
-              formData.email === "" || formData.password.length < 8
+              formData.email === "" || formData.password.length < 2
                 ? "disabled"
                 : "contained"
             }

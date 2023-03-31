@@ -2,7 +2,15 @@
 import { TextField, Grid, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-function Input({ name, half, label, handleChange, type, handleShowPassword }) {
+function Input({
+  name,
+  half,
+  label,
+  handleChange,
+  type,
+  handleShowPassword,
+  defaultValue,
+}) {
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
       <TextField
@@ -13,6 +21,7 @@ function Input({ name, half, label, handleChange, type, handleShowPassword }) {
         fullWidth
         label={label}
         type={type}
+        defaultValue={defaultValue}
         InputProps={
           name === "password"
             ? {

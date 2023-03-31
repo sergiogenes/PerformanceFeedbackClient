@@ -28,6 +28,7 @@ import UserModal from "../commons/AdminModals/UserModal";
 import OfficeModal from "../commons/AdminModals/OfficeModal";
 import PositionModal from "../commons/AdminModals/PositionModal";
 import { message } from "antd";
+import EditPositionModal from "../commons/AdminModals/EditPositionModal";
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -47,27 +48,14 @@ const teamData = [
   },
 ];
 
-/* const getPositions = async () => {
-  try {
-    const response = await axios.get("http://localhost:3001/positions", {
-      withCredentials: true,
-    });
-    const positions = response.data;
-    return positions;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const positionsData = getPositions(); 
-console.log(positionsData);*/
-
 const Dashboard = () => {
   // States
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [officeModalOpen, setOfficeModalOpen] = useState(false);
   const [positionModalOpen, setPositionModalOpen] = useState(false);
+  const [editPositionModalOpen, setEditPositionModalOpen] = useState(false);
   const [positions, setPositions] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   // Handlers
   const handleUserModalOpen = () => {
@@ -88,13 +76,22 @@ const Dashboard = () => {
   const handlePositionModalClose = () => {
     setPositionModalOpen(false);
   };
+  const handleEditPositionModalOpen = () => {
+    setEditPositionModalOpen(true);
+  };
+  const handleEditPositionModalClose = () => {
+    setEditPositionModalOpen(false);
+  };
+
   const handleDeletePositions = (position) => {
-    console.log("position", position);
     axios
       .delete(`http://localhost:3001/positions/${position.id}`, {
         withCredentials: true,
       })
-      .then((response) => message.success(response.data))
+      .then((response) => {
+        message.success(response.data);
+        setRefresh(!refresh);
+      })
       .catch((error) => message.error(error.message));
   };
 
@@ -106,7 +103,7 @@ const Dashboard = () => {
       .get("http://localhost:3001/positions", { withCredentials: true })
       .then((response) => setPositions(response.data))
       .catch((error) => console.log(error));
-  }, []);
+  }, [refresh, positionModalOpen, editPositionModalOpen]);
 
   return (
     <>
@@ -186,7 +183,7 @@ const Dashboard = () => {
                 <Container
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Typography variant="h6">Puestos</Typography>
+                  <Typography variant="h6">PUESTOS</Typography>
                   <Button onClick={handlePositionModalOpen}>
                     Agregar Puesto
                     <Add />
@@ -212,9 +209,17 @@ const Dashboard = () => {
                           </TableCell>
                           <TableCell>{row.name}</TableCell>
                           <TableCell style={{ display: "flex" }}>
-                            <IconButton aria-label="edit">
+                            <IconButton
+                              aria-label="edit"
+                              onClick={handleEditPositionModalOpen}
+                            >
                               <Edit />
                             </IconButton>
+                            <EditPositionModal
+                              position={row}
+                              open={editPositionModalOpen}
+                              onClose={handleEditPositionModalClose}
+                            />
                             <IconButton
                               aria-label="delete"
                               onClick={() => handleDeletePositions(row)}

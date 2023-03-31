@@ -14,14 +14,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import DomainAddIcon from "@mui/icons-material/DomainAdd";
-import WorkIcon from "@mui/icons-material/Work";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const PositionModal = ({ open, onClose }) => {
+const EditPositionModal = ({ position, open, onClose }) => {
   const positionFormData = {
-    name: "",
+    name: position.name,
   };
   // States
   const [formData, setFormData] = useState(positionFormData);
@@ -32,12 +32,10 @@ const PositionModal = ({ open, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/positions", formData, {
+      .put(`http://localhost:3001/positions/${position.id}`, formData, {
         withCredentials: true,
       })
-      .then((response) =>
-        message.success(`Nueva posición creada: ${response.data.name}`)
-      )
+      .then((response) => message.success(`${response.data}`))
       .catch((error) => message.error(error.message));
     onClose();
   };
@@ -72,9 +70,9 @@ const PositionModal = ({ open, onClose }) => {
               backgroundColor: "#FB9B14",
             }}
           >
-            <WorkIcon />
+            <SaveAsIcon />
           </Avatar>
-          <Typography variant="h5">Nuevo Puesto:</Typography>
+          <Typography variant="h5">Editar Puesto:</Typography>
           <form
             style={{ width: "100%", marginTop: "2rem" }}
             onSubmit={handleSubmit}
@@ -85,6 +83,7 @@ const PositionModal = ({ open, onClose }) => {
                 label="Puesto"
                 handleChange={handleChange}
                 type="text"
+                defaultValue={formData.name}
               />
             </Grid>
             <Box
@@ -118,7 +117,7 @@ const PositionModal = ({ open, onClose }) => {
                 }}
                 type="submit"
               >
-                Crear
+                Editar
               </Button>
             </Box>
           </form>
@@ -128,4 +127,4 @@ const PositionModal = ({ open, onClose }) => {
   );
 };
 
-export default PositionModal;
+export default EditPositionModal;

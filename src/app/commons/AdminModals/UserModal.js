@@ -32,7 +32,7 @@ const UserModal = ({ open, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/user", formData, { withCredentials: true })
+      .post("http://localhost:3001/users", formData, { withCredentials: true })
       .then((newUser) =>
         message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
       )

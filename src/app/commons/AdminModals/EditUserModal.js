@@ -14,7 +14,7 @@ import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const EditUserModal = ({ open, onClose, user }) => {
+const EditUserModal = ({ user, open, onClose }) => {
   const userFormData = {
     firstName: "",
     lastName: "",
@@ -24,7 +24,6 @@ const EditUserModal = ({ open, onClose, user }) => {
     shift: "",
   };
 
-  console.log(user);
   // States
   const [formData, setFormData] = useState(userFormData);
   // Handlers
@@ -34,7 +33,7 @@ const EditUserModal = ({ open, onClose, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:3001/user/${user.id}`, formData, {
+      .put(`http://localhost:3001/users/${user.id}`, formData, {
         withCredentials: true,
       })
       .then((user) =>
@@ -88,6 +87,7 @@ const EditUserModal = ({ open, onClose, user }) => {
                 handleChange={handleChange}
                 type="text"
                 half
+                defaultValue={formData.firstName}
               />
               <Input
                 name="lastName"
@@ -95,18 +95,21 @@ const EditUserModal = ({ open, onClose, user }) => {
                 handleChange={handleChange}
                 type="text"
                 half
+                defaultValue={formData.lastName}
               />
               <Input
                 name="email"
                 label="Email"
                 handleChange={handleChange}
                 type="email"
+                defaultValue={formData.email}
               />
               <Input
                 name="fileNumber"
                 label="Legajo"
                 handleChange={handleChange}
                 type="text"
+                defaultValue={formData.fileNumber}
               />
               <Input
                 name="position"
@@ -114,6 +117,7 @@ const EditUserModal = ({ open, onClose, user }) => {
                 handleChange={handleChange}
                 type="text"
                 half
+                defaultValue={formData.position}
               />
               <Input
                 name="shift"
@@ -121,6 +125,7 @@ const EditUserModal = ({ open, onClose, user }) => {
                 handleChange={handleChange}
                 type="text"
                 half
+                defaultValue={formData.shift}
               />
             </Grid>
             <Box

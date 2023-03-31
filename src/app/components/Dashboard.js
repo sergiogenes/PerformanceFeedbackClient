@@ -54,7 +54,7 @@ const Dashboard = () => {
   const [userModal, setUserModal] = useState(false);
   const [editUserModal, setEditUserModal] = useState(false);
   const [officeModal, setOfficeModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
   const [activeUsers, setActiveUsers] = useState([]);
   const [positionModalOpen, setPositionModalOpen] = useState(false);
   const [editPositionModalOpen, setEditPositionModalOpen] = useState(false);
@@ -85,8 +85,11 @@ const Dashboard = () => {
           withCredentials: true,
         }
       )
-      .then((user) => console.log(user));
-
+      .then((reponse) => {
+        message.success("Usuario desactivado");
+        setRefresh(!refresh);
+      });
+  };
   const handlePositionModalOpen = () => {
     setPositionModalOpen(true);
   };
@@ -99,7 +102,7 @@ const Dashboard = () => {
   const handleEditPositionModalClose = () => {
     setEditPositionModalOpen(false);
   };
-  
+
   const handleDeletePositions = (position) => {
     axios
       .delete(`http://localhost:3001/positions/${position.id}`, {
@@ -110,7 +113,6 @@ const Dashboard = () => {
         setRefresh(!refresh);
       })
       .catch((error) => message.error(error.message));
-
   };
 
   // Redux
@@ -118,7 +120,7 @@ const Dashboard = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/user", { withCredentials: true })
+      .get("http://localhost:3001/users", { withCredentials: true })
       .then((response) => {
         setActiveUsers(response.data);
       })
@@ -126,7 +128,7 @@ const Dashboard = () => {
         console.error(error);
         message.error(error.message);
       });
-  }, []);
+  }, [refresh, userModal, editUserModal]);
 
   useEffect(() => {
     axios

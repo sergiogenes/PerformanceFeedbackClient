@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { message } from "antd";
 import {
   Grid,
   Typography,
@@ -26,8 +27,9 @@ import {
 import { useSelector } from "react-redux";
 import UserModal from "../commons/AdminModals/UserModal";
 import EditUserModal from "../commons/AdminModals/EditUserModal";
+import PositionModal from "../commons/AdminModals/PositionModal";
+import EditPositionModal from "../commons/AdminModals/EditPositionModal";
 import OfficeModal from "../commons/AdminModals/OfficeModal";
-import { message } from "antd";
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -54,6 +56,10 @@ const Dashboard = () => {
   const [officeModal, setOfficeModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
+  const [positionModalOpen, setPositionModalOpen] = useState(false);
+  const [editPositionModalOpen, setEditPositionModalOpen] = useState(false);
+  const [positions, setPositions] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   // Handlers
   const toggleUserModal = () => {
     setUserModal((prevState) => !prevState);
@@ -69,6 +75,44 @@ const Dashboard = () => {
   const toggleOfficeModal = () => {
     setOfficeModal((prevState) => !prevState);
   };
+
+  const handleDeleteUser = (userId) => {
+    axios
+      .put(
+        `http://localhost:3001/users/deactivate/${userId.id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((user) => console.log(user));
+
+  const handlePositionModalOpen = () => {
+    setPositionModalOpen(true);
+  };
+  const handlePositionModalClose = () => {
+    setPositionModalOpen(false);
+  };
+  const handleEditPositionModalOpen = () => {
+    setEditPositionModalOpen(true);
+  };
+  const handleEditPositionModalClose = () => {
+    setEditPositionModalOpen(false);
+  };
+  
+  const handleDeletePositions = (position) => {
+    axios
+      .delete(`http://localhost:3001/positions/${position.id}`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        message.success(response.data);
+        setRefresh(!refresh);
+      })
+      .catch((error) => message.error(error.message));
+
+  };
+
   // Redux
   const user = useSelector((state) => state.user);
   // Effects
@@ -83,6 +127,13 @@ const Dashboard = () => {
         message.error(error.message);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/positions", { withCredentials: true })
+      .then((response) => setPositions(response.data))
+      .catch((error) => console.log(error));
+  }, [refresh, positionModalOpen, editPositionModalOpen]);
 
   return (
     <>
@@ -145,7 +196,67 @@ const Dashboard = () => {
                             >
                               <Edit />
                             </IconButton>
-                            <IconButton aria-label="delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeleteUser(row)}
+                            >
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <People />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <div style={{ marginBottom: "2rem" }}>
+                <Container
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography variant="h6">PUESTOS</Typography>
+                  <Button onClick={handlePositionModalOpen}>
+                    Agregar Puesto
+                    <Add />
+                  </Button>
+                  <PositionModal
+                    open={positionModalOpen}
+                    onClose={handlePositionModalClose}
+                  />
+                </Container>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>PUESTO</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {positions.map((row) => (
+                        <TableRow key={row.name}>
+                          <TableCell component="th" scope="row">
+                            {row.id}
+                          </TableCell>
+                          <TableCell>{row.name}</TableCell>
+                          <TableCell style={{ display: "flex" }}>
+                            <IconButton
+                              aria-label="edit"
+                              onClick={handleEditPositionModalOpen}
+                            >
+                              <Edit />
+                            </IconButton>
+                            <EditPositionModal
+                              position={row}
+                              open={editPositionModalOpen}
+                              onClose={handleEditPositionModalClose}
+                            />
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeletePositions(row)}
+                            >
                               <Delete />
                             </IconButton>
                           </TableCell>

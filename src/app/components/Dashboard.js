@@ -26,9 +26,11 @@ import {
 import { useSelector } from "react-redux";
 import UserModal from "../commons/AdminModals/UserModal";
 import OfficeModal from "../commons/AdminModals/OfficeModal";
+import axios from "axios";
 import PositionModal from "../commons/AdminModals/PositionModal";
 import { message } from "antd";
 import EditPositionModal from "../commons/AdminModals/EditPositionModal";
+
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -70,6 +72,18 @@ const Dashboard = () => {
   const handleOfficeModalClose = () => {
     setOfficeModalOpen(false);
   };
+
+  const handleDeleteUser = (userId) => {
+    axios
+      .put(
+        `http://localhost:3001/users/deactivate/${userId.id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .then((user) => console.log(user));
+
   const handlePositionModalOpen = () => {
     setPositionModalOpen(true);
   };
@@ -82,7 +96,7 @@ const Dashboard = () => {
   const handleEditPositionModalClose = () => {
     setEditPositionModalOpen(false);
   };
-
+  
   const handleDeletePositions = (position) => {
     axios
       .delete(`http://localhost:3001/positions/${position.id}`, {
@@ -93,6 +107,7 @@ const Dashboard = () => {
         setRefresh(!refresh);
       })
       .catch((error) => message.error(error.message));
+
   };
 
   // Redux
@@ -166,7 +181,10 @@ const Dashboard = () => {
                             <IconButton aria-label="edit">
                               <Edit />
                             </IconButton>
-                            <IconButton aria-label="delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeleteUser(row)}
+                            >
                               <Delete />
                             </IconButton>
                           </TableCell>

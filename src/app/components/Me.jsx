@@ -9,7 +9,7 @@ export function Me() {
   return (
     <>
       <Navigation user={user} />
-      {user.isAdmin ? <Dashboard /> : <User />}
+      {user.isAdmin ? <Dashboard /> : <User user={user} />}
     </>
   );
 }

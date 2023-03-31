@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { message } from "antd";
 import {
   Grid,
   Typography,
@@ -25,12 +26,10 @@ import {
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import UserModal from "../commons/AdminModals/UserModal";
-import OfficeModal from "../commons/AdminModals/OfficeModal";
-import axios from "axios";
+import EditUserModal from "../commons/AdminModals/EditUserModal";
 import PositionModal from "../commons/AdminModals/PositionModal";
-import { message } from "antd";
 import EditPositionModal from "../commons/AdminModals/EditPositionModal";
-
+import OfficeModal from "../commons/AdminModals/OfficeModal";
 
 const userPerformanceData = [
   { name: "Task 1", progress: "20%" },
@@ -52,25 +51,29 @@ const teamData = [
 
 const Dashboard = () => {
   // States
-  const [userModalOpen, setUserModalOpen] = useState(false);
-  const [officeModalOpen, setOfficeModalOpen] = useState(false);
+  const [userModal, setUserModal] = useState(false);
+  const [editUserModal, setEditUserModal] = useState(false);
+  const [officeModal, setOfficeModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [activeUsers, setActiveUsers] = useState([]);
   const [positionModalOpen, setPositionModalOpen] = useState(false);
   const [editPositionModalOpen, setEditPositionModalOpen] = useState(false);
   const [positions, setPositions] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
   // Handlers
-  const handleUserModalOpen = () => {
-    setUserModalOpen(true);
+  const toggleUserModal = () => {
+    setUserModal((prevState) => !prevState);
   };
-  const handleUserModalClose = () => {
-    setUserModalOpen(false);
+  const toggleEditUserModal = (user) => {
+    setSelectedUser(user);
+    setEditUserModal((prevState) => !prevState);
   };
-  const handleOfficeModalOpen = () => {
-    setOfficeModalOpen(true);
+  const handleClose = () => {
+    setSelectedUser(null);
+    setEditUserModal(false);
   };
-  const handleOfficeModalClose = () => {
-    setOfficeModalOpen(false);
+  const toggleOfficeModal = () => {
+    setOfficeModal((prevState) => !prevState);
   };
 
   const handleDeleteUser = (userId) => {
@@ -112,6 +115,18 @@ const Dashboard = () => {
 
   // Redux
   const user = useSelector((state) => state.user);
+  // Effects
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/user", { withCredentials: true })
+      .then((response) => {
+        setActiveUsers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error(error.message);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -150,14 +165,11 @@ const Dashboard = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <Typography variant="h6">USUARIOS</Typography>
-                  <Button onClick={handleUserModalOpen}>
+                  <Button onClick={toggleUserModal}>
                     Agregar Usuario
                     <Add />
                   </Button>
-                  <UserModal
-                    open={userModalOpen}
-                    onClose={handleUserModalClose}
-                  />
+                  <UserModal open={userModal} onClose={toggleUserModal} />
                 </Container>
                 <TableContainer component={Paper}>
                   <Table>
@@ -170,15 +182,18 @@ const Dashboard = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {teamData.map((row) => (
-                        <TableRow key={row.name}>
+                      {activeUsers.map((row, i) => (
+                        <TableRow key={i}>
                           <TableCell component="th" scope="row">
-                            {row.name}
+                            {row.firstName?.toString()}
                           </TableCell>
-                          <TableCell>{row.position}</TableCell>
-                          <TableCell>{row.email}</TableCell>
+                          <TableCell>{row.position?.name.toString()}</TableCell>
+                          <TableCell>{row.email?.toString()}</TableCell>
                           <TableCell style={{ display: "flex" }}>
-                            <IconButton aria-label="edit">
+                            <IconButton
+                              aria-label="edit"
+                              onClick={() => toggleEditUserModal(row)}
+                            >
                               <Edit />
                             </IconButton>
                             <IconButton
@@ -251,6 +266,11 @@ const Dashboard = () => {
                   </Table>
                 </TableContainer>
                 <People />
+                <EditUserModal
+                  open={editUserModal}
+                  onClose={handleClose}
+                  user={selectedUser}
+                />
               </div>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -259,14 +279,11 @@ const Dashboard = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <Typography variant="h6">OFICINAS</Typography>
-                  <Button onClick={handleOfficeModalOpen}>
+                  <Button onClick={toggleOfficeModal}>
                     Agregar Oficina
                     <Add />
                   </Button>
-                  <OfficeModal
-                    open={officeModalOpen}
-                    onClose={handleOfficeModalClose}
-                  />
+                  <OfficeModal open={officeModal} onClose={toggleOfficeModal} />
                 </Container>
                 <TableContainer component={Paper}>
                   <Table>

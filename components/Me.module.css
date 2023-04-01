@@ -1,0 +1,158 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  gap: 32px;
+
+  position: relative;
+
+  margin: 10px auto;
+
+  /* White */
+
+  background: #ffffff;
+  /* Base */
+
+  box-shadow: 0px 2px 8px rgba(215, 215, 221, 0.5);
+  border-radius: 8px;
+}
+
+.titleSec {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: "flex-start";
+  padding: 0px;
+  gap: 355px;
+
+  width: 784px;
+  height: 48px;
+}
+
+.titleText {
+  position: relative;
+
+  /* Title 1/Medium */
+
+  font-style: normal;
+
+  font-size: 32px;
+  line-height: 39px;
+  text-align: start;
+  /* identical to box height */
+
+  /* Black */
+
+  color: #2f2f2f;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px;
+  position: relative;
+  width: 478px;
+  height: 41px;
+  left: 152px;
+  top: 197px;
+}
+
+.baseTab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0px 0px;
+  gap: 8px;
+
+  width: 123px;
+  height: 41px;
+
+  border-radius: 8px 8px 0px 0px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.baseTabText {
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px 16px;
+
+  width: 212px;
+  height: 24px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.tabText {
+  /* Tab text name */
+
+  width: 180px;
+  height: 24px;
+
+  /* P1/Medium */
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  text-align: center;
+
+  /* Medium Gray */
+
+  color: #565659;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.divider {
+  /* Divider */
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+
+  width: 212px;
+  height: 1px;
+
+  /* Ultra Light Gray */
+
+  background: #e4e4e4;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}

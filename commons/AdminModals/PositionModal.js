@@ -8,12 +8,7 @@ import {
   Paper,
   Avatar,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
-import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import WorkIcon from "@mui/icons-material/Work";
 import axios from "axios";
 import Input from "../Input/Input";

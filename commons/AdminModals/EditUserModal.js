@@ -8,22 +8,25 @@ import {
   Paper,
   Avatar,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const EditUserModal = ({ user, open, onClose }) => {
+const EditUserModal = ({ user, open, onClose, positions }) => {
   const userFormData = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    fileNumber: "",
-    position: "",
-    shift: "",
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    fileNumber: user.fileNumber,
+    position: user.position,
+    shift: user.shift,
   };
-
   // States
   const [formData, setFormData] = useState(userFormData);
   // Handlers
@@ -36,9 +39,7 @@ const EditUserModal = ({ user, open, onClose }) => {
       .put(`http://localhost:3001/users/${user.id}`, formData, {
         withCredentials: true,
       })
-      .then((user) =>
-        message.success(`Usuario (${user.data.fileNumber}) modificado`)
-      )
+      .then(() => message.success(`Usuario (${user.fileNumber}) modificado`))
       .catch((err) => message.error(err));
     onClose();
   };
@@ -87,7 +88,7 @@ const EditUserModal = ({ user, open, onClose }) => {
                 handleChange={handleChange}
                 type="text"
                 half
-                defaultValue={formData.firstName}
+                defaultValue={userFormData.firstName?.toString()}
               />
               <Input
                 name="lastName"
@@ -95,38 +96,65 @@ const EditUserModal = ({ user, open, onClose }) => {
                 handleChange={handleChange}
                 type="text"
                 half
-                defaultValue={formData.lastName}
+                defaultValue={userFormData.lastName?.toString()}
               />
               <Input
                 name="email"
                 label="Email"
                 handleChange={handleChange}
                 type="email"
-                defaultValue={formData.email}
+                defaultValue={userFormData.email?.toString()}
               />
               <Input
                 name="fileNumber"
                 label="Legajo"
                 handleChange={handleChange}
                 type="text"
-                defaultValue={formData.fileNumber}
+                defaultValue={userFormData.fileNumber?.toString()}
               />
-              <Input
-                name="position"
-                label="Puesto"
-                handleChange={handleChange}
-                type="text"
-                half
-                defaultValue={formData.position}
-              />
-              <Input
-                name="shift"
-                label="Turno"
-                handleChange={handleChange}
-                type="text"
-                half
-                defaultValue={formData.shift}
-              />
+              <FormControl
+                fullWidth
+                sx={{ mb: 2, marginTop: "1rem", marginLeft: "1rem" }}
+              >
+                <InputLabel id="position-label">Puesto</InputLabel>
+                <Select
+                  labelId="position-label"
+                  id="position-select"
+                  value={
+                    formData.position
+                      ? formData.position?.toString()
+                      : userFormData.position?.name.toString()
+                  }
+                  onChange={(e) =>
+                    setFormData({ ...formData, position: e.target.value })
+                  }
+                  label="Puesto"
+                  required
+                >
+                  {positions.map((pos) => (
+                    <MenuItem key={pos.id} value={pos.name}>
+                      {pos.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2, marginLeft: "1rem" }}>
+                <InputLabel id="shift-label">Turno</InputLabel>
+                <Select
+                  labelId="shift-label"
+                  id="shift-select"
+                  value={formData.shift ?? userFormData.shift}
+                  onChange={(e) =>
+                    setFormData({ ...formData, shift: e.target.value })
+                  }
+                  label="Turno"
+                  required
+                >
+                  <MenuItem value="morning">Mañana</MenuItem>
+                  <MenuItem value="afternoon">Tarde</MenuItem>
+                  <MenuItem value="nigth">Noche</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Box
               sx={{

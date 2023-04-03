@@ -1,4 +1,3 @@
-"use client";
 import Dashboard from "./Dashboard";
 import { Navigation } from "./Navigation";
 import { useSelector } from "react-redux";

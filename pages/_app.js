@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import { Providers } from "../redux/provider";
-import { Inter } from "next/font/google";
+//import { Inter } from "next/font/google";
 
 function MyApp({ Component, pageProps }) {
   return (

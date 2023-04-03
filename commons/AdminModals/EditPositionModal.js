@@ -8,12 +8,7 @@ import {
   Paper,
   Avatar,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
-import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
@@ -83,7 +78,7 @@ const EditPositionModal = ({ position, open, onClose }) => {
                 label="Puesto"
                 handleChange={handleChange}
                 type="text"
-                defaultValue={formData.name}
+                defaultValue={positionFormData.name?.toString()}
               />
             </Grid>
             <Box
@@ -117,7 +112,7 @@ const EditPositionModal = ({ position, open, onClose }) => {
                 }}
                 type="submit"
               >
-                Editar
+                Modificar
               </Button>
             </Box>
           </form>

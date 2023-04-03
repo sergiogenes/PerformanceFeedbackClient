@@ -8,13 +8,17 @@ import {
   Paper,
   Avatar,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const UserModal = ({ open, onClose }) => {
+const AddUserModal = ({ open, onClose, positions }) => {
   const userFormData = {
     firstName: "",
     lastName: "",
@@ -104,20 +108,45 @@ const UserModal = ({ open, onClose }) => {
                 handleChange={handleChange}
                 type="text"
               />
-              <Input
-                name="position"
-                label="Puesto"
-                handleChange={handleChange}
-                type="text"
-                half
-              />
-              <Input
-                name="shift"
-                label="Turno"
-                handleChange={handleChange}
-                type="text"
-                half
-              />
+              <FormControl
+                fullWidth
+                sx={{ mb: 2, marginTop: "1rem", marginLeft: "1rem" }}
+              >
+                <InputLabel id="position-label">Puesto</InputLabel>
+                <Select
+                  labelId="position-label"
+                  id="position-select"
+                  value={formData.position}
+                  onChange={(e) =>
+                    setFormData({ ...formData, position: e.target.value })
+                  }
+                  label="Puesto"
+                  required
+                >
+                  {positions.map((pos) => (
+                    <MenuItem key={pos.id} value={pos.name}>
+                      {pos.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2, marginLeft: "1rem" }}>
+                <InputLabel id="shift-label">Turno</InputLabel>
+                <Select
+                  labelId="shift-label"
+                  id="shift-select"
+                  value={formData.shift}
+                  onChange={(e) =>
+                    setFormData({ ...formData, shift: e.target.value })
+                  }
+                  label="Turno"
+                  required
+                >
+                  <MenuItem value="morning">Mañana</MenuItem>
+                  <MenuItem value="afternoon">Tarde</MenuItem>
+                  <MenuItem value="nigth">Noche</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Box
               sx={{
@@ -160,4 +189,4 @@ const UserModal = ({ open, onClose }) => {
   );
 };
 
-export default UserModal;
+export default AddUserModal;

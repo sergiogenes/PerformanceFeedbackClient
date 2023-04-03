@@ -1,7 +1,6 @@
-"use client";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { logOut } from "../redux/user";
 import { message } from "antd";
 import Link from "next/link";

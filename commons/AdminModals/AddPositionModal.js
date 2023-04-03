@@ -14,7 +14,7 @@ import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const PositionModal = ({ open, onClose }) => {
+const AddPositionModal = ({ open, onClose }) => {
   const positionFormData = {
     name: "",
   };
@@ -24,9 +24,9 @@ const PositionModal = ({ open, onClose }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
+    await axios
       .post("http://localhost:3001/positions", formData, {
         withCredentials: true,
       })
@@ -123,4 +123,4 @@ const PositionModal = ({ open, onClose }) => {
   );
 };
 
-export default PositionModal;
+export default AddPositionModal;

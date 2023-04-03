@@ -33,9 +33,9 @@ const AddUserModal = ({ open, onClose, positions }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
+    await axios
       .post("http://localhost:3001/users", formData, { withCredentials: true })
       .then((newUser) =>
         message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)

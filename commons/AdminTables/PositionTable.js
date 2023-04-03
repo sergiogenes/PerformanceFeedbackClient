@@ -16,7 +16,7 @@ import {
   Container,
 } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
-import PositionModal from "../AdminModals/PositionModal";
+import AddPositionModal from "../AdminModals/AddPositionModal";
 import EditPositionModal from "../AdminModals/EditPositionModal";
 
 const PositionTable = () => {
@@ -76,7 +76,10 @@ const PositionTable = () => {
               Agregar Puesto
               <Add />
             </Button>
-            <PositionModal open={positionModal} onClose={togglePositionModal} />
+            <AddPositionModal
+              open={positionModal}
+              onClose={togglePositionModal}
+            />
           </Container>
           <TableContainer component={Paper}>
             <Table>

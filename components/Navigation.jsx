@@ -1,8 +1,7 @@
-"use client";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
-import { logOut } from "../../redux/user";
+import { useRouter } from "next/router";
+import { logOut } from "../redux/user";
 import { message } from "antd";
 import Link from "next/link";
 import Image from "next/image";
@@ -68,12 +67,6 @@ export function Navigation({ user }) {
           >
             {user.isAdmin ? (
               <>
-                <Box sx={{ margin: "auto 10px" }}>
-                  <Link href="/dashboard" style={{ textDecoration: "none" }}>
-                    <Button variant="contained">Dashboard</Button>
-                  </Link>
-                </Box>
-
                 <Box style={{ order: 1 }}>
                   <Button
                     onClick={handleLogout}
@@ -143,7 +136,7 @@ export function Navigation({ user }) {
                         width="48"
                         height="48"
                         alt="User Image"
-                        src={`https://avatars.dicebear.com/api/pixel-art-neutral/user.svg`}
+                        src={user.image}
                       />
                     </Link>
                   </IconButton>

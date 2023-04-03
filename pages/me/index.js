@@ -1,5 +1,4 @@
-"use client";
-import { Me } from "../components/Me";
+import { Me } from "../../components/Me";
 function page() {
   return <Me />;
 }

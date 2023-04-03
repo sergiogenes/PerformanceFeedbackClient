@@ -1,4 +1,3 @@
-"use client";
 import Dashboard from "./Dashboard";
 import { Navigation } from "./Navigation";
 import { useSelector } from "react-redux";
@@ -9,7 +8,7 @@ export function Me() {
   return (
     <>
       <Navigation user={user} />
-      {user.isAdmin ? <Dashboard /> : <User />}
+      {user.isAdmin ? <Dashboard /> : <User user={user} />}
     </>
   );
 }

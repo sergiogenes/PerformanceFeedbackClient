@@ -1,15 +1,14 @@
-"use client";
 import axios from "axios";
 import Image from "next/image";
 import Input from "../commons/Input/Input";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../redux/user";
+import { logIn } from "../redux/user";
 import { Box, Typography, Paper, Button } from "@mui/material";
 import { message } from "antd";
 
-const Login = () => {
+export const Login = () => {
   const initialFormState = {
     email: "",
     password: "",
@@ -143,5 +142,3 @@ const Login = () => {
     </Box>
   );
 };
-
-export default Login;

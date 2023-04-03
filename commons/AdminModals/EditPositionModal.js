@@ -9,22 +9,17 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
 import { message } from "antd";
 
-const UserModal = ({ open, onClose }) => {
-  const userFormData = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    fileNumber: "",
-    position: "",
-    shift: "",
+const EditPositionModal = ({ position, open, onClose }) => {
+  const positionFormData = {
+    name: position.name,
   };
   // States
-  const [formData, setFormData] = useState(userFormData);
+  const [formData, setFormData] = useState(positionFormData);
   // Handlers
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,11 +27,11 @@ const UserModal = ({ open, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/user", formData, { withCredentials: true })
-      .then((newUser) =>
-        message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
-      )
-      .catch((err) => message.error(err));
+      .put(`http://localhost:3001/positions/${position.id}`, formData, {
+        withCredentials: true,
+      })
+      .then((response) => message.success(`${response.data}`))
+      .catch((error) => message.error(error.message));
     onClose();
   };
 
@@ -70,53 +65,20 @@ const UserModal = ({ open, onClose }) => {
               backgroundColor: "#FB9B14",
             }}
           >
-            <PersonAddIcon />
+            <SaveAsIcon />
           </Avatar>
-          <Typography variant="h5">Nuevo Usuario:</Typography>
+          <Typography variant="h5">Editar Puesto:</Typography>
           <form
             style={{ width: "100%", marginTop: "2rem" }}
             onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
               <Input
-                name="firstName"
-                label="Nombre"
-                handleChange={handleChange}
-                type="text"
-                half
-              />
-              <Input
-                name="lastName"
-                label="Apellido"
-                handleChange={handleChange}
-                type="text"
-                half
-              />
-              <Input
-                name="email"
-                label="Email"
-                handleChange={handleChange}
-                type="email"
-              />
-              <Input
-                name="fileNumber"
-                label="Legajo"
-                handleChange={handleChange}
-                type="text"
-              />
-              <Input
-                name="position"
+                name="name"
                 label="Puesto"
                 handleChange={handleChange}
                 type="text"
-                half
-              />
-              <Input
-                name="shift"
-                label="Turno"
-                handleChange={handleChange}
-                type="text"
-                half
+                defaultValue={positionFormData.name?.toString()}
               />
             </Grid>
             <Box
@@ -150,7 +112,7 @@ const UserModal = ({ open, onClose }) => {
                 }}
                 type="submit"
               >
-                Crear
+                Modificar
               </Button>
             </Box>
           </form>
@@ -160,4 +122,4 @@ const UserModal = ({ open, onClose }) => {
   );
 };
 
-export default UserModal;
+export default EditPositionModal;

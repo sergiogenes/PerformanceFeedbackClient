@@ -1,7 +1,6 @@
-"use client";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const user = useSelector((store) => store.user);

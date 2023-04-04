@@ -1,6 +1,9 @@
 import React from "react";
+import PositionTable from "../../../commons/AdminTables/PositionTable";
+import { Navbar } from "../../../components/Navbar";
+
 const positions = () => {
-  return <div>Puestos</div>;
+  return <Navbar Component={PositionTable} />;
 };
 
 export default positions;

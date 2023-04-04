@@ -15,9 +15,17 @@ export function User({ user }) {
       >
         <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
           <Grid container direction="column" spacing={2}>
-            <UserCard user={user} />
-            <StaffMembers team={team.equipo} />
-            <StaffMembers team={team.jefes} />
+            {user.isAdmin ? (
+              <>
+                <UserCard user={user} />
+              </>
+            ) : (
+              <>
+                <UserCard user={user} />
+                <StaffMembers team={team.equipo} />
+                <StaffMembers team={team.jefes} />
+              </>
+            )}
           </Grid>
         </Grid>
       </Grid>

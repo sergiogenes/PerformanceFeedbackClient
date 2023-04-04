@@ -44,7 +44,7 @@ export const Login = () => {
             if (cookie.data !== "") {
               dispatch(logIn(cookie.data));
               message.success("Sesión iniciada!");
-              router.push("/me");
+              router.push("/");
             } else {
               message.error("Credenciales inválidas");
             }
@@ -90,8 +90,8 @@ export const Login = () => {
           <Image
             src="/GlobalNews.svg"
             alt="GlobalNews Group Logo"
-            width={100}
-            height={24}
+            width={190}
+            height={50}
             priority
           />
         </Box>

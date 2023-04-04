@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message } from "antd";
+import { message, Popconfirm } from "antd";
 import {
   Grid,
   Typography,
@@ -37,14 +37,20 @@ const UserTable = () => {
     setEditUserModal((prevState) => !prevState);
   };
   // Handlers
+  const alertConfirm = (user) => {
+    handleDeleteUser(user);
+  };
+  const alertCancel = () => {
+    message.info("Acción cancelada");
+  };
   const handleClose = () => {
     setSelectedUser({});
     setEditUserModal(false);
   };
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = (user) => {
     axios
       .put(
-        `http://localhost:3001/users/deactivate/${userId.id}`,
+        `http://localhost:3001/users/deactivate/${user.id}`,
         {},
         {
           withCredentials: true,
@@ -118,11 +124,17 @@ const UserTable = () => {
                       >
                         <Edit />
                       </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDeleteUser(row)}
-                      >
-                        <Delete />
+                      <IconButton aria-label="delete">
+                        <Popconfirm
+                          title="Desactivar Usuario"
+                          description="Seguro que quiere desactivar este Usuario?"
+                          onConfirm={() => alertConfirm(row)}
+                          onCancel={alertCancel}
+                          okText="Sí"
+                          cancelText="No"
+                        >
+                          <Delete />
+                        </Popconfirm>
                       </IconButton>
                     </TableCell>
                   </TableRow>

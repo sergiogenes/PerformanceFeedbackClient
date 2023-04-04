@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import UserTable from "../commons/AdminTables/UserTable";
 import PositionTable from "../commons/AdminTables/PositionTable";
 import OfficeTable from "../commons/AdminTables/OfficeTable";
+import CategoryTable from "../commons/AdminTables/CategoryTable";
 
 const Dashboard = () => {
   // Redux
@@ -23,6 +24,8 @@ const Dashboard = () => {
             <PositionTable />
 
             <OfficeTable />
+
+            <CategoryTable />
           </Grid>
         </div>
       ) : (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message } from "antd";
+import { message, Popconfirm } from "antd";
 import {
   Grid,
   Typography,
@@ -36,6 +36,12 @@ const PositionTable = () => {
     setEditPositionModal((prevState) => !prevState);
   };
   // Handlers
+  const alertConfirm = (cat) => {
+    handleDeletePositions(cat);
+  };
+  const alertCancel = () => {
+    message.info("Acción cancelada");
+  };
   const handleClose = () => {
     setSelectedPosition({});
     setEditPositionModal(false);
@@ -104,11 +110,17 @@ const PositionTable = () => {
                       >
                         <Edit />
                       </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDeletePositions(pos)}
-                      >
-                        <Delete />
+                      <IconButton aria-label="delete">
+                        <Popconfirm
+                          title="Borrar Puesto"
+                          description="Seguro que quiere borrar este Puesto?"
+                          onConfirm={() => alertConfirm(pos)}
+                          onCancel={alertCancel}
+                          okText="Sí"
+                          cancelText="No"
+                        >
+                          <Delete />
+                        </Popconfirm>
                       </IconButton>
                     </TableCell>
                   </TableRow>

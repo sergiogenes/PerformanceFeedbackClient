@@ -1,12 +1,17 @@
 import "../styles/globals.css";
 import { Providers } from "../redux/provider";
-//import { Inter } from "next/font/google";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Providers>
-      <Component {...pageProps} />
-    </Providers>
+    <>
+      <Head>
+        <link rel="icon" type="image/x-icon" href="../public/favicon.ico" />
+      </Head>
+      <Providers>
+        <Component {...pageProps} />
+      </Providers>
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Modal,
   Box,
@@ -14,6 +13,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import axios from "axios";
 import Input from "../Input/Input";
@@ -40,10 +40,10 @@ const AddOfficeModal = ({ open, onClose, countries = fakeCountries }) => {
     e.preventDefault();
     /* await axios
       .post("http://localhost:3001/office", formData, { withCredentials: true })
-      .then((newUser) =>
-        message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
+      .then((newOffice) =>
+        customMessage("success",`Nueva oficina (${newOffice.data.name}) creada!`)
       )
-      .catch((err) => message.error(err)); */
+      .catch((err) => customMessage("error",err)); */
     onClose();
   };
 

@@ -13,10 +13,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const AddUserModal = ({ open, onClose, positions }) => {
   const userFormData = {
@@ -38,9 +38,12 @@ const AddUserModal = ({ open, onClose, positions }) => {
     await axios
       .post("http://localhost:3001/users", formData, { withCredentials: true })
       .then((newUser) =>
-        message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
+        customMessage(
+          "success",
+          `Nuevo Usuario (${newUser.data.fileNumber}) creado!`
+        )
       )
-      .catch((err) => message.error(err));
+      .catch((err) => customMessage("error", err.message));
     onClose();
   };
 

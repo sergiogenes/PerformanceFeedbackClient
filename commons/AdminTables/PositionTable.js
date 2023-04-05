@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import {
   Grid,
   Typography,
@@ -40,7 +41,7 @@ const PositionTable = () => {
     handleDeletePositions(cat);
   };
   const alertCancel = () => {
-    message.info("Acción cancelada");
+    customMessage("info", "Acción Cancelada");
   };
   const handleClose = () => {
     setSelectedPosition({});
@@ -51,18 +52,18 @@ const PositionTable = () => {
       .delete(`http://localhost:3001/positions/${position.id}`, {
         withCredentials: true,
       })
-      .then((response) => {
-        message.success(response.data);
+      .then((res) => {
+        customMessage("success", res.data);
         setRefresh(!refresh);
       })
-      .catch((error) => message.error(error.message));
+      .catch((err) => customMessage("error", err.data));
   };
   // Effects
   useEffect(() => {
     axios
       .get("http://localhost:3001/positions", { withCredentials: true })
-      .then((response) => setPositions(response.data))
-      .catch((error) => console.log(error));
+      .then((res) => setPositions(res.data))
+      .catch((err) => customMessage("error", err.data));
   }, [refresh]);
 
   return (

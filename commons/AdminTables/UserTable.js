@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import {
   Grid,
   Typography,
@@ -41,7 +42,7 @@ const UserTable = () => {
     handleDeleteUser(user);
   };
   const alertCancel = () => {
-    message.info("Acción cancelada");
+    customMessage("info", "Acción Cancelada");
   };
   const handleClose = () => {
     setSelectedUser({});
@@ -57,7 +58,7 @@ const UserTable = () => {
         }
       )
       .then(() => {
-        message.success("Usuario desactivado");
+        customMessage("success", "Usuario desactivado");
         setRefresh(!refresh);
       });
   };

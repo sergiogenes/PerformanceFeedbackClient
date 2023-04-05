@@ -6,7 +6,8 @@ import { User } from "../components/User";
 import { Login } from "@mui/icons-material";
 
 export default function Home() {
+  const router = useRouter();
   const user = useSelector((store) => store.user);
 
-  return <>{user.id ? <Navbar Component={User} /> : <Login />}</>;
+  return <>{user.id ? <Navbar Component={User} /> : router.push("/login")}</>;
 }

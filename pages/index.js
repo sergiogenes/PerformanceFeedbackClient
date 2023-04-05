@@ -9,5 +9,9 @@ export default function Home() {
   const router = useRouter();
   const user = useSelector((store) => store.user);
 
-  return <>{user.id ? <Navbar Component={User} /> : router.push("/login")}</>;
+  useEffect(() => {
+    if (!user.id) return router.push("/login");
+  });
+
+  return <>{user.id ? <Navbar Component={User} /> : "null"}</>;
 }

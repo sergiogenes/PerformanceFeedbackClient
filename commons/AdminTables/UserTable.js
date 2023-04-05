@@ -66,7 +66,9 @@ const UserTable = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3001/users", { withCredentials: true })
-      .then((response) => setActiveUsers(response.data))
+      .then((response) => {
+        setActiveUsers(response.data);
+      })
       .catch((error) => console.error(error));
   }, [refresh]);
   useEffect(() => {
@@ -111,7 +113,7 @@ const UserTable = () => {
               </TableHead>
               <TableBody>
                 {activeUsers.map((row) => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.fileNumber}>
                     <TableCell component="th" scope="row">
                       {row.firstName?.toString()}
                     </TableCell>

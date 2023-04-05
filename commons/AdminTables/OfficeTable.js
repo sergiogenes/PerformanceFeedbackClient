@@ -16,25 +16,42 @@ import {
   Container,
 } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
-import OfficeModal from "../AdminModals/OfficeModal";
+import AddOfficeModal from "../AdminModals/AddOfficeModal";
+import EditOfficeModal from "../AdminModals/EditOfficeModal";
+import Link from "next/link";
 
-const teamData = [
-  { name: "John Doe", position: "Manager", email: "johndoe@example.com" },
-  { name: "Jane Smith", position: "Developer", email: "janesmith@example.com" },
+const fakeOffices = [
+  { id: 1, name: "Amenabar", country: { id: 1, name: "Argentina", ISO: "AR" } },
+  { id: 2, name: "Elia", country: { id: 1, name: "Argentina", ISO: "AR" } },
   {
-    name: "Bob Johnson",
-    position: "Designer",
-    email: "bobjohnson@example.com",
+    id: 3,
+    name: "Maimi",
+    country: { id: 2, name: "Estados Unidos", ISO: "US" },
   },
+  { id: 4, name: "Santiago", country: { id: 3, name: "Chile", ISO: "CL" } },
 ];
 
-const OfficeTable = () => {
+const OfficeTable = ({ offices = fakeOffices }) => {
   // States
-  const [officeModal, setOfficeModal] = useState(false);
+  const [addOfficeModal, setAddOfficeModal] = useState(false);
+  const [editOfficeModal, setEditOfficeModal] = useState(false);
+  const [selectOffice, setSelectOffice] = useState({});
   const [refresh, setRefresh] = useState(false);
+
   // Handlers
-  const toggleOfficeModal = () => {
-    setOfficeModal((prevState) => !prevState);
+  const toggleAddOfficeModal = () => {
+    setAddOfficeModal(!addOfficeModal);
+  };
+
+  const togglEditOfficeModal = (office) => {
+    setSelectOffice(office);
+    setEditOfficeModal(!editOfficeModal);
+  };
+
+  const handleClose = () => {
+    setSelectedOffice({});
+    setEditOfficeModal(false);
+    setAddOfficeModal(false);
   };
 
   return (
@@ -44,17 +61,20 @@ const OfficeTable = () => {
         padding: "2rem",
       }}
     >
-      <Grid item xs={12} sm={6} md={6}>
+      <Grid item xs={12} sm={9} md={12}>
         <div style={{ marginBottom: "2rem" }}>
           <Container
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             <Typography variant="h6">OFICINAS</Typography>
-            <Button onClick={toggleOfficeModal}>
-              Agregar Oficina
+            <Button onClick={toggleAddOfficeModal}>
+              Agregar oficina
               <Add />
             </Button>
-            <OfficeModal open={officeModal} onClose={toggleOfficeModal} />
+            <AddOfficeModal
+              open={addOfficeModal}
+              onClose={toggleAddOfficeModal}
+            />
           </Container>
           <TableContainer component={Paper}>
             <Table>
@@ -63,19 +83,29 @@ const OfficeTable = () => {
                   <TableCell>OFICINA</TableCell>
                   <TableCell>DENOMINACION</TableCell>
                   <TableCell>PAIS</TableCell>
-                  <TableCell>ACCIONES</TableCell>
+                  <TableCell
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    ACCIONES
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {teamData.map((row) => (
-                  <TableRow key={row.name}>
+                {offices.map((office) => (
+                  <TableRow key={office.name}>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {office.id}
                     </TableCell>
-                    <TableCell>{row.position}</TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell style={{ display: "flex" }}>
-                      <IconButton aria-label="edit">
+                    <TableCell>{office.name}</TableCell>
+                    <TableCell>{office.country.name}</TableCell>
+                    <TableCell
+                      style={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => togglEditOfficeModal(office)}
+                        onClose={togglEditOfficeModal}
+                      >
                         <Edit />
                       </IconButton>
                       <IconButton aria-label="delete">
@@ -88,9 +118,26 @@ const OfficeTable = () => {
             </Table>
           </TableContainer>
         </div>
+        <EditOfficeModal
+          open={editOfficeModal}
+          onClose={togglEditOfficeModal}
+          office={selectOffice}
+        />
       </Grid>
     </div>
   );
 };
 
 export default OfficeTable;
+
+/* export async function getServerSideProps() {
+  const response = await axios.get("http://localhost:3000/offices/", {
+    withCredentials: true,
+  });
+  const offices = response.data;
+  return {
+    props: {
+      offices,
+    },
+  };
+} */

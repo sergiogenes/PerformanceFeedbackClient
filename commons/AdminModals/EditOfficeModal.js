@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Modal,
   Box,
@@ -16,22 +17,44 @@ import {
 import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import axios from "axios";
 import Input from "../Input/Input";
+import OfficesPage from "../../pages/admin/offices";
 
-const OfficeModal = ({ open, onClose }) => {
+const fakeCountries = [
+  { id: 1, name: "Argentina", ISO: "AR" },
+  { id: 2, name: "Estados Unidos", ISO: "US" },
+  { id: 3, name: "Chile", ISO: "CL" },
+];
+
+const EditOfficeModal = ({
+  open,
+  onClose,
+  office,
+  countries = fakeCountries,
+}) => {
   const officeFormData = {
-    denomination: "",
-    country: "",
+    denomination: office?.name || "",
+    country: office?.country?.name || "",
   };
+
   // States
   const [formData, setFormData] = useState(officeFormData);
+
   // Handlers
   const handleChange = (e) => {
+    console.log("e.target.name", e.target.name);
+    console.log("e.target.value", e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    /* 
+    Aquí debe venir el axios para editar una officina
+   */
     onClose();
+  };
+
+  const handleCancel = (e) => {
+    return onClose();
   };
 
   return (
@@ -66,7 +89,7 @@ const OfficeModal = ({ open, onClose }) => {
           >
             <DomainAddIcon />
           </Avatar>
-          <Typography variant="h5">Nueva Oficina:</Typography>
+          <Typography variant="h5">Editar Oficina:</Typography>
           <form
             style={{ width: "100%", marginTop: "2rem" }}
             onSubmit={handleSubmit}
@@ -77,21 +100,26 @@ const OfficeModal = ({ open, onClose }) => {
                 label="Denominación"
                 handleChange={handleChange}
                 type="text"
+                defaultValue={office?.name}
               />
               <FormControl fullWidth sx={{ mb: 2, margin: "1rem" }}>
                 <InputLabel id="country-label">País</InputLabel>
                 <Select
                   labelId="country-label"
                   id="country-select"
-                  value={formData.country}
-                  onChange={(e) =>
-                    setFormData({ ...formData, country: e.target.value })
-                  }
+                  value={office?.country?.name}
+                  onChange={(e) => {
+                    console.log("e.target.value", e.target.value);
+                    setFormData({ ...formData, country: e.target.value });
+                  }}
                   label="País"
                   required
                 >
-                  <MenuItem value="1">Argentina</MenuItem>
-                  <MenuItem value="2">Colombia</MenuItem>
+                  {countries.map((country) => (
+                    <MenuItem key={country.id} value={country.name}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -104,7 +132,7 @@ const OfficeModal = ({ open, onClose }) => {
             >
               <Button
                 variant="contained"
-                onClick={onClose}
+                onClick={handleCancel}
                 sx={{
                   mr: 1,
                   backgroundColor: "#1369B4",
@@ -126,7 +154,7 @@ const OfficeModal = ({ open, onClose }) => {
                 }}
                 type="submit"
               >
-                Crear
+                EDITAR
               </Button>
             </Box>
           </form>
@@ -136,4 +164,4 @@ const OfficeModal = ({ open, onClose }) => {
   );
 };
 
-export default OfficeModal;
+export default EditOfficeModal;

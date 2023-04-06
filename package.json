@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
@@ -23,11 +20,16 @@
     "eslint-config-next": "13.2.4",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
+    "next": "12.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "eslint": "8.37.0",
-    "eslint-config-next": "13.2.4"
+    "eslint-config-next": "13.2.4",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.7"
   }
 }

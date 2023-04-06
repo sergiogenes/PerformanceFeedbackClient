@@ -1,8 +1,13 @@
 import React from "react";
-import { Navbar } from "../../../components/Navbar";
 import CategoryTable from "../../../commons/AdminTables/CategoryTable";
+import IsAdmin from "../../../commons/IsAdmin";
+
 const categories = () => {
-  return <Navbar Component={CategoryTable} />;
+  return (
+    <IsAdmin>
+      <CategoryTable />
+    </IsAdmin>
+  );
 };
 
 export default categories;

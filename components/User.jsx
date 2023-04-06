@@ -1,10 +1,12 @@
 import { UserCard } from "../commons/UserCard";
 import { Grid, Container } from "@mui/material";
 import { StaffMembers } from "./StaffMembers";
+import { useSelector } from "react-redux";
 
 const team = { equipo: "Mi Equipo", jefes: "Mis Superiores" };
 
-export function User({ user }) {
+export function User() {
+  const user = useSelector((store) => store.user);
   return (
     <Container>
       <Grid

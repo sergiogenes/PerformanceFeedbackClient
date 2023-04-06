@@ -1,10 +1,13 @@
 import React from "react";
 import OfficeTable from "../../../commons/AdminTables/OfficeTable";
-import { Navbar } from "../../../components/Navbar";
-import axios from "axios";
+import IsAdmin from "../../../commons/IsAdmin";
 
-const offices = ({ offices }) => {
-  return <Navbar Component={OfficeTable} offices={offices} />;
+const offices = () => {
+  return (
+    <IsAdmin>
+      <OfficeTable />
+    </IsAdmin>
+  );
 };
 
 /* export async function getServerSideProps(context) {

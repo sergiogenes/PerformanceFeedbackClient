@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { Navbar } from "../components/Navbar";
+import React from "react";
 import { User } from "../components/User";
-import { Login } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import Welcome from "../commons/Welcome";
 
 export default function Home() {
-
   const user = useSelector((state) => state.user);
-
-  return <>{user.id ? <Navbar Component={User} /> : <h1>Login</h1>}</>;
+  return <>{user.id ? <User /> : <Welcome />}</>;
 }

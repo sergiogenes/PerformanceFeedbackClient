@@ -9,10 +9,10 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const AddCategoryModal = ({ open, onClose }) => {
   const categoryFormData = {
@@ -26,15 +26,15 @@ const AddCategoryModal = ({ open, onClose }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    message.warning("Activar axios para CREAR la Categoria.");
+    customMessage("warning", "Activar axios para CREAR la Categoria.");
     // await axios
     //   .post("http://localhost:3001/positions", formData, {
     //     withCredentials: true,
     //   })
     //   .then((response) =>
-    //     message.success(`Nueva posición creada: ${response.data.name}`)
+    //     customMessage("success",`Nueva posición creada: ${response.data.name}`)
     //   )
-    //   .catch((error) => message.error(error.message));
+    //   .catch((error) => customMessage("error",error.message));
     onClose();
   };
 

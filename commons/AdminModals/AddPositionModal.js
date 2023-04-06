@@ -9,10 +9,10 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import WorkIcon from "@mui/icons-material/Work";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const AddPositionModal = ({ open, onClose }) => {
   const positionFormData = {
@@ -31,9 +31,9 @@ const AddPositionModal = ({ open, onClose }) => {
         withCredentials: true,
       })
       .then((response) =>
-        message.success(`Nueva posición creada: ${response.data.name}`)
+        customMessage("success", `Nueva posición creada: ${response.data.name}`)
       )
-      .catch((error) => message.error(error.message));
+      .catch((error) => customMessage("error", error.message));
     onClose();
   };
 

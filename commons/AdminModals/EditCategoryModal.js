@@ -9,10 +9,10 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const EditCategoryModal = ({ category, open, onClose }) => {
   const categoryFormData = {
@@ -26,13 +26,13 @@ const EditCategoryModal = ({ category, open, onClose }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    message.warning("Activar axios para EDITAR la Categoria");
+    customMessage("warning", "Activar axios para EDITAR la Categoria");
     // axios
     //   .put(`http://localhost:3001/positions/${position.id}`, formData, {
     //     withCredentials: true,
     //   })
-    //   .then((response) => message.success(`${response.data}`))
-    //   .catch((error) => message.error(error.message));
+    //   .then((response) => customMessage("success",`${response.data}`))
+    //   .catch((error) => customMessage("error",error.message));
     onClose();
   };
 

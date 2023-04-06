@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import {
   Grid,
   Typography,
@@ -50,7 +51,7 @@ const CategoryTable = () => {
     console.log("CATEGORIA A BORRAR:", cat);
   };
   const alertCancel = () => {
-    message.info("Acción cancelada");
+    customMessage("info", "Acción cancelada");
   };
   const handleClose = () => {
     setSelectedCategory({});
@@ -62,11 +63,11 @@ const CategoryTable = () => {
     //   .delete(`http://localhost:3001/positions/${cat.id}`, {
     //     withCredentials: true,
     //   })
-    //   .then((response) => {
-    //     message.success(response.data);
+    //   .then((res) => {
+    //     customMessage("info",res.data)
     //     setRefresh(!refresh);
     //   })
-    //   .catch((error) => message.error(error.message));
+    //   .catch((err) => customMessage("error", err.message));
   };
   // Effects
   //   useEffect(() => {

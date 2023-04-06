@@ -13,10 +13,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const EditUserModal = ({ user, open, onClose, positions }) => {
   const userFormData = {
@@ -39,8 +39,10 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
       .put(`http://localhost:3001/users/${user.id}`, formData, {
         withCredentials: true,
       })
-      .then(() => message.success(`Usuario (${user.fileNumber}) modificado`))
-      .catch((err) => message.error(err));
+      .then(() =>
+        customMessage("success", `Usuario (${user.fileNumber}) modificado`)
+      )
+      .catch((err) => customMessage("error", err.message));
     onClose();
   };
 

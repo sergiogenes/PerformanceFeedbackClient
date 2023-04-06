@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -9,10 +9,10 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
+import { customMessage } from "../CustomMessage/CustomMessage";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
-import { message } from "antd";
 
 const EditPositionModal = ({ position, open, onClose }) => {
   const positionFormData = {
@@ -24,16 +24,20 @@ const EditPositionModal = ({ position, open, onClose }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
+    await axios
       .put(`http://localhost:3001/positions/${position.id}`, formData, {
         withCredentials: true,
       })
-      .then((response) => message.success(`${response.data}`))
-      .catch((error) => message.error(error.message));
+      .then((response) => customMessage("success", `${response.data}`))
+      .catch((error) => customMessage("error", error.message));
     onClose();
   };
+  // Effects
+  useEffect(() => {
+    setFormData(position);
+  }, [open]);
 
   return (
     <Modal

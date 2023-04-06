@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message } from "antd";
+import { Popconfirm, message } from "antd";
 import {
   Grid,
   Typography,
@@ -18,41 +18,72 @@ import {
 import { Edit, Delete, Add } from "@mui/icons-material";
 import AddOfficeModal from "../AdminModals/AddOfficeModal";
 import EditOfficeModal from "../AdminModals/EditOfficeModal";
-import Link from "next/link";
 
-const fakeOffices = [
-  { id: 1, name: "Amenabar", country: { id: 1, name: "Argentina", ISO: "AR" } },
-  { id: 2, name: "Elia", country: { id: 1, name: "Argentina", ISO: "AR" } },
-  {
-    id: 3,
-    name: "Maimi",
-    country: { id: 2, name: "Estados Unidos", ISO: "US" },
-  },
-  { id: 4, name: "Santiago", country: { id: 3, name: "Chile", ISO: "CL" } },
-];
-
-const OfficeTable = ({ offices = fakeOffices }) => {
+const OfficeTable = ({ offices }) => {
   // States
   const [addOfficeModal, setAddOfficeModal] = useState(false);
   const [editOfficeModal, setEditOfficeModal] = useState(false);
-  const [selectOffice, setSelectOffice] = useState({});
+  const [selectedOffice, setSelectedOffice] = useState({});
+  const [allOffices, setAllOffices] = useState(offices);
+  const [countries, setCountries] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   // Handlers
   const toggleAddOfficeModal = () => {
     setAddOfficeModal(!addOfficeModal);
+    setRefresh(!refresh);
   };
 
   const togglEditOfficeModal = (office) => {
-    setSelectOffice(office);
+    setSelectedOffice(office);
     setEditOfficeModal(!editOfficeModal);
+    setRefresh(!refresh);
   };
 
   const handleClose = () => {
     setSelectedOffice({});
     setEditOfficeModal(false);
     setAddOfficeModal(false);
+    setRefresh(!refresh);
   };
+
+  const handleDeleteOffice = (office) => {
+    axios
+      .delete(`http://localhost:3001/offices/${office.id}`, {
+        withCredentials: true,
+      })
+      .then(() => {
+        message.success("Oficina borrada");
+        setRefresh(!refresh);
+      });
+  };
+
+  const alertConfirm = (office) => {
+    handleDeleteOffice(office);
+  };
+  const alertCancel = () => {
+    message.info("Acción cancelada");
+  };
+
+  // useEffecs
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/offices", {
+        withCredentials: true,
+      })
+      .then((response) => response.data)
+      .then((offices) => setAllOffices(offices));
+  }, [refresh]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/countries", {
+        withCredentials: true,
+      })
+      .then((response) => response.data)
+      .then((countries) => setCountries(countries));
+  }, []);
 
   return (
     <div
@@ -74,6 +105,7 @@ const OfficeTable = ({ offices = fakeOffices }) => {
             <AddOfficeModal
               open={addOfficeModal}
               onClose={toggleAddOfficeModal}
+              countries={countries}
             />
           </Container>
           <TableContainer component={Paper}>
@@ -91,25 +123,33 @@ const OfficeTable = ({ offices = fakeOffices }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {offices.map((office) => (
-                  <TableRow key={office.name}>
+                {allOffices?.map((row) => (
+                  <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
-                      {office.id}
+                      {row.id}
                     </TableCell>
-                    <TableCell>{office.name}</TableCell>
-                    <TableCell>{office.country.name}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.country.name}</TableCell>
                     <TableCell
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
                       <IconButton
                         aria-label="edit"
-                        onClick={() => togglEditOfficeModal(office)}
-                        onClose={togglEditOfficeModal}
+                        onClick={() => togglEditOfficeModal(row)}
                       >
                         <Edit />
                       </IconButton>
                       <IconButton aria-label="delete">
-                        <Delete />
+                        <Popconfirm
+                          title="Eliminar Oficina"
+                          description={`¿Está seguro de eliminar la Oficina: ${row.name}?`}
+                          onConfirm={() => alertConfirm(row)}
+                          onCancel={alertCancel}
+                          okText="Sí"
+                          cancelText="No"
+                        >
+                          <Delete />
+                        </Popconfirm>
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -117,27 +157,16 @@ const OfficeTable = ({ offices = fakeOffices }) => {
               </TableBody>
             </Table>
           </TableContainer>
+          <EditOfficeModal
+            open={editOfficeModal}
+            onClose={handleClose}
+            office={selectedOffice}
+            countries={countries}
+          />
         </div>
-        <EditOfficeModal
-          open={editOfficeModal}
-          onClose={togglEditOfficeModal}
-          office={selectOffice}
-        />
       </Grid>
     </div>
   );
 };
 
 export default OfficeTable;
-
-/* export async function getServerSideProps() {
-  const response = await axios.get("http://localhost:3000/offices/", {
-    withCredentials: true,
-  });
-  const offices = response.data;
-  return {
-    props: {
-      offices,
-    },
-  };
-} */

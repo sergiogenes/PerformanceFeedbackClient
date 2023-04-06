@@ -10,4 +10,17 @@ const offices = () => {
   );
 };
 
+/* export async function getServerSideProps(context) {
+  const response = await axios.get("http://localhost:3001/offices", {
+    withCredentials: true,
+  });
+  const offices = response.data;
+  console.log("offices", offices);
+  return {
+    props: {
+      offices,
+    },
+  };
+} */
+
 export default offices;

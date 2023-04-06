@@ -1,22 +1,12 @@
 import {
-  Typography,
   List,
   ListItem,
   ListItemAvatar,
   Avatar,
   ListItemText,
-  styled,
   Grid,
   Card,
 } from "@mui/material";
-
-const Root = styled("div")({
-  margin: (theme) => theme.spacing(2),
-});
-
-const Title = styled(Typography)({
-  marginBottom: (theme) => theme.spacing(2),
-});
 
 const staff = [
   {
@@ -55,7 +45,6 @@ const staff = [
     name: "Jane Doe",
     position: "CTO",
   },
-  // ...
 ];
 
 export function StaffMembers({ team }) {

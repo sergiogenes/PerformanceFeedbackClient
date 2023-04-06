@@ -1,8 +1,8 @@
 import { Login } from "../../components/Login";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-function login() {
+function LoginPage() {
   const user = useSelector((state) => state.user);
   useEffect(() => {
     !user.id
@@ -12,4 +12,4 @@ function login() {
   return <Login />;
 }
 
-export default login;
+export default LoginPage;

@@ -32,25 +32,29 @@ export const Login = () => {
     }
     return false;
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validEmail = handleEmail(formData.email);
-    validEmail === true
-      ? axios
-          .post("http://localhost:3001/auth/login", formData, {
+    let cookie;
+
+    if (validEmail) {
+      try {
+        cookie = await axios.post(
+          "http://localhost:3001/auth/login",
+          formData,
+          {
             withCredentials: true,
-          })
-          .then((cookie) => {
-            if (cookie.data !== "") {
-              dispatch(logIn(cookie.data));
-              message.success("Sesión iniciada!");
-              router.push("/");
-            } else {
-              message.error("Credenciales inválidas");
-            }
-          })
-          .catch((err) => console.log(err))
-      : message.warning("Email incorrecto, intente otra vez");
+          }
+        );
+        dispatch(logIn(cookie.data));
+        message.success("Sesión Iniciada");
+        router.push("/");
+      } catch (error) {
+        return error;
+      }
+    } else {
+      message.warning("Email incorrecto, intente otra vez");
+    }
   };
 
   return (
@@ -61,7 +65,7 @@ export const Login = () => {
         alignItems: "center",
         width: "100vw",
         height: "100vh",
-        backgroundColor: "primary.dark",
+        backgroundColor: "#1686F7",
       }}
     >
       <Paper

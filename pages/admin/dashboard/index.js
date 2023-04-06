@@ -1,9 +1,13 @@
 import React from "react";
 import Dashboard from "../../../components/Dashboard";
-import { Navbar } from "../../../components/Navbar";
+import IsAdmin from "../../../commons/IsAdmin";
 
 const index = () => {
-  return <Navbar Component={Dashboard} />;
+  return (
+    <IsAdmin>
+      <Dashboard />
+    </IsAdmin>
+  );
 };
 
 export default index;

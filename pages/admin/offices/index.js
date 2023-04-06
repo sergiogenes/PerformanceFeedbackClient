@@ -1,9 +1,13 @@
 import React from "react";
 import OfficeTable from "../../../commons/AdminTables/OfficeTable";
-import { Navbar } from "../../../components/Navbar";
+import IsAdmin from "../../../commons/IsAdmin";
 
 const offices = () => {
-  return <Navbar Component={OfficeTable} />;
+  return (
+    <IsAdmin>
+      <OfficeTable />
+    </IsAdmin>
+  );
 };
 
 export default offices;

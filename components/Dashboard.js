@@ -5,9 +5,10 @@ import PositionTable from "../commons/AdminTables/PositionTable";
 import OfficeTable from "../commons/AdminTables/OfficeTable";
 import CategoryTable from "../commons/AdminTables/CategoryTable";
 
-const Dashboard = ({ user }) => {
+const Dashboard = () => {
   // Redux
-
+  const user = useSelector((state) => state.user);
+  
   return (
     <>
       {user ? (

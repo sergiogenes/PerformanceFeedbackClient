@@ -109,7 +109,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export function Navbar({ Component }) {
+export function Navbar({ Component, offices }) {
   const user = useSelector((store) => store.user);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -419,7 +419,7 @@ export function Navbar({ Component }) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Component user={user} />
+        <Component user={user} offices={offices} />
       </Box>
     </Box>
   );

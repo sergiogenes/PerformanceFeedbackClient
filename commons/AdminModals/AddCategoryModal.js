@@ -17,6 +17,8 @@ import Input from "../Input/Input";
 const AddCategoryModal = ({ open, onClose }) => {
   const categoryFormData = {
     name: "",
+    competence: "",
+    function: "",
   };
   // States
   const [formData, setFormData] = useState(categoryFormData);
@@ -26,15 +28,17 @@ const AddCategoryModal = ({ open, onClose }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    customMessage("warning", "Activar axios para CREAR la Categoria.");
-    // await axios
-    //   .post("http://localhost:3001/positions", formData, {
-    //     withCredentials: true,
-    //   })
-    //   .then((response) =>
-    //     customMessage("success",`Nueva posición creada: ${response.data.name}`)
-    //   )
-    //   .catch((error) => customMessage("error",error.message));
+    await axios
+      .post("http://localhost:3001/categories", formData, {
+        withCredentials: true,
+      })
+      .then((response) =>
+        customMessage(
+          "success",
+          `Nueva categoría creada: ${response.data.name}`
+        )
+      )
+      .catch((error) => customMessage("error", error.message));
     onClose();
   };
 
@@ -79,6 +83,18 @@ const AddCategoryModal = ({ open, onClose }) => {
               <Input
                 name="name"
                 label="Categoría"
+                handleChange={handleChange}
+                type="text"
+              />
+              <Input
+                name="competence"
+                label="Competencia"
+                handleChange={handleChange}
+                type="text"
+              />
+              <Input
+                name="function"
+                label="Función"
                 handleChange={handleChange}
                 type="text"
               />

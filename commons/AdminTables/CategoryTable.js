@@ -20,16 +20,6 @@ import { Edit, Delete, Add } from "@mui/icons-material";
 import AddCategoryModal from "../AdminModals/AddCategoryModal";
 import EditCategoryModal from "../AdminModals/EditCategoryModal";
 
-const teamData = [
-  { name: "John Doe", position: "Manager", email: "johndoe@example.com" },
-  { name: "Jane Smith", position: "Developer", email: "janesmith@example.com" },
-  {
-    name: "Bob Johnson",
-    position: "Designer",
-    email: "bobjohnson@example.com",
-  },
-];
-
 const CategoryTable = () => {
   // States
   const [selectedCategory, setSelectedCategory] = useState({});
@@ -45,10 +35,11 @@ const CategoryTable = () => {
   const toggleEditCategoryModal = (cat) => {
     setSelectedCategory(cat);
     setEditCategoryModal((prevState) => !prevState);
+    setRefresh(!refresh);
   };
   // Handlers
   const alertConfirm = (cat) => {
-    console.log("CATEGORIA A BORRAR:", cat);
+    handleDeleteCategory(cat);
   };
   const alertCancel = () => {
     customMessage("info", "Acción cancelada");
@@ -56,26 +47,26 @@ const CategoryTable = () => {
   const handleClose = () => {
     setSelectedCategory({});
     setEditCategoryModal(false);
+    setRefresh(!refresh);
   };
-  const handleDeleteCategory = (cat) => {
-    console.log(cat);
-    // axios
-    //   .delete(`http://localhost:3001/positions/${cat.id}`, {
-    //     withCredentials: true,
-    //   })
-    //   .then((res) => {
-    //     customMessage("info",res.data)
-    //     setRefresh(!refresh);
-    //   })
-    //   .catch((err) => customMessage("error", err.message));
+  const handleDeleteCategory = async (cat) => {
+    await axios
+      .delete(`http://localhost:3001/categories/${cat.id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        customMessage("success", "Categoría borrada");
+        setRefresh(!refresh);
+      })
+      .catch((err) => customMessage("error", err.response.data));
   };
   // Effects
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:3001/category?", { withCredentials: true })
-  //       .then((response) => setCategories(response.data))
-  //       .catch((error) => console.log(error));
-  //   }, [refresh]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/categories", { withCredentials: true })
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.log(error));
+  }, [refresh]);
 
   return (
     <div
@@ -105,16 +96,20 @@ const CategoryTable = () => {
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>Categoría</TableCell>
+                  <TableCell>Competencia</TableCell>
+                  <TableCell>Función</TableCell>
                   <TableCell>ACCIONES</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {teamData.map((cat) => (
+                {categories.map((cat) => (
                   <TableRow key={cat.name}>
                     <TableCell component="th" scope="cat">
                       {cat.id}
                     </TableCell>
                     <TableCell>{cat.name}</TableCell>
+                    <TableCell>{cat.competence}</TableCell>
+                    <TableCell>{cat.function}</TableCell>
                     <TableCell style={{ display: "flex" }}>
                       <IconButton
                         aria-label="edit"

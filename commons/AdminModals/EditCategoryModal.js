@@ -17,6 +17,8 @@ import Input from "../Input/Input";
 const EditCategoryModal = ({ category, open, onClose }) => {
   const categoryFormData = {
     name: category.name,
+    competence: category.competence,
+    function: category.function,
   };
   // States
   const [formData, setFormData] = useState(categoryFormData);
@@ -24,15 +26,15 @@ const EditCategoryModal = ({ category, open, onClose }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
-    customMessage("warning", "Activar axios para EDITAR la Categoria");
-    // axios
-    //   .put(`http://localhost:3001/positions/${position.id}`, formData, {
-    //     withCredentials: true,
-    //   })
-    //   .then((response) => customMessage("success",`${response.data}`))
-    //   .catch((error) => customMessage("error",error.message));
+    await axios
+      .put(`http://localhost:3001/categories/${category.id}`, formData, {
+        withCredentials: true,
+      })
+      .then(() => customMessage("success", "Categoría modificada"))
+      .catch((error) => customMessage("error", error));
     onClose();
   };
 
@@ -80,6 +82,20 @@ const EditCategoryModal = ({ category, open, onClose }) => {
                 handleChange={handleChange}
                 type="text"
                 defaultValue={categoryFormData.name?.toString()}
+              />
+              <Input
+                name="competence"
+                label="Competencia"
+                handleChange={handleChange}
+                type="text"
+                defaultValue={categoryFormData.competence?.toString()}
+              />
+              <Input
+                name="function"
+                label="Función"
+                handleChange={handleChange}
+                type="text"
+                defaultValue={categoryFormData.function?.toString()}
               />
             </Grid>
             <Box

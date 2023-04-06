@@ -1,9 +1,13 @@
 import React from "react";
 import UserTable from "../../../commons/AdminTables/UserTable";
-import { Navbar } from "../../../components/Navbar";
+import IsAdmin from "../../../commons/IsAdmin";
 
 const users = () => {
-  return <Navbar Component={UserTable} />;
+  return (
+    <IsAdmin>
+      <UserTable />
+    </IsAdmin>
+  );
 };
 
 export default users;

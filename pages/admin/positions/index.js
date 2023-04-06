@@ -1,9 +1,13 @@
 import React from "react";
 import PositionTable from "../../../commons/AdminTables/PositionTable";
-import { Navbar } from "../../../components/Navbar";
+import IsAdmin from "../../../commons/IsAdmin";
 
 const positions = () => {
-  return <Navbar Component={PositionTable} />;
+  return (
+    <IsAdmin>
+      <PositionTable />
+    </IsAdmin>
+  );
 };
 
 export default positions;

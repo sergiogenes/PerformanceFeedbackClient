@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { message } from "antd";
 
 import {
   Modal,
@@ -18,16 +19,10 @@ import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import axios from "axios";
 import Input from "../Input/Input";
 
-const fakeCountries = [
-  { id: 1, name: "Argentina", ISO: "AR" },
-  { id: 2, name: "Estados Unidos", ISO: "US" },
-  { id: 3, name: "Chile", ISO: "CL" },
-];
-
-const AddOfficeModal = ({ open, onClose, countries = fakeCountries }) => {
+const AddOfficeModal = ({ open, onClose, countries }) => {
   const officeFormData = {
-    denomination: "",
-    country: "",
+    name: "",
+    countryId: null,
   };
 
   // States
@@ -38,12 +33,16 @@ const AddOfficeModal = ({ open, onClose, countries = fakeCountries }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /* await axios
-      .post("http://localhost:3001/office", formData, { withCredentials: true })
-      .then((newUser) =>
-        message.success(`Nuevo Usuario (${newUser.data.fileNumber}) creado!`)
+    await axios
+      .post(
+        "http://localhost:3001/offices",
+        { name: formData.name, countryId: formData.countryId },
+        { withCredentials: true }
       )
-      .catch((err) => message.error(err)); */
+      .then((newOffice) =>
+        message.success(`Nuevo oficina creada: ${newOffice.data.name}!`)
+      )
+      .catch((err) => message.error(err));
     onClose();
   };
 
@@ -90,7 +89,7 @@ const AddOfficeModal = ({ open, onClose, countries = fakeCountries }) => {
           >
             <Grid container spacing={2}>
               <Input
-                name="denomination"
+                name="name"
                 label="Denominación"
                 handleChange={handleChange}
                 type="text"
@@ -100,16 +99,16 @@ const AddOfficeModal = ({ open, onClose, countries = fakeCountries }) => {
                 <Select
                   labelId="country-label"
                   id="country-select"
-                  value={formData.country}
+                  value={formData.countryId}
                   onChange={(e) => {
                     console.log("e.target.value", e.target.value);
-                    setFormData({ ...formData, country: e.target.value });
+                    setFormData({ ...formData, countryId: e.target.value });
                   }}
                   label="País"
                   required
                 >
                   {countries.map((country, i) => (
-                    <MenuItem key={i} value={country.name}>
+                    <MenuItem key={i} value={country.id}>
                       {country.name}
                     </MenuItem>
                   ))}

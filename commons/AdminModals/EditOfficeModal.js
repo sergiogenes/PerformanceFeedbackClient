@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { message } from "antd";
 import {
   Modal,
   Box,
@@ -32,8 +32,8 @@ const EditOfficeModal = ({
   countries = fakeCountries,
 }) => {
   const officeFormData = {
-    denomination: office?.name || "",
-    country: office?.country?.name || "",
+    name: office?.name || "",
+    countryId: office?.countryId || null,
   };
 
   // States
@@ -41,21 +41,36 @@ const EditOfficeModal = ({
 
   // Handlers
   const handleChange = (e) => {
-    console.log("e.target.name", e.target.name);
-    console.log("e.target.value", e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    /* 
-    Aquí debe venir el axios para editar una officina
-   */
-    onClose();
+    await axios
+      .put(
+        `http://localhost:3001/offices/${office.id}`,
+        { name: formData.name, countryId: formData.countryId },
+        { withCredentials: true }
+      )
+      .then((updateOffice) =>
+        message.success(`Oficina Actualiza: ${updateOffice.data.name}!`)
+      )
+      .catch((err) => message.error(err));
+    return onClose();
   };
 
   const handleCancel = (e) => {
     return onClose();
   };
+
+  // useEffects
+  useEffect(() => {
+    if (open) {
+      setFormData({
+        name: office?.name || "",
+        countryId: office?.countryId || null,
+      });
+    }
+  }, [open]);
 
   return (
     <Modal
@@ -96,7 +111,7 @@ const EditOfficeModal = ({
           >
             <Grid container spacing={2}>
               <Input
-                name="denomination"
+                name="name"
                 label="Denominación"
                 handleChange={handleChange}
                 type="text"
@@ -107,16 +122,19 @@ const EditOfficeModal = ({
                 <Select
                   labelId="country-label"
                   id="country-select"
-                  value={office?.country?.name}
+                  value={formData?.countryId}
                   onChange={(e) => {
                     console.log("e.target.value", e.target.value);
-                    setFormData({ ...formData, country: e.target.value });
+                    setFormData({
+                      ...formData,
+                      countryId: e.target.value,
+                    });
                   }}
                   label="País"
                   required
                 >
                   {countries.map((country) => (
-                    <MenuItem key={country.id} value={country.name}>
+                    <MenuItem key={country.id} value={country.id}>
                       {country.name}
                     </MenuItem>
                   ))}

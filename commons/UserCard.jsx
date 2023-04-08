@@ -43,7 +43,7 @@ export function UserCard({ user }) {
               justifyContent: "center",
             }}
             alt={user.firstName}
-            src="https://avatars.dicebear.com/api/pixel-art-neutral/angry.svg"
+            src={`${user.image}`}
           />
         </ProfilePhotoContainer>
       </Container>

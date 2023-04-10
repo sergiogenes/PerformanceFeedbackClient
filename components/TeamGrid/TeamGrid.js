@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Table } from "antd";
-import { Grid } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Grid, Button } from "@mui/material";
+import { Add } from "@mui/icons-material";
 import TeamCard from "./TeamCard";
+import AddTeamModal from "../../commons/AdminModals/AddTeamModal";
 
-const { Column } = Table;
 const data = [
   {
     key: "1",
@@ -34,26 +35,47 @@ const data = [
 const TeamGrid = () => {
   // States
   const [openCard, setOpenCard] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [refresh, setRefresh] = useState(false);
   // Handlers
-  const handleClose = () => {
+  const handleCloseCard = () => {
     setOpenCard(false);
   };
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+  // Togglers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
     setRefresh(!refresh);
   };
+  const toggleModal = () => {
+    setOpenModal((prevState) => !prevState);
+    setRefresh(!refresh);
+  };
+  // Effects
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/teams", { withCredentials: true })
+  //     .then((res) => console.log(res.data))
+  //     .catch((err) => customMessage("error", err.data));
+  // }, [refresh]);
 
   return (
-    <div style={{ flexGrow: 1, margin: "1rem" }}>
-      <Grid container spacing={4}>
+    <div style={{ flexGrow: 1, margin: "0.5rem" }}>
+      <Button variant="outlined" onClick={toggleModal}>
+        Agregar Equipo
+        <Add />
+      </Button>
+      <AddTeamModal open={openModal} onClose={handleClose} />
+      <Grid container spacing={4} style={{ marginTop: "0.5rem" }}>
         {data.map((card) => (
           <TeamCard
             onClick={toggleCard}
             key={card.key}
             team={card}
             open={openCard}
-            onClose={handleClose}
+            onClose={handleCloseCard}
           />
         ))}
       </Grid>

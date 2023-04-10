@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Modal,
   Box,
@@ -15,16 +16,26 @@ import {
 } from "@mui/material";
 import { customMessage } from "../CustomMessage/CustomMessage";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import axios from "axios";
 import Input from "../Input/Input";
 
-const AddUserModal = ({ open, onClose, positions }) => {
+const AddUserModal = ({
+  open,
+  onClose,
+  positions,
+  teams,
+  categories,
+  offices,
+}) => {
   const userFormData = {
     firstName: "",
     lastName: "",
     email: "",
     fileNumber: "",
     position: "",
+    team: "",
+    category: "",
+    office: "",
+    leader: "",
     shift: "",
   };
   // States
@@ -34,6 +45,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
+    console.log("FORM DATA EN AXIOS", formData);
     e.preventDefault();
     await axios
       .post("http://localhost:3001/users", formData, { withCredentials: true })
@@ -62,7 +74,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
       <Container component="main" maxWidth="xs">
         <Paper
           style={{
-            marginTop: "2rem",
+            marginTop: "1rem",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -73,7 +85,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
         >
           <Avatar
             style={{
-              margin: "1rem",
+              margin: "0.5rem",
               backgroundColor: "#FB9B14",
             }}
           >
@@ -81,7 +93,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
           </Avatar>
           <Typography variant="h5">Nuevo Usuario:</Typography>
           <form
-            style={{ width: "100%", marginTop: "2rem" }}
+            style={{ width: "100%", marginTop: "1rem" }}
             onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
@@ -100,20 +112,31 @@ const AddUserModal = ({ open, onClose, positions }) => {
                 half
               />
               <Input
+                name="fileNumber"
+                label="Legajo"
+                handleChange={handleChange}
+                type="text"
+              />
+              <Input
                 name="email"
                 label="Email"
                 handleChange={handleChange}
                 type="email"
               />
               <Input
-                name="fileNumber"
-                label="Legajo"
+                name="leader"
+                label="Legajo del Jefe"
                 handleChange={handleChange}
                 type="text"
+                half
               />
               <FormControl
-                fullWidth
-                sx={{ mb: 2, marginTop: "1rem", marginLeft: "1rem" }}
+                sx={{
+                  mb: 2,
+                  marginTop: "1rem",
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
               >
                 <InputLabel id="position-label">Puesto</InputLabel>
                 <Select
@@ -127,13 +150,89 @@ const AddUserModal = ({ open, onClose, positions }) => {
                   required
                 >
                   {positions.map((pos) => (
-                    <MenuItem key={pos.id} value={pos.name}>
+                    <MenuItem key={pos.id} value={pos.id}>
                       {pos.name}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, marginLeft: "1rem" }}>
+              <FormControl
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="category-label">Categoría</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category-select"
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  label="Categoría"
+                  required
+                >
+                  {categories.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="team-label">Equipo</InputLabel>
+                <Select
+                  labelId="teams-label"
+                  id="teams-select"
+                  value={formData.team}
+                  onChange={(e) =>
+                    setFormData({ ...formData, team: e.target.value })
+                  }
+                  label="Equipo"
+                  required
+                >
+                  {teams.map((team) => (
+                    <MenuItem key={team.id} value={team.id}>
+                      {team.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="office-label">Oficina</InputLabel>
+                <Select
+                  labelId="office-label"
+                  id="office-select"
+                  value={formData.office}
+                  onChange={(e) =>
+                    setFormData({ ...formData, office: e.target.value })
+                  }
+                  label="Oficina"
+                  required
+                >
+                  {offices.map((office) => (
+                    <MenuItem key={office.id} value={office.id}>
+                      {office.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ mb: 2, marginLeft: "1rem", width: "45%" }}>
                 <InputLabel id="shift-label">Turno</InputLabel>
                 <Select
                   labelId="shift-label"
@@ -147,7 +246,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
                 >
                   <MenuItem value="morning">Mañana</MenuItem>
                   <MenuItem value="afternoon">Tarde</MenuItem>
-                  <MenuItem value="nigth">Noche</MenuItem>
+                  <MenuItem value="night">Noche</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -155,7 +254,7 @@ const AddUserModal = ({ open, onClose, positions }) => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginTop: "1rem",
+                marginTop: "0.5rem",
               }}
             >
               <Button

@@ -53,9 +53,14 @@ const EditOfficeModal = ({
         { withCredentials: true }
       )
       .then((updateOffice) =>
-        message.success(`Oficina Actualiza: ${updateOffice.data.name}!`)
+        customMessage(
+          "success",
+          `Oficina Actualiza: ${updateOffice.data.name}!`
+        )
       )
-      .catch((err) => message.error(err));
+      .catch((err) => {
+        customMessage("error", err.response.data);
+      });
     return onClose();
   };
 

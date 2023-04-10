@@ -12,12 +12,25 @@ import Link from "next/link";
 
 export default function Welcome() {
   return (
-    <Card sx={{ maxWidth: "500px", margin: "10px auto" }}>
+    <Card
+      sx={{
+        maxWidth: "600px",
+        margin: "10px auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <CardMedia
         component="img"
         image="/GlobalNews.svg"
         alt="Bloqued"
-        sx={{ p: "10px" }}
+        sx={{
+          p: "10px",
+          width: "90%",
+          display: "flex",
+          justifyContent: "center",
+        }}
       />
       <CardContent>
         <Typography

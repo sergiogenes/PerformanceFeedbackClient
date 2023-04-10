@@ -35,6 +35,7 @@ const PositionTable = () => {
   const toggleEditPositionModal = (position) => {
     setSelectedPosition(position);
     setEditPositionModal((prevState) => !prevState);
+    setRefresh(!refresh);
   };
   // Handlers
   const alertConfirm = (cat) => {
@@ -46,6 +47,7 @@ const PositionTable = () => {
   const handleClose = () => {
     setSelectedPosition({});
     setEditPositionModal(false);
+    setRefresh(!refresh);
   };
   const handleDeletePositions = (position) => {
     axios

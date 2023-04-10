@@ -11,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   IconButton,
   Button,
   Paper,
@@ -27,6 +28,9 @@ const UserTable = () => {
   const [editUserModal, setEditUserModal] = useState(false);
   const [activeUsers, setActiveUsers] = useState([]);
   const [activePositions, setActivePositions] = useState([]);
+  const [activeTeams, setActiveTeams] = useState([]);
+  const [activeCategories, setActiveCategories] = useState([]);
+  const [activeOffices, setActiveOffices] = useState([]);
   const [refresh, setRefresh] = useState(false);
   // Togglers
   const toggleUserModal = () => {
@@ -36,6 +40,7 @@ const UserTable = () => {
   const toggleEditUserModal = (user) => {
     setSelectedUser(user);
     setEditUserModal((prevState) => !prevState);
+    setRefresh(!refresh);
   };
   // Handlers
   const alertConfirm = (user) => {
@@ -47,6 +52,7 @@ const UserTable = () => {
   const handleClose = () => {
     setSelectedUser({});
     setEditUserModal(false);
+    setRefresh(!refresh);
   };
   const handleDeleteUser = (user) => {
     axios
@@ -78,6 +84,24 @@ const UserTable = () => {
       .then((response) => setActivePositions(response.data))
       .catch((error) => console.log(error));
   }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/teams", { withCredentials: true })
+      .then((res) => setActiveTeams(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/categories", { withCredentials: true })
+      .then((res) => setActiveCategories(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/offices", { withCredentials: true })
+      .then((res) => setActiveOffices(res.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <div
@@ -100,6 +124,9 @@ const UserTable = () => {
               open={userModal}
               onClose={toggleUserModal}
               positions={activePositions}
+              teams={activeTeams}
+              categories={activeCategories}
+              offices={activeOffices}
             />
           </Container>
           <TableContainer component={Paper}>
@@ -121,24 +148,28 @@ const UserTable = () => {
                     <TableCell>{row.position?.name.toString()}</TableCell>
                     <TableCell>{row.email?.toString()}</TableCell>
                     <TableCell style={{ display: "flex" }}>
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => toggleEditUserModal(row)}
-                      >
-                        <Edit />
-                      </IconButton>
-                      <IconButton aria-label="delete">
-                        <Popconfirm
-                          title="Desactivar Usuario"
-                          description="Seguro que quiere desactivar este Usuario?"
-                          onConfirm={() => alertConfirm(row)}
-                          onCancel={alertCancel}
-                          okText="Sí"
-                          cancelText="No"
+                      <Tooltip title="Editar">
+                        <IconButton
+                          aria-label="edit"
+                          onClick={() => toggleEditUserModal(row)}
                         >
-                          <Delete />
-                        </Popconfirm>
-                      </IconButton>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Desactivar">
+                        <IconButton aria-label="delete">
+                          <Popconfirm
+                            title="Desactivar Usuario"
+                            description="Seguro que quiere desactivar este Usuario?"
+                            onConfirm={() => alertConfirm(row)}
+                            onCancel={alertCancel}
+                            okText="Sí"
+                            cancelText="No"
+                          >
+                            <Delete />
+                          </Popconfirm>
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}

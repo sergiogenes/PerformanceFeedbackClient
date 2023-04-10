@@ -9,6 +9,7 @@ import {
   Typography,
   IconButton,
   Button,
+  Tooltip,
 } from "@mui/material";
 import { customMessage } from "../../commons/CustomMessage/CustomMessage";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -16,12 +17,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 const { Column } = Table;
 
 const TeamCard = ({ team }) => {
+  // States
   const [openCard, setOpenCard] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
-  const handleClose = () => {
-    setOpenCard(false);
-  };
+  // Togglers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
     setRefresh(!refresh);
@@ -42,36 +41,46 @@ const TeamCard = ({ team }) => {
           flexDirection: "column",
         }}
       >
-        <CardContent style={{ flexGrow: 1 }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <CardContent
+          style={{
+            flexGrow: 1,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <Tag
               style={{
                 borderRadius: 25,
                 color: "#565659",
                 backgroundColor: "#EBCDFF",
                 borderColor: "#EBCDFF",
+                maxHeight: "24px",
               }}
             >
-              <Typography variant="h6">{team.address}</Typography>
+              <Typography variant="subtitle2">{team.address}</Typography>
             </Tag>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={toggleCard}>
                 {openCard ? "Cerrar" : "Ver Equipo"}
               </Button>
-              <IconButton
-                aria-label="edit-team"
-                onClick={() => console.log(team)}
-              >
-                <MoreVertIcon />
-              </IconButton>
+              <Tooltip placement="top" title="Editar">
+                <IconButton
+                  aria-label="edit-team"
+                  onClick={() => console.log(team)}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
 
           {openCard ? (
             <>
-              <Typography gutterBottom variant="h5" component="h2">
-                Jefe: {`${team.firstName} ${team.lastName}`}
-              </Typography>
+              <Typography variant="h6">Jefes:</Typography>
               <Table
                 style={{
                   border: "2px solid #CCE5FF",
@@ -117,9 +126,7 @@ const TeamCard = ({ team }) => {
                   )}
                 />
               </Table>
-              <Typography gutterBottom variant="h5" component="h2">
-                Coordinadores:
-              </Typography>
+              <Typography variant="h6">Coordinadores:</Typography>
               <Table
                 style={{
                   border: "2px solid #CCE5FF",
@@ -165,9 +172,7 @@ const TeamCard = ({ team }) => {
                   )}
                 />
               </Table>
-              <Typography gutterBottom variant="h5" component="h2">
-                Integrantes:
-              </Typography>
+              <Typography variant="h6">Integrantes:</Typography>
               <Table
                 style={{
                   border: "2px solid #CCE5FF",
@@ -216,10 +221,10 @@ const TeamCard = ({ team }) => {
             </>
           ) : (
             <Image
-              src="/GlobalNews.svg"
-              alt="GlobalNews Group Logo"
-              width={190}
-              height={50}
+              src="/team.jpg"
+              alt="default-team-img"
+              width={350}
+              height={200}
               priority
             />
           )}

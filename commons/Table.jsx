@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
-/* const fakeColumns = [
+const fakeColumns = [
   {
     field: "id",
     headerName: "ID",
@@ -51,7 +51,7 @@ const fakeRows = [
   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-]; */
+];
 
 export default function Table({
   columns = fakeColumns,
@@ -61,7 +61,6 @@ export default function Table({
   return (
     <Box
       sx={{
-        width: "98%",
         height: "100%",
         paddingLeft: "5px",
         "& .theme--header": {

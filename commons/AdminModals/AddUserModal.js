@@ -199,7 +199,7 @@ const AddUserModal = ({
                   label="Equipo"
                   required
                 >
-                  {teams.map((team) => (
+                  {teams?.map((team) => (
                     <MenuItem key={team.id} value={team.id}>
                       {team.name}
                     </MenuItem>

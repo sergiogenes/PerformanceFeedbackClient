@@ -134,7 +134,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
                   required
                 >
                   {positions.map((pos) => (
-                    <MenuItem key={pos.id} value={pos.name}>
+                    <MenuItem key={pos.id} value={pos.id}>
                       {pos.name}
                     </MenuItem>
                   ))}
@@ -154,7 +154,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
                 >
                   <MenuItem value="morning">Mañana</MenuItem>
                   <MenuItem value="afternoon">Tarde</MenuItem>
-                  <MenuItem value="nigth">Noche</MenuItem>
+                  <MenuItem value="night">Noche</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

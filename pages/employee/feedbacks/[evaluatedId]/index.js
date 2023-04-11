@@ -6,18 +6,17 @@ import axios from "axios";
 import Table from "../../../../commons/Table";
 import { Typography } from "@mui/material";
 import { customMessage } from "../../../../commons/CustomMessage/CustomMessage";
-import DeleteButton from "../../../../commons/DeleteButton";
-import EditButton from "../../../../commons/EditButton";
+import SaveButton from "../../../../commons/SaveButton";
 
 const FeedbacksPage = () => {
   const user = useSelector((state) => state.user);
   const router = useRouter();
   const { evaluatedId } = router.query;
-  console.log("id del evaluado", evaluatedId);
 
   const [indicators, setIndicators] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
   const [evaluated, setEvaluated] = useState({});
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     axios
@@ -26,13 +25,10 @@ const FeedbacksPage = () => {
       })
       .then((response) => response.data)
       .then((newEvaluated) => {
-        console.log("nuevo evaluado", newEvaluated);
         setEvaluated(newEvaluated);
         return newEvaluated;
       })
       .then((newEvaluated) => {
-        // Hay que cambiar esta ruta del axios
-        console.log("evaluado", newEvaluated);
         axios
           .get(
             `http://localhost:3001/indicators/category/${newEvaluated.category.id}`,
@@ -50,7 +46,7 @@ const FeedbacksPage = () => {
           .then((newFeedbacks) => setFeedbacks(newFeedbacks));
       })
       .catch((error) => customMessage(error.message));
-  }, [evaluatedId]);
+  }, [evaluatedId, refresh]);
 
   const headers = [
     {
@@ -72,34 +68,34 @@ const FeedbacksPage = () => {
     {
       field: "description",
       headerName: "Descripción",
-      flex: 2,
+      flex: 1,
       headerClassName: "theme--header",
       valueGetter: (params) => `${params?.value || params.row.indicator}`,
     },
     {
       field: "goal",
       headerName: "Objetivo",
-      flex: 1,
+      flex: 0.6,
       headerClassName: "theme--header",
     },
     {
       field: "data",
       headerName: "Dato",
-      flex: 1,
+      flex: 0.6,
       headerClassName: "theme--header",
       editable: true,
     },
     {
       field: "result",
       headerName: "Resultado",
-      flex: 1,
+      flex: 0.6,
       headerClassName: "theme--header",
       valueGetter: (params) => `${params.row.data - params.row.goal || ""}`,
     },
     {
       field: "review",
       headerName: "Devolución",
-      flex: 1,
+      flex: 3,
       headerClassName: "theme--header",
       editable: true,
     },
@@ -125,21 +121,22 @@ const FeedbacksPage = () => {
       headerClassName: "theme--header",
       renderCell: (index) => (
         <>
-          <EditButton
+          <SaveButton
             onClick={() => {
               handleEdit(index.row);
             }}
-            /* onClick={toggleEditUserModal} row={index.row} */
           />
         </>
       ),
     },
   ];
 
+  const headerHistory = headers.map((x) => x);
+  headerHistory.pop();
+
   // handlers
 
   const handleEdit = (row) => {
-    console.log("Dato dentro del axios antes de crear review", row);
     const newReview = {
       evaluatedId,
       evaluatorId: user.id,
@@ -158,8 +155,8 @@ const FeedbacksPage = () => {
       })
       .then((response) => response.data)
       .then((createdReview) => {
-        console.log("repuesta de review", createdReview);
         customMessage("success", "La devolución se ha creado exitosamente.");
+        setRefresh(!refresh);
       })
       .catch((error) => customMessage("error", error.response.data));
   };
@@ -184,10 +181,10 @@ const FeedbacksPage = () => {
         Devolución actual
       </Typography>
       <Table columns={headers} rows={indicators} pageSize={5} />
-      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
+      <Typography variant="h6" sx={{ marginLeft: "10px", marginTop: "20px" }}>
         Histórico de devoluciones
       </Typography>
-      <Table columns={headers} rows={feedbacks} pageSize={5} />
+      <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
     </>
   );
 };

@@ -1,35 +1,39 @@
-import { UserCard } from "../commons/UserCard";
+import React, { useState, useEffect } from "react";
 import { Grid, Container } from "@mui/material";
-import { StaffMembers } from "./StaffMembers";
+import axios from "axios";
+import { UserCard } from "../commons/UserCard";
 import { useSelector } from "react-redux";
-
-const team = { equipo: "Mi Equipo", jefes: "Mis Superiores" };
+import UserList from "./UserList/UserList";
+import TeamCard from "./TeamGrid/TeamCard";
 
 export function User() {
+  // States
+  const [myTeam, setMyTeam] = useState([]);
+  // Redux
   const user = useSelector((store) => store.user);
+  // Effects
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/teams/${user.teamId}`, {
+        withCredentials: true,
+      })
+      .then((res) => setMyTeam(res.data))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Container>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        sx={{ width: "90%", mt: "10px" }}
-      >
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
-          <Grid container direction="column" spacing={2}>
-            {user.isAdmin ? (
-              <>
-                <UserCard user={user} />
-              </>
-            ) : (
-              <>
-                <UserCard user={user} />
-                <StaffMembers team={team.equipo} />
-                <StaffMembers team={team.jefes} />
-              </>
-            )}
-          </Grid>
-        </Grid>
+      <Grid container spacing={2}>
+        {user.isAdmin ? (
+          <>
+            <UserCard user={user} />
+          </>
+        ) : (
+          <>
+            <UserCard user={user} />
+            <TeamCard team={myTeam} />
+            <UserList />
+          </>
+        )}
       </Grid>
     </Container>
   );

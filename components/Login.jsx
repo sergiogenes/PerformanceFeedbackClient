@@ -1,12 +1,12 @@
-import axios from "axios";
-import Image from "next/image";
-import Input from "../commons/Input/Input";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logIn } from "../redux/user";
-import { Box, Typography, Paper, Button } from "@mui/material";
-import { message } from "antd";
+import { Typography, Paper, Button, Container } from "@mui/material";
+import { customMessage } from "../commons/CustomMessage/CustomMessage";
+import axios from "axios";
+import Image from "next/image";
+import Input from "../commons/Input/Input";
 
 export const Login = () => {
   const initialFormState = {
@@ -47,102 +47,86 @@ export const Login = () => {
           }
         );
         dispatch(logIn(cookie.data));
-        message.success("Sesión Iniciada");
+        customMessage("success", "Sesión Iniciada!");
         router.push("/");
       } catch (error) {
         return error;
       }
     } else {
-      message.warning("Email incorrecto, intente otra vez");
+      customMessage("error", "Credenciales inválidas, intente otra vez");
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#1686F7",
-      }}
-    >
+    <Container component="main" maxWidth="xs">
       <Paper
-        sx={{
+        style={{
+          marginTop: "2rem",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          width: "50%",
-          height: "450px",
-          paddingTop: "56px",
-          paddingLeft: "40px",
-          paddingRight: "40px",
-          paddingBottom: "56px",
+          alignItems: "center",
+          padding: "2rem",
+          borderRadius: "8px",
         }}
+        elevation={3}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            height: "66px",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography>Te damos la bienvenida a</Typography>
-          <Image
-            src="/GlobalNews.svg"
-            alt="GlobalNews Group Logo"
-            width={190}
-            height={50}
-            priority
-          />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            height: "200px",
-          }}
-          component="form"
-          noValidate
-          autoComplete="off"
+        <Typography>Te damos la bienvenida a</Typography>
+        <Image
+          src="/GlobalNews.svg"
+          alt="GlobalNews Group Logo"
+          width={190}
+          height={50}
+          priority
+        />
+        <form
+          style={{ width: "100%", marginTop: "2rem" }}
           onSubmit={handleSubmit}
         >
+          <Typography
+            variant="subtitle2"
+            style={{ marginTop: "1rem", marginBottom: "0.5rem" }}
+          >
+            Usuario
+          </Typography>
           <Input
             name="email"
-            label="Correo electrónico"
+            label="mail@example.com"
             handleChange={handleChange}
             type="email"
           />
+          <Typography
+            variant="subtitle2"
+            style={{ marginTop: "1rem", marginBottom: "0.5rem" }}
+          >
+            Contraseña
+          </Typography>
           <Input
             name="password"
-            label="Contraseña"
+            label="Ingresar 8 dígitos"
             handleChange={handleChange}
             type={showPassword ? "text" : "password"}
             handleShowPassword={handleShowPassword}
           />
           <Button
             style={{
-              marginTop: "1rem",
+              marginTop: "1.5rem",
               backgroundColor: "#E4E4E4",
               color: "#8D8D8D",
+              padding: "10px",
+              borderRadius: "8px",
             }}
             type="submit"
             fullWidth
-            color="primary"
             variant={
-              formData.email === "" || formData.password.length < 2
+              formData.email === "" || formData.password.length < 8
                 ? "disabled"
                 : "contained"
             }
           >
             Ingresar
           </Button>
-        </Box>
+        </form>
       </Paper>
-    </Box>
+    </Container>
   );
 };

@@ -5,7 +5,7 @@ import axios from "axios";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Typography } from "@mui/material";
 
-const Indicators = ({ columns, rows }) => {
+const Indicators = () => {
   const user = useSelector((state) => state.user);
   const [indicators, setIndicators] = useState([]);
 

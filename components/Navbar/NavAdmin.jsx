@@ -17,6 +17,7 @@ import {
   Business,
   Logout,
   Groups,
+  Assignment,
 } from "@mui/icons-material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
@@ -169,6 +170,34 @@ export const NavAdmin = ({ handleLogout, open }) => {
               </ListItemIcon>
             </Tooltip>
             <ListItemText primary="Equipos" sx={{ opacity: open ? 1 : 0 }} />
+          </ListItemButton>
+        </Link>
+      </ListItem>
+
+      <ListItem disablePadding sx={{ display: "block" }}>
+        <Link href="/admin/indicators">
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? "initial" : "center",
+              px: 2.5,
+            }}
+          >
+            <Tooltip title="Indicadores" placement="right-end">
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <Assignment />
+              </ListItemIcon>
+            </Tooltip>
+            <ListItemText
+              primary="Indicadores"
+              sx={{ opacity: open ? 1 : 0 }}
+            />
           </ListItemButton>
         </Link>
       </ListItem>

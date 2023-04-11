@@ -53,11 +53,7 @@ const fakeRows = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ]; */
 
-export default function Table({
-  columns = fakeColumns,
-  rows = fakeRows,
-  pageSize,
-}) {
+export default function Table({ columns, rows, pageSize }) {
   return (
     <Box
       sx={{

@@ -42,24 +42,39 @@ const FeedbacksPage = () => {
           )
           .then((response) => response.data)
           .then((newIndicators) => setIndicators(newIndicators));
+        axios
+          .get(`http://localhost:3001/reviews/${newEvaluated.id}`, {
+            withCredentials: true,
+          })
+          .then((response) => response.data)
+          .then((newFeedbacks) => setFeedbacks(newFeedbacks));
       })
       .catch((error) => customMessage(error.message));
   }, [evaluatedId]);
 
   const headers = [
     {
+      field: "id",
+      headerName: "ID",
+      flex: 0.2,
+      headerClassName: "theme--header",
+      headerAlign: "flex",
+      sx: { paddingLeft: "5px" },
+    },
+    {
       field: "category",
       headerName: "Categoría",
       flex: 1.5,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) =>
+        `${params.value?.name || params.row.evaluated.category.name}`,
     },
     {
       field: "description",
       headerName: "Descripción",
       flex: 2,
       headerClassName: "theme--header",
-      editable: true,
+      valueGetter: (params) => `${params?.value || params.row.indicator}`,
     },
     {
       field: "goal",
@@ -79,10 +94,10 @@ const FeedbacksPage = () => {
       headerName: "Resultado",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.row.goal - params.row.data || ""}`,
+      valueGetter: (params) => `${params.row.data - params.row.goal || ""}`,
     },
     {
-      field: "feedback",
+      field: "review",
       headerName: "Devolución",
       flex: 1,
       headerClassName: "theme--header",
@@ -96,7 +111,7 @@ const FeedbacksPage = () => {
       editable: true,
     },
     {
-      field: "periodo",
+      field: "period",
       headerName: "Periodo",
       flex: 1,
       headerClassName: "theme--header",
@@ -111,7 +126,9 @@ const FeedbacksPage = () => {
       renderCell: (index) => (
         <>
           <EditButton
-            onClick={() => console.log(index.row)}
+            onClick={() => {
+              handleEdit(index.row);
+            }}
             /* onClick={toggleEditUserModal} row={index.row} */
           />
         </>
@@ -119,8 +136,50 @@ const FeedbacksPage = () => {
     },
   ];
 
+  // handlers
+
+  const handleEdit = (row) => {
+    console.log("Dato dentro del axios antes de crear review", row);
+    const newReview = {
+      evaluatedId,
+      evaluatorId: user.id,
+      period: row.period,
+      idIndicator: row.id,
+      indicator: row.description,
+      goal: row.goal,
+      data: row.data,
+      review: row.review,
+      date: row.date,
+      period: row.period,
+    };
+    axios
+      .post(`http://localhost:3001/reviews`, newReview, {
+        withCredentials: true,
+      })
+      .then((response) => response.data)
+      .then((createdReview) => {
+        console.log("repuesta de review", createdReview);
+        customMessage("success", "La devolución se ha creado exitosamente.");
+      })
+      .catch((error) => customMessage("error", error.response.data));
+  };
+
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "20px",
+        }}
+      >
+        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
+          {`Personal evaluado: ${evaluated.firstName} ${evaluated.lastName}`}
+        </Typography>
+        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
+          {`Legajo: ${evaluated.fileNumber}`}
+        </Typography>
+      </div>
       <Typography variant="h6" sx={{ marginLeft: "10px" }}>
         Devolución actual
       </Typography>
@@ -128,7 +187,7 @@ const FeedbacksPage = () => {
       <Typography variant="h6" sx={{ marginLeft: "10px" }}>
         Histórico de devoluciones
       </Typography>
-      <Table columns={headers} rows={indicators} pageSize={5} />
+      <Table columns={headers} rows={feedbacks} pageSize={5} />
     </>
   );
 };

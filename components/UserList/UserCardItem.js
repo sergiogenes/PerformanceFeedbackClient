@@ -12,10 +12,7 @@ import { Tooltip } from "antd";
 const UserCardItem = ({ employee }) => {
   return (
     <Grid item lg={3} md={3} sm={4} xs={6}>
-      <Link
-        href={`employee/feedback/${employee.id}/${employee.category.id}`}
-        underline="none"
-      >
+      <Link href={`employee/feedbacks/${employee.id}`} underline="none">
         <Tooltip title="click para hacer Devolución" placement="topLeft">
           <ListItem
             key={employee.id}

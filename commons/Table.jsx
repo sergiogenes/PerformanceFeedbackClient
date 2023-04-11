@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
 const fakeColumns = [
@@ -72,6 +72,8 @@ export default function Table({ columns, rows, pageSize }) {
           pagination: { paginationModel: { pageSize: pageSize } },
         }}
         pageSizeOptions={[5, 10, 25]}
+        getRowHeight={() => "auto"}
+        getEstimatedRowHeight={() => 200}
         disableRowSelectionOnClick
         autoHeight
       />

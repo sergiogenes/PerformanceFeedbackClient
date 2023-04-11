@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import { Space, Table, Tag, Popconfirm } from "antd";
 import {
@@ -20,20 +20,15 @@ const TeamCard = ({ team }) => {
   // States
   const [openCard, setOpenCard] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  // Redux
+  const user = useSelector((store) => store.user);
   // Togglers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
     setRefresh(!refresh);
   };
   return (
-    <Grid
-      item
-      key={team.key}
-      xs={12}
-      sm={12}
-      md={openCard ? 12 : 6}
-      lg={openCard ? 12 : 4}
-    >
+    <Grid item xs={12} sm={4} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
       <Card
         style={{
           height: "100%",
@@ -61,117 +56,29 @@ const TeamCard = ({ team }) => {
                 maxHeight: "24px",
               }}
             >
-              <Typography variant="subtitle2">{team.address}</Typography>
+              <Typography variant="subtitle2">{team.name}</Typography>
             </Tag>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Button onClick={toggleCard}>
                 {openCard ? "Cerrar" : "Ver Equipo"}
               </Button>
-              <Tooltip placement="top" title="Editar">
-                <IconButton
-                  aria-label="edit-team"
-                  onClick={() => console.log(team)}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </Tooltip>
+              {user.isAdmin ? (
+                <Tooltip placement="top" title="Editar">
+                  <IconButton
+                    aria-label="edit-team"
+                    onClick={() => console.log(team)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 
           {openCard ? (
             <>
-              <Typography variant="h6">Jefes:</Typography>
-              <Table
-                style={{
-                  border: "2px solid #CCE5FF",
-                  borderColor: "#CCE5FF",
-                  borderRadius: 5,
-                }}
-                dataSource={[team]}
-              >
-                <Column title="Nombre" dataIndex="firstName" key="firstName" />
-                <Column title="Apellido" dataIndex="lastName" key="lastName" />
-                <Column title="Puesto" dataIndex="age" key="age" />
-                <Column title="Categoría" dataIndex="address" key="address" />
-                <Column
-                  title="Tags"
-                  dataIndex="tags"
-                  key="tags"
-                  render={(team) => (
-                    <>
-                      {team.map((tag) => (
-                        <Tag color="#FB9B14" key={tag}>
-                          {tag}
-                        </Tag>
-                      ))}
-                    </>
-                  )}
-                />
-                <Column
-                  title="Acción"
-                  key="action"
-                  render={(_, record) => (
-                    <Space size="middle">
-                      <Popconfirm
-                        title="Quitar del Equipo"
-                        description="Seguro que quiere quitar a este Usuario?"
-                        onConfirm={() => customMessage("info", "Sí")}
-                        onCancel={() => customMessage("info", "No")}
-                        okText="Sí"
-                        cancelText="No"
-                      >
-                        <a>Quitar</a>
-                      </Popconfirm>
-                    </Space>
-                  )}
-                />
-              </Table>
-              <Typography variant="h6">Coordinadores:</Typography>
-              <Table
-                style={{
-                  border: "2px solid #CCE5FF",
-                  borderColor: "#CCE5FF",
-                  borderRadius: 5,
-                }}
-                dataSource={[team]}
-              >
-                <Column title="Nombre" dataIndex="firstName" key="firstName" />
-                <Column title="Apellido" dataIndex="lastName" key="lastName" />
-                <Column title="Puesto" dataIndex="age" key="age" />
-                <Column title="Categoría" dataIndex="address" key="address" />
-                <Column
-                  title="Tags"
-                  dataIndex="tags"
-                  key="tags"
-                  render={(team) => (
-                    <>
-                      {team.map((tag) => (
-                        <Tag color="#FB9B14" key={tag}>
-                          {tag}
-                        </Tag>
-                      ))}
-                    </>
-                  )}
-                />
-                <Column
-                  title="Acción"
-                  key="action"
-                  render={(_, record) => (
-                    <Space size="middle">
-                      <Popconfirm
-                        title="Quitar del Equipo"
-                        description="Seguro que quiere quitar a este Usuario?"
-                        onConfirm={() => customMessage("info", "Sí")}
-                        onCancel={() => customMessage("info", "No")}
-                        okText="Sí"
-                        cancelText="No"
-                      >
-                        <a>Quitar</a>
-                      </Popconfirm>
-                    </Space>
-                  )}
-                />
-              </Table>
               <Typography variant="h6">Integrantes:</Typography>
               <Table
                 style={{
@@ -179,44 +86,43 @@ const TeamCard = ({ team }) => {
                   borderColor: "#CCE5FF",
                   borderRadius: 5,
                 }}
-                dataSource={[team]}
+                dataSource={team.Users}
               >
                 <Column title="Nombre" dataIndex="firstName" key="firstName" />
                 <Column title="Apellido" dataIndex="lastName" key="lastName" />
-                <Column title="Puesto" dataIndex="age" key="age" />
-                <Column title="Categoría" dataIndex="address" key="address" />
+                <Column title="Email" dataIndex="email" key="email" />
                 <Column
-                  title="Tags"
-                  dataIndex="tags"
-                  key="tags"
-                  render={(team) => (
-                    <>
-                      {team.map((tag) => (
-                        <Tag color="#FB9B14" key={tag}>
-                          {tag}
-                        </Tag>
-                      ))}
-                    </>
-                  )}
+                  title="Legajo"
+                  dataIndex="fileNumber"
+                  key="fileNumber"
                 />
                 <Column
-                  title="Acción"
-                  key="action"
-                  render={(_, record) => (
-                    <Space size="middle">
-                      <Popconfirm
-                        title="Quitar del Equipo"
-                        description="Seguro que quiere quitar a este Usuario?"
-                        onConfirm={() => customMessage("info", "Sí")}
-                        onCancel={() => customMessage("info", "No")}
-                        okText="Sí"
-                        cancelText="No"
-                      >
-                        <a>Quitar</a>
-                      </Popconfirm>
-                    </Space>
-                  )}
+                  title="Puesto"
+                  dataIndex={["position", "name"]}
+                  key="position"
                 />
+                {user.isAdmin ? (
+                  <Column
+                    title="Acción"
+                    key="action"
+                    render={(_, record) => (
+                      <Space size="middle">
+                        <Popconfirm
+                          title="Quitar del Equipo"
+                          description="Seguro que quiere quitar a este Usuario?"
+                          onConfirm={() => customMessage("info", "Sí")}
+                          onCancel={() => customMessage("info", "No")}
+                          okText="Sí"
+                          cancelText="No"
+                        >
+                          <a>Quitar</a>
+                        </Popconfirm>
+                      </Space>
+                    )}
+                  />
+                ) : (
+                  ""
+                )}
               </Table>
             </>
           ) : (
@@ -235,3 +141,20 @@ const TeamCard = ({ team }) => {
 };
 
 export default TeamCard;
+
+/**
+<Column
+                  title="Tags"
+                  dataIndex="tags"
+                  key="tags"
+                  render={(team) => (
+                    <>
+                      {team.map((tag) => (
+                        <Tag color="#FB9B14" key={tag}>
+                          {tag}
+                        </Tag>
+                      ))}
+                    </>
+                  )}
+                />
+ */

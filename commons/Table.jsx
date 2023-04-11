@@ -16,6 +16,7 @@ const fakeColumns = [
     headerName: "First name",
     flex: 1,
     headerClassName: "theme--header",
+    editable: true,
   },
   {
     field: "lastName",
@@ -57,7 +58,6 @@ export default function Table({ columns, rows, pageSize }) {
   return (
     <Box
       sx={{
-        height: "100%",
         paddingLeft: "5px",
         "& .theme--header": {
           backgroundColor: "#E4E4E4",

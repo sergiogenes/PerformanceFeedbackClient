@@ -34,6 +34,7 @@ const History = ({ columns, rows }) => {
       headerName: "Descripción",
       flex: 2,
       headerClassName: "theme--header",
+      editable: true,
     },
     {
       field: "goal",

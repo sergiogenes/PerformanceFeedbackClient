@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [activeUsers, setActiveUsers] = useState([]);
   const [deactivatedUsers, setDeactivatedUsers] = useState([]);
   const [allOffices, setAllOffices] = useState([]);
+  const [allTeams, setAllTeams] = useState([]);
   // Redux
   const user = useSelector((state) => state.user);
   // Effects
@@ -36,6 +37,14 @@ const Dashboard = () => {
         withCredentials: true,
       })
       .then((res) => setAllOffices(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/teams", {
+        withCredentials: true,
+      })
+      .then((res) => setAllTeams(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -126,7 +135,7 @@ const Dashboard = () => {
               </Tag>
               <Divider style={{ backgroundColor: "#1369B4" }} />
               <Statistic
-                value={100}
+                value={allTeams.length}
                 valueStyle={{ color: "#1369B4" }}
                 prefix={<GroupsIcon />}
                 formatter={formatter}

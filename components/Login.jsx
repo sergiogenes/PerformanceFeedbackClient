@@ -102,7 +102,7 @@ export const Login = () => {
           </Typography>
           <Input
             name="password"
-            label="Ingresar 8 dígitos"
+            label="Ingresar 6 dígitos"
             handleChange={handleChange}
             type={showPassword ? "text" : "password"}
             handleShowPassword={handleShowPassword}
@@ -118,7 +118,7 @@ export const Login = () => {
             type="submit"
             fullWidth
             variant={
-              formData.email === "" || formData.password.length < 8
+              formData.email === "" || formData.password.length < 6
                 ? "disabled"
                 : "contained"
             }

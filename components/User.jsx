@@ -5,6 +5,7 @@ import { UserCard } from "../commons/UserCard";
 import { useSelector } from "react-redux";
 import UserList from "./UserList/UserList";
 import TeamCard from "./TeamGrid/TeamCard";
+import Dashboard from "./Dashboard";
 
 export function User() {
   // States
@@ -25,7 +26,7 @@ export function User() {
       <Grid container spacing={2}>
         {user.isAdmin ? (
           <>
-            <UserCard user={user} />
+            <Dashboard />
           </>
         ) : (
           <>

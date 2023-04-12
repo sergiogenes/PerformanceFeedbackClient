@@ -26,14 +26,19 @@ export const NavAdmin = ({ handleLogout, open }) => {
     <>
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/dashboard">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Dashboard" placement="right-end">
+          <Tooltip title="Dashboard" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -43,22 +48,31 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <DashboardIcon />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+
+              <ListItemText
+                primary="Dashboard"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/users">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Usuarios" placement="right-end">
+          <Tooltip title="Usuarios" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -68,22 +82,28 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <People />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Usuarios" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+
+              <ListItemText primary="Usuarios" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/positions">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Puestos" placement="right-end">
+          <Tooltip title="Puestos" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -93,22 +113,27 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <Work />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Puestos" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+              <ListItemText primary="Puestos" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/categories">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Categorias" placement="right-end">
+          <Tooltip title="Categorias" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -118,22 +143,30 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <AccountTree />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Categorías" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+              <ListItemText
+                primary="Categorías"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/offices">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Oficinas" placement="right-end">
+          <Tooltip title="Oficinas" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -143,22 +176,27 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <Business />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Oficinas" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+              <ListItemText primary="Oficinas" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/teams">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Equipos" placement="right-end">
+          <Tooltip title="Equipos" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -168,22 +206,27 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <Groups />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Equipos" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+              <ListItemText primary="Equipos" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/admin/indicators">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Indicadores" placement="right-end">
+          <Tooltip title="Indicadores" placement="right">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -193,27 +236,32 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <Assignment />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText
-              primary="Indicadores"
-              sx={{ opacity: open ? 1 : 0 }}
-            />
-          </ListItemButton>
+              <ListItemText
+                primary="Indicadores"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <DividerIcon />
       <List>
         <ListItem disablePadding sx={{ display: "block" }}>
-          <ListItemButton
-            onClick={handleLogout}
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <Tooltip title="Cerrar Sesión" placement="right-end">
+          <Tooltip title="Cerrar Sesión" placement="right">
+            <ListItemButton
+              onClick={handleLogout}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#C72F00",
+                  },
+                },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
@@ -223,12 +271,12 @@ export const NavAdmin = ({ handleLogout, open }) => {
               >
                 <Logout />
               </ListItemIcon>
-            </Tooltip>
-            <ListItemText
-              primary="Cerrar Sesión"
-              sx={{ opacity: open ? 1 : 0 }}
-            />
-          </ListItemButton>
+              <ListItemText
+                primary="Cerrar Sesión"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </ListItem>
       </List>
     </>

@@ -10,7 +10,7 @@ import IsAdmin from "../../../commons/IsAdmin";
 import EditButton from "../../../commons/EditButton";
 import DeleteButton from "../../../commons/DeleteButton";
 
-const users = () => {
+const UserPage = () => {
   // States
   const [selectedUser, setSelectedUser] = useState({});
   const [userModal, setUserModal] = useState(false);
@@ -123,28 +123,28 @@ const users = () => {
       headerName: "Puesto",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "category",
       headerName: "Categoría",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "office",
       headerName: "Oficina",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "team",
       headerName: "Equipo",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "leader",
@@ -206,6 +206,9 @@ const users = () => {
               onClose={handleClose}
               user={selectedUser}
               positions={activePositions}
+              teams={activeTeams}
+              categories={activeCategories}
+              offices={activeOffices}
             />
           </div>
         </Grid>
@@ -214,4 +217,4 @@ const users = () => {
   );
 };
 
-export default users;
+export default UserPage;

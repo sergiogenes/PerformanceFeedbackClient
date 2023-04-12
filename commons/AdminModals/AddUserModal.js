@@ -45,7 +45,6 @@ const AddUserModal = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
-    console.log("FORM DATA EN AXIOS", formData);
     e.preventDefault();
     await axios
       .post("http://localhost:3001/users", formData, { withCredentials: true })
@@ -231,7 +230,6 @@ const AddUserModal = ({
                   ))}
                 </Select>
               </FormControl>
-
               <FormControl sx={{ mb: 2, marginLeft: "1rem", width: "45%" }}>
                 <InputLabel id="shift-label">Turno</InputLabel>
                 <Select

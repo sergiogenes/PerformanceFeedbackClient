@@ -73,7 +73,12 @@ export default function Table({ columns, rows, pageSize }) {
         }}
         pageSizeOptions={[5, 10, 25]}
         getRowHeight={() => "auto"}
-        getEstimatedRowHeight={() => 200}
+        getEstimatedRowHeight={() => 300}
+        sx={{
+          [`& .${gridClasses.cell}`]: {
+            py: 1,
+          },
+        }}
         disableRowSelectionOnClick
         autoHeight
       />

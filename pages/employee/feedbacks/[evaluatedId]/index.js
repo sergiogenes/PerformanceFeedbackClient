@@ -60,7 +60,7 @@ const FeedbacksPage = () => {
     {
       field: "category",
       headerName: "Categoría",
-      flex: 1.5,
+      flex: 1.2,
       headerClassName: "theme--header",
       valueGetter: (params) =>
         `${params.value?.name || params.row.evaluated.category.name}`,
@@ -105,6 +105,7 @@ const FeedbacksPage = () => {
       flex: 1,
       headerClassName: "theme--header",
       editable: true,
+      valueGetter: (params) => `${params.row.date?.slice(0, 10) || ""}`,
     },
     {
       field: "period",

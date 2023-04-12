@@ -27,16 +27,16 @@ const AddTeamModal = ({ open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // e.preventDefault();
-    // await axios
-    //   .post("http://localhost:3001/teams", formData, {
-    //     withCredentials: true,
-    //   })
-    //   .then((response) =>
-    //     customMessage("success", `Nueva equipo creado: ${response.data.name}`)
-    //   )
-    //   .catch((error) => customMessage("error", error.message));
-    // onClose();
+    e.preventDefault();
+    await axios
+      .post("http://localhost:3001/teams", formData, {
+        withCredentials: true,
+      })
+      .then((response) =>
+        customMessage("success", `Nueva equipo creado: ${response.data.name}`)
+      )
+      .catch((error) => customMessage("error", error.response.data));
+    onClose();
   };
 
   return (

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import { Space, Table, Tag, Popconfirm } from "antd";
+import { Tag, Popconfirm } from "antd";
 import {
   Grid,
   Card,
@@ -11,22 +12,130 @@ import {
   Button,
   Tooltip,
 } from "@mui/material";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import Table from "../../commons/Table";
 import { customMessage } from "../../commons/CustomMessage/CustomMessage";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-const { Column } = Table;
 
 const TeamCard = ({ team }) => {
   // States
   const [openCard, setOpenCard] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const [teamMembers, setTeamMembers] = useState([]);
+  //const [refresh, setRefresh] = useState(false);
+  const [removeUserTeam, setRemoveUserTeam] = useState(false);
   // Redux
   const user = useSelector((store) => store.user);
   // Togglers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
-    setRefresh(!refresh);
+    // setRefresh(!refresh);
   };
+
+  const alertConfirm = (member) => {
+    setRemoveUserTeam((prevState) => !prevState);
+    handleRemoveUser(member);
+  };
+  const alertCancel = () => {
+    customMessage("info", "Acción cancelada");
+  };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/teams/${team.id}`, { withCredentials: true })
+      .then((res) => setTeamMembers(res.data.Users))
+      .catch((err) => customMessage("error", err.response));
+  }, [removeUserTeam]);
+
+  const handleRemoveUser = (member) => {
+    axios
+      .put(
+        `http://localhost:3001/users/${member.id}`,
+        { team: null },
+        {
+          withCredentials: true,
+        }
+      )
+      .then(() => {
+        customMessage(
+          "success",
+          `Usuario (${user.fileNumber}) Eliminado del Equipo`
+        ),
+          setRemoveUserTeam(false);
+      })
+      .catch((err) => customMessage("error", err.message));
+  };
+  console.log("CONSOLE DE TEAM:USERS", team);
+  const headers = [
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.3,
+      headerClassName: "theme--header",
+      headerAlign: "flex",
+      sx: { paddingLeft: "5px" },
+    },
+    {
+      field: "firstName",
+      headerName: "Nombre",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "lastName",
+      headerName: "Apellido",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "fileNumber",
+      headerName: "Legajo",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "shift",
+      headerName: "Turno",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "position",
+      headerName: "Puesto",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+    {
+      field: "category",
+      headerName: "Categoría",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      flex: 1,
+      type: "number",
+      headerClassName: "theme--header",
+      renderCell: (index) => (
+        <>
+          <IconButton aria-label="remove">
+            <Popconfirm
+              title="Remover Usuario del Equipo"
+              description="Seguro que quiere remover este Usuario?"
+              onConfirm={() => alertConfirm(index.row)}
+              onCancel={alertCancel}
+              okText="Sí"
+              cancelText="No"
+            >
+              <PersonRemoveIcon />
+            </Popconfirm>
+          </IconButton>
+        </>
+      ),
+    },
+  ];
   return (
     <Grid item xs={12} sm={4} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
       <Card
@@ -80,50 +189,7 @@ const TeamCard = ({ team }) => {
           {openCard ? (
             <>
               <Typography variant="h6">Integrantes:</Typography>
-              <Table
-                style={{
-                  border: "2px solid #CCE5FF",
-                  borderColor: "#CCE5FF",
-                  borderRadius: 5,
-                }}
-                dataSource={team.Users}
-              >
-                <Column title="Nombre" dataIndex="firstName" key="firstName" />
-                <Column title="Apellido" dataIndex="lastName" key="lastName" />
-                <Column title="Email" dataIndex="email" key="email" />
-                <Column
-                  title="Legajo"
-                  dataIndex="fileNumber"
-                  key="fileNumber"
-                />
-                <Column
-                  title="Puesto"
-                  dataIndex={["position", "name"]}
-                  key="position"
-                />
-                {user.isAdmin ? (
-                  <Column
-                    title="Acción"
-                    key="action"
-                    render={(_, record) => (
-                      <Space size="middle">
-                        <Popconfirm
-                          title="Quitar del Equipo"
-                          description="Seguro que quiere quitar a este Usuario?"
-                          onConfirm={() => customMessage("info", "Sí")}
-                          onCancel={() => customMessage("info", "No")}
-                          okText="Sí"
-                          cancelText="No"
-                        >
-                          <a>Quitar</a>
-                        </Popconfirm>
-                      </Space>
-                    )}
-                  />
-                ) : (
-                  ""
-                )}
-              </Table>
+              <Table columns={headers} rows={teamMembers} pageSize={5} />
             </>
           ) : (
             <Image
@@ -141,20 +207,3 @@ const TeamCard = ({ team }) => {
 };
 
 export default TeamCard;
-
-/**
-<Column
-                  title="Tags"
-                  dataIndex="tags"
-                  key="tags"
-                  render={(team) => (
-                    <>
-                      {team.map((tag) => (
-                        <Tag color="#FB9B14" key={tag}>
-                          {tag}
-                        </Tag>
-                      ))}
-                    </>
-                  )}
-                />
- */

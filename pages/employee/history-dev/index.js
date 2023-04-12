@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Table from "../../../commons/Table";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
-import { Typography } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
 
-const History = ({ columns, rows }) => {
+import Table from "../../../commons/Table";
+import { Typography } from "@mui/material";
+import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
+
+const HistoryPage = () => {
   const user = useSelector((state) => state.user);
+
   const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/indicators/category/${user.categoryId}`, {
+      .get(`http://localhost:3001/reviews/${user.id}`, {
         withCredentials: true,
       })
       .then((response) => response.data)
-      .then((feedbacks) => setFeedbacks(feedbacks))
+      .then((newFeedbacks) => setFeedbacks(newFeedbacks))
       .catch((error) => customMessage(error.message));
   }, []);
 
@@ -24,60 +25,74 @@ const History = ({ columns, rows }) => {
     {
       field: "id",
       headerName: "ID",
-      flex: 0.3,
+      flex: 0.2,
       headerClassName: "theme--header",
       headerAlign: "flex",
       sx: { paddingLeft: "5px" },
     },
     {
+      field: "category",
+      headerName: "Categoría",
+      flex: 1.5,
+      headerClassName: "theme--header",
+      valueGetter: (params) =>
+        `${params.value?.name || params.row.evaluated.category.name}`,
+    },
+    {
       field: "description",
       headerName: "Descripción",
-      flex: 2,
+      flex: 1,
       headerClassName: "theme--header",
-      editable: true,
+      valueGetter: (params) => `${params?.value || params.row.indicator}`,
     },
     {
       field: "goal",
       headerName: "Objetivo",
-      flex: 1,
+      flex: 0.6,
       headerClassName: "theme--header",
     },
     {
-      field: "category",
-      headerName: "Categoría",
-      flex: 1,
+      field: "data",
+      headerName: "Dato",
+      flex: 0.6,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
     },
     {
-      field: "actions",
-      headerName: "Acciones",
-      flex: 1,
-      type: "number",
+      field: "result",
+      headerName: "Resultado",
+      flex: 0.6,
       headerClassName: "theme--header",
-      renderCell: (index) => (
-        <>
-          <Edit onClick={(e) => console.log("update", index.row)} />
-          <Delete onClick={(e) => console.log("delete", index.row)} />
-        </>
-      ),
+      valueGetter: (params) => `${params.row.data - params.row.goal || ""}`,
+    },
+    {
+      field: "review",
+      headerName: "Devolución",
+      flex: 3,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "date",
+      headerName: "Fecha",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.row.date.slice(0, 10)}`,
+    },
+    {
+      field: "period",
+      headerName: "Periodo",
+      flex: 1,
+      headerClassName: "theme--header",
     },
   ];
-
-  const feedbacksRows = feedbacks.map((feedback) => {
-    return {
-      ...feedback,
-    };
-  });
 
   return (
     <>
       <Typography variant="h6" sx={{ marginLeft: "10px" }}>
         Mis Feedbacks
       </Typography>
-      <Table columns={headers} rows={feedbacksRows} pageSize={5} />
+      <Table columns={headers} rows={feedbacks} pageSize={5} />
     </>
   );
 };
 
-export default History;
+export default HistoryPage;

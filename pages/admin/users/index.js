@@ -8,7 +8,7 @@ import EditUserModal from "../../../commons/AdminModals/EditUserModal";
 import Table from "../../../commons/Table";
 import IsAdmin from "../../../commons/IsAdmin";
 import EditButton from "../../../commons/EditButton";
-import DeleteButton from "../../../commons/DeleteButton";
+import DeactivateButton from "../../../commons/DeactivateButton";
 
 const users = () => {
   // States
@@ -123,33 +123,33 @@ const users = () => {
       headerName: "Puesto",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "category",
       headerName: "Categoría",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "office",
       headerName: "Oficina",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "team",
       headerName: "Equipo",
       flex: 1,
       headerClassName: "theme--header",
-      valueGetter: (params) => `${params.value.name}`,
+      valueGetter: (params) => `${params.value?.name || ""}`,
     },
     {
       field: "leader",
       headerName: "Jefe Inmediato",
-      flex: 1,
+      flex: 1.5,
       headerClassName: "theme--header",
       valueGetter: (params) =>
         `${params.value?.firstName || ""} ${params.value?.lastName || ""}`,
@@ -163,7 +163,7 @@ const users = () => {
       renderCell: (index) => (
         <>
           <EditButton onClick={toggleEditUserModal} row={index.row} />
-          <DeleteButton
+          <DeactivateButton
             onConfirm={alertConfirm}
             row={index.row}
             onCancel={alertCancel}

@@ -2,13 +2,13 @@ import { Popconfirm } from "antd";
 const { Delete } = require("@mui/icons-material");
 const { Tooltip, IconButton } = require("@mui/material");
 
-const DeleteButton = ({ onConfirm, row, onCancel }) => {
+const DeactivateButton = ({ onConfirm, row, onCancel }) => {
   return (
-    <Tooltip title="Eliminar">
+    <Tooltip title="Desactivar">
       <IconButton aria-label="delete">
         <Popconfirm
-          title="Eliminar"
-          description="Seguro que quiere eliminar?"
+          title="Desactivar Usuario"
+          description="Seguro que quiere desactivar el usuario?"
           onConfirm={() => onConfirm(row)}
           onCancel={onCancel}
           okText="Sí"
@@ -21,4 +21,4 @@ const DeleteButton = ({ onConfirm, row, onCancel }) => {
   );
 };
 
-export default DeleteButton;
+export default DeactivateButton;

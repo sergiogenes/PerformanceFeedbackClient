@@ -8,7 +8,7 @@ import EditUserModal from "../../../commons/AdminModals/EditUserModal";
 import Table from "../../../commons/Table";
 import IsAdmin from "../../../commons/IsAdmin";
 import EditButton from "../../../commons/EditButton";
-import DeleteButton from "../../../commons/DeleteButton";
+import DeactivateButton from "../../../commons/DeactivateButton";
 
 const users = () => {
   // States
@@ -163,7 +163,7 @@ const users = () => {
       renderCell: (index) => (
         <>
           <EditButton onClick={toggleEditUserModal} row={index.row} />
-          <DeleteButton
+          <DeactivateButton
             onConfirm={alertConfirm}
             row={index.row}
             onCancel={alertCancel}

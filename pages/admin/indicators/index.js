@@ -113,8 +113,8 @@ const IndicatorsAdmin = () => {
           </IconButton>
           <IconButton aria-label="delete">
             <Popconfirm
-              title="Borrar Categoría"
-              description="Seguro que quiere borrar esta Categoría?"
+              title="Borrar Indicador"
+              description="Seguro que quiere borrar este Indicador?"
               onConfirm={() => alertConfirm(index.row)}
               onCancel={alertCancel}
               okText="Sí"

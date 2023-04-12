@@ -4,7 +4,7 @@ import { Grid, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import TeamCard from "./TeamCard";
 import AddTeamModal from "../../commons/AdminModals/AddTeamModal";
-
+import { customMessage } from "../../commons/CustomMessage/CustomMessage";
 const TeamGrid = () => {
   // States
   const [allTeams, setAllTeams] = useState([]);
@@ -32,8 +32,8 @@ const TeamGrid = () => {
     axios
       .get("http://localhost:3001/teams", { withCredentials: true })
       .then((res) => setAllTeams(res.data))
-      .catch((err) => customMessage("error", err.data));
-  }, [refresh]);
+      .catch((err) => customMessage("error", err.response.data));
+  }, [refresh, openModal]);
 
   return (
     <div style={{ flexGrow: 1, margin: "0.5rem" }}>

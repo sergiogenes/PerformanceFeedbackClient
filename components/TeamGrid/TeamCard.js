@@ -99,6 +99,20 @@ const TeamCard = ({ team }) => {
       headerClassName: "theme--header",
     },
     {
+      field: "position",
+      headerName: "Puesto",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+    {
+      field: "category",
+      headerName: "Categoría",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+    {
       field: "actions",
       headerName: "Acciones",
       flex: 1,

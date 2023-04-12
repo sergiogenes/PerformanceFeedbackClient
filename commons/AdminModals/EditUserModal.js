@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -18,14 +18,26 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
 
-const EditUserModal = ({ user, open, onClose, positions }) => {
+const EditUserModal = ({
+  user,
+  open,
+  onClose,
+  positions,
+  teams,
+  categories,
+  offices,
+}) => {
   const userFormData = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    fileNumber: user.fileNumber,
-    position: user.position,
-    shift: user.shift,
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    fileNumber: user?.fileNumber || "",
+    position: user?.positionId || null,
+    team: user?.teamId || null,
+    category: user?.categoryId || null,
+    office: user?.officeId || null,
+    leader: user?.leader?.fileNumber || null,
+    shift: user?.shift || "",
   };
   // States
   const [formData, setFormData] = useState(userFormData);
@@ -33,9 +45,10 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("EDITAR USER", formData);
     e.preventDefault();
-    axios
+    await axios
       .put(`http://localhost:3001/users/${user.id}`, formData, {
         withCredentials: true,
       })
@@ -45,6 +58,23 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
       .catch((err) => customMessage("error", err.message));
     onClose();
   };
+  // Effects
+  useEffect(() => {
+    if (open) {
+      setFormData({
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        email: user?.email || "",
+        fileNumber: user?.fileNumber || "",
+        position: user?.positionId || null,
+        team: user?.teamId || null,
+        category: user?.categoryId || null,
+        office: user?.officeId || null,
+        leader: user?.leader?.fileNumber || null,
+        shift: user?.shift || "",
+      });
+    }
+  }, [open]);
 
   return (
     <Modal
@@ -61,7 +91,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
       <Container component="main" maxWidth="xs">
         <Paper
           style={{
-            marginTop: "2rem",
+            marginTop: "1rem",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -72,7 +102,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
         >
           <Avatar
             style={{
-              margin: "1rem",
+              margin: "0.5rem",
               backgroundColor: "#FB9B14",
             }}
           >
@@ -80,7 +110,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
           </Avatar>
           <Typography variant="h5">Modificar Usuario:</Typography>
           <form
-            style={{ width: "100%", marginTop: "2rem" }}
+            style={{ width: "100%", marginTop: "1rem" }}
             onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
@@ -101,6 +131,13 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
                 defaultValue={userFormData.lastName?.toString()}
               />
               <Input
+                name="fileNumber"
+                label="Legajo"
+                handleChange={handleChange}
+                type="text"
+                defaultValue={userFormData.fileNumber?.toString()}
+              />
+              <Input
                 name="email"
                 label="Email"
                 handleChange={handleChange}
@@ -108,25 +145,27 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
                 defaultValue={userFormData.email?.toString()}
               />
               <Input
-                name="fileNumber"
-                label="Legajo"
+                name="leader"
+                label="Legajo del Jefe"
                 handleChange={handleChange}
                 type="text"
-                defaultValue={userFormData.fileNumber?.toString()}
+                half
+                defaultValue={userFormData.leader}
               />
               <FormControl
                 fullWidth
-                sx={{ mb: 2, marginTop: "1rem", marginLeft: "1rem" }}
+                sx={{
+                  mb: 2,
+                  marginTop: "1rem",
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
               >
                 <InputLabel id="position-label">Puesto</InputLabel>
                 <Select
                   labelId="position-label"
                   id="position-select"
-                  value={
-                    formData.position
-                      ? formData.position?.toString()
-                      : userFormData.position?.name.toString()
-                  }
+                  value={formData?.position}
                   onChange={(e) =>
                     setFormData({ ...formData, position: e.target.value })
                   }
@@ -140,7 +179,85 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
                   ))}
                 </Select>
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, marginLeft: "1rem" }}>
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="category-label">Categoría</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category-select"
+                  value={formData?.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  label="Categoría"
+                  required
+                >
+                  {categories.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="team-label">Equipo</InputLabel>
+                <Select
+                  labelId="team-label"
+                  id="team-select"
+                  value={formData?.team}
+                  onChange={(e) =>
+                    setFormData({ ...formData, team: e.target.value })
+                  }
+                  label="Equipo"
+                  required
+                >
+                  {teams.map((team) => (
+                    <MenuItem key={team.id} value={team.id}>
+                      {team.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  width: "45%",
+                }}
+              >
+                <InputLabel id="office-label">Oficina</InputLabel>
+                <Select
+                  labelId="office-label"
+                  id="office-select"
+                  value={formData?.office}
+                  onChange={(e) =>
+                    setFormData({ ...formData, office: e.target.value })
+                  }
+                  label="Oficina"
+                  required
+                >
+                  {offices.map((office) => (
+                    <MenuItem key={office.id} value={office.id}>
+                      {office.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ mb: 2, marginLeft: "1rem", width: "45%" }}>
                 <InputLabel id="shift-label">Turno</InputLabel>
                 <Select
                   labelId="shift-label"
@@ -162,7 +279,7 @@ const EditUserModal = ({ user, open, onClose, positions }) => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginTop: "1rem",
+                marginTop: "0.5rem",
               }}
             >
               <Button

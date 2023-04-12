@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { message } from "antd";
-
 import {
   Modal,
   Box,
@@ -20,26 +18,13 @@ import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import axios from "axios";
 import Input from "../Input/Input";
 
-const fakeCountries = [
-  { id: 1, name: "Argentina", ISO: "AR" },
-  { id: 2, name: "Estados Unidos", ISO: "US" },
-  { id: 3, name: "Chile", ISO: "CL" },
-];
-
-const EditOfficeModal = ({
-  open,
-  onClose,
-  office,
-  countries = fakeCountries,
-}) => {
+const EditOfficeModal = ({ open, onClose, office, countries }) => {
   const officeFormData = {
     name: office?.name || "",
     countryId: office?.countryId || null,
   };
-
   // States
   const [formData, setFormData] = useState(officeFormData);
-
   // Handlers
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,23 +37,13 @@ const EditOfficeModal = ({
         { name: formData.name, countryId: formData.countryId },
         { withCredentials: true }
       )
-      .then((updateOffice) =>
-        customMessage(
-          "success",
-          `Oficina Actualiza: ${updateOffice.data.name}!`
-        )
-      )
+      .then(() => customMessage("success", "Oficina actualizada"))
       .catch((err) => {
         customMessage("error", err.response.data);
       });
     return onClose();
   };
-
-  const handleCancel = (e) => {
-    return onClose();
-  };
-
-  // useEffects
+  // Effects
   useEffect(() => {
     if (open) {
       setFormData({
@@ -130,7 +105,6 @@ const EditOfficeModal = ({
                   id="country-select"
                   value={formData?.countryId}
                   onChange={(e) => {
-                    console.log("e.target.value", e.target.value);
                     setFormData({
                       ...formData,
                       countryId: e.target.value,
@@ -156,7 +130,7 @@ const EditOfficeModal = ({
             >
               <Button
                 variant="contained"
-                onClick={handleCancel}
+                onClick={onClose}
                 sx={{
                   mr: 1,
                   backgroundColor: "#1369B4",

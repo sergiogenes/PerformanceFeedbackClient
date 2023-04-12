@@ -10,7 +10,7 @@ import IsAdmin from "../../../commons/IsAdmin";
 import EditButton from "../../../commons/EditButton";
 import DeactivateButton from "../../../commons/DeactivateButton";
 
-const users = () => {
+const UserPage = () => {
   // States
   const [selectedUser, setSelectedUser] = useState({});
   const [userModal, setUserModal] = useState(false);
@@ -206,6 +206,9 @@ const users = () => {
               onClose={handleClose}
               user={selectedUser}
               positions={activePositions}
+              teams={activeTeams}
+              categories={activeCategories}
+              offices={activeOffices}
             />
           </div>
         </Grid>
@@ -214,4 +217,4 @@ const users = () => {
   );
 };
 
-export default users;
+export default UserPage;

@@ -23,10 +23,7 @@ const options = {
   keepAspectRatio: true,
   tooltip: { textStyle: { color: "#444444" }, showColorCode: true },
   enableRegionInteractivity: true,
-  region: [
-    "013", // North America
-    "005", // South America
-  ],
+  region: "019",
   center: { lat: 0, lng: -70 },
 };
 

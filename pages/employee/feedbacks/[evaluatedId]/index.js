@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -11,7 +11,7 @@ import SaveButton from "../../../../commons/SaveButton";
 const FeedbacksPage = () => {
   const user = useSelector((state) => state.user);
   const router = useRouter();
-  const { evaluatedId } = router.query;
+  const evaluatedId = router.query.evaluatedId;
 
   const [indicators, setIndicators] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
@@ -161,9 +161,8 @@ const FeedbacksPage = () => {
       .catch((error) => customMessage("error", error.response.data));
   };
 
-  return (
+  return evaluated.id && indicators.length && feedbacks.length ? (
     <>
-      <Suspense fallback={<h1>Cargando...</h1>}>
         <div
           style={{
             display: "flex",
@@ -186,8 +185,9 @@ const FeedbacksPage = () => {
           Histórico de devoluciones
         </Typography>
         <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
-      </Suspense>
     </>
+  ) : (
+    <h1>Cargando...</h1>
   );
 };
 

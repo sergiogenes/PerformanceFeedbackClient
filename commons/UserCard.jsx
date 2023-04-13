@@ -5,10 +5,22 @@ import {
   Typography,
   Grid,
   Container,
+  Button,
 } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 import { Tag } from "antd";
+import { useState } from "react";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 export function UserCard({ user }) {
+  const [passwordModal, setPasswordModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
+  const togglePasswordModal = () => {
+    setPasswordModal((prevState) => !prevState);
+    setRefresh(!refresh);
+  };
+
   return (
     <Grid item lg={6} md={6} sm={8} xs={12}>
       <Card
@@ -64,6 +76,18 @@ export function UserCard({ user }) {
             </Typography>
           </Container>
         </CardContent>
+        <Button
+          onClick={togglePasswordModal}
+          variant="contained"
+          startIcon={<Edit />}
+        >
+          Cambiar Contraseña
+        </Button>
+        <ChangePasswordModal
+          user={user}
+          open={passwordModal}
+          onClose={togglePasswordModal}
+        />
       </Card>
     </Grid>
   );

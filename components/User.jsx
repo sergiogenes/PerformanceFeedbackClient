@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Grid, Container } from "@mui/material";
 import axios from "axios";
 import { UserCard } from "../commons/UserCard";
@@ -10,8 +10,10 @@ import Dashboard from "./Dashboard";
 export function User() {
   // States
   const [myTeam, setMyTeam] = useState([]);
+
   // Redux
   const user = useSelector((store) => store.user);
+
   // Effects
   useEffect(() => {
     axios
@@ -22,20 +24,23 @@ export function User() {
       .catch((error) => console.log(error));
   }, []);
   return (
-    <Container>
-      <Grid container spacing={2}>
-        {user.isAdmin ? (
-          <>
-            <Dashboard />
-          </>
-        ) : (
-          <>
-            <UserCard user={user} />
-            <TeamCard team={myTeam} />
-            <UserList />
-          </>
-        )}
-      </Grid>
-    </Container>
+    <Suspense fallback={<h1>Cargando...</h1>}>
+      <Container>
+        <Grid container spacing={2}>
+          {user.isAdmin ? (
+            <>
+              <Dashboard />
+            </>
+          ) : (
+            <>
+              <UserCard user={user} />
+              <TeamCard team={myTeam} />
+
+              <UserList />
+            </>
+          )}
+        </Grid>
+      </Container>
+    </Suspense>
   );
 }

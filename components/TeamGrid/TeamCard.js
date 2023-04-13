@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -20,15 +20,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 const TeamCard = ({ team }) => {
   // States
   const [openCard, setOpenCard] = useState(false);
-  const [teamMembers, setTeamMembers] = useState([]);
-  //const [refresh, setRefresh] = useState(false);
+  const [teamMembers, setTeamMembers] = useState(team.Users);
   const [removeUserTeam, setRemoveUserTeam] = useState(false);
   // Redux
   const user = useSelector((store) => store.user);
   // Togglers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
-    // setRefresh(!refresh);
   };
 
   const alertConfirm = (member) => {
@@ -38,13 +36,12 @@ const TeamCard = ({ team }) => {
   const alertCancel = () => {
     customMessage("info", "Acción cancelada");
   };
-
   useEffect(() => {
     axios
       .get(`http://localhost:3001/teams/${team.id}`, { withCredentials: true })
       .then((res) => setTeamMembers(res.data.Users))
       .catch((err) => customMessage("error", err.response));
-  }, [removeUserTeam]);
+  }, [removeUserTeam, openCard]);
 
   const handleRemoveUser = (member) => {
     axios
@@ -64,8 +61,55 @@ const TeamCard = ({ team }) => {
       })
       .catch((err) => customMessage("error", err.message));
   };
-  console.log("CONSOLE DE TEAM:USERS", team);
-  const headers = [
+  const headersUser = [
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 0.3,
+      headerClassName: "theme--header",
+      headerAlign: "flex",
+      sx: { paddingLeft: "5px" },
+    },
+    {
+      field: "firstName",
+      headerName: "Nombre",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "lastName",
+      headerName: "Apellido",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "fileNumber",
+      headerName: "Legajo",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "shift",
+      headerName: "Turno",
+      flex: 1,
+      headerClassName: "theme--header",
+    },
+    {
+      field: "position",
+      headerName: "Puesto",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+    {
+      field: "category",
+      headerName: "Categoría",
+      flex: 1,
+      headerClassName: "theme--header",
+      valueGetter: (params) => `${params.value?.name || ""}`,
+    },
+  ];
+  const headersAdmin = [
     {
       field: "id",
       headerName: "ID",
@@ -147,62 +191,80 @@ const TeamCard = ({ team }) => {
       >
         <CardContent
           style={{
-            flexGrow: 1,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <div
+          <CardContent
             style={{
-              display: "flex",
-              justifyContent: "space-between",
+              flexGrow: 1,
             }}
           >
-            <Tag
+            <div
               style={{
-                borderRadius: 25,
-                color: "#565659",
-                backgroundColor: "#EBCDFF",
-                borderColor: "#EBCDFF",
-                maxHeight: "24px",
+                display: "flex",
+                justifyContent: "space-between",
               }}
             >
-              <Typography variant="subtitle2">{team.name}</Typography>
-            </Tag>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button onClick={toggleCard}>
-                {openCard ? "Cerrar" : "Ver Equipo"}
-              </Button>
-              {user.isAdmin ? (
-                <Tooltip placement="top" title="Editar">
-                  <IconButton
-                    aria-label="edit-team"
-                    onClick={() => console.log(team)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                ""
-              )}
+              <Tag
+                style={{
+                  borderRadius: 25,
+                  color: "#565659",
+                  backgroundColor: "#EBCDFF",
+                  borderColor: "#EBCDFF",
+                  maxHeight: "24px",
+                }}
+              >
+                <Typography variant="subtitle2">{team.name}</Typography>
+              </Tag>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button onClick={toggleCard}>
+                  {openCard ? "Cerrar" : "Ver Equipo"}
+                </Button>
+                {user.isAdmin ? (
+                  <Tooltip placement="top" title="Editar">
+                    <IconButton
+                      aria-label="edit-team"
+                      onClick={() => console.log(team)}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
-
-          {openCard ? (
-            <>
-              <Typography variant="h6">Integrantes:</Typography>
-              <Table columns={headers} rows={teamMembers} pageSize={5} />
-            </>
-          ) : (
-            <Image
-              src="/team.jpg"
-              alt="default-team-img"
-              width={350}
-              height={200}
-              priority
-            />
-          )}
-        </CardContent>
-      </Card>
-    </Grid>
+            {openCard ? (
+              <>
+                <Typography variant="h6">Integrantes:</Typography>
+                {user.isAdmin ? (
+                  <Table
+                    columns={headersAdmin}
+                    rows={teamMembers || team.Users}
+                    pageSize={5}
+                  />
+                ) : (
+                  <Table
+                    columns={headersUser}
+                    rows={teamMembers || team.Users}
+                    pageSize={5}
+                  />
+                )}
+              </>
+            ) : (
+              <Image
+                src="/team.jpg"
+                alt="default-team-img"
+                width={350}
+                height={200}
+                priority
+              />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
   );
 };
 

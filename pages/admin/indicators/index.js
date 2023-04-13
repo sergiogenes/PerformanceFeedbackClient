@@ -55,7 +55,7 @@ const IndicatorsAdmin = () => {
       .delete(`http://localhost:3001/indicators/${indicator.id}`, {
         withCredentials: true,
       })
-      .then((res) => {
+      .then(() => {
         customMessage("success", "Indicador Eliminado");
         setDeleteIndicator(false);
       })
@@ -109,7 +109,7 @@ const IndicatorsAdmin = () => {
       renderCell: (index) => (
         <>
           <IconButton aria-label="edit">
-            <Edit onClick={(e) => toggleEditIndicatorModal(index.row)} />
+            <Edit onClick={() => toggleEditIndicatorModal(index.row)} />
           </IconButton>
           <IconButton aria-label="delete">
             <Popconfirm

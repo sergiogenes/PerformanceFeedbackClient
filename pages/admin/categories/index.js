@@ -11,7 +11,7 @@ import Table from "../../../commons/Table";
 import EditButton from "../../../commons/EditButton";
 import DeleteButton from "../../../commons/DeleteButton";
 
-const categories = () => {
+const CategoriesPage = () => {
   // States
   const [selectedCategory, setSelectedCategory] = useState({});
   const [categoryModal, setCategoryModal] = useState(false);
@@ -142,4 +142,4 @@ const categories = () => {
   );
 };
 
-export default categories;
+export default CategoriesPage;

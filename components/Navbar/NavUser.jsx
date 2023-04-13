@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-
 import {
   ListItem,
   ListItemButton,
@@ -8,6 +7,7 @@ import {
   ListItemText,
   Divider as DividerIcon,
   List,
+  Tooltip,
 } from "@mui/material";
 import {
   AccountCircle,
@@ -21,103 +21,134 @@ export const NavUser = ({ handleLogout, open }) => {
     <>
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <ListItemIcon
+          <Tooltip title="Mi Perfil" placement="right">
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
               }}
             >
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Mi Perfil" sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <AccountCircle />
+              </ListItemIcon>
+              <ListItemText
+                primary="Mi Perfil"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/employee/indicators">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <ListItemIcon
+          <Tooltip title="Mis Indicadores" placement="right">
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
               }}
             >
-              <Assignment />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mis Indicadores"
-              sx={{ opacity: open ? 1 : 0 }}
-            />
-          </ListItemButton>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <Assignment />
+              </ListItemIcon>
+              <ListItemText
+                primary="Mis Indicadores"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
 
       <ListItem disablePadding sx={{ display: "block" }}>
         <Link href="/employee/history-dev">
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <ListItemIcon
+          <Tooltip title="Mis Devoluciones" placement="right">
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#FB9B14",
+                  },
+                },
               }}
             >
-              <History />
-            </ListItemIcon>
-            <ListItemText
-              primary="Mi Historial"
-              sx={{ opacity: open ? 1 : 0 }}
-            />
-          </ListItemButton>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <History />
+              </ListItemIcon>
+              <ListItemText
+                primary="Mis Devoluciones"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </Link>
       </ListItem>
       <DividerIcon />
       <List>
         <ListItem disablePadding sx={{ display: "block" }}>
-          <ListItemButton
-            onClick={handleLogout}
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <ListItemIcon
+          <Tooltip title="Cerrar Sesión" placement="right">
+            <ListItemButton
+              onClick={handleLogout}
               sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+                "&:hover": {
+                  "& .MuiSvgIcon-root": {
+                    color: "#C72F00",
+                  },
+                },
               }}
             >
-              <Logout />
-            </ListItemIcon>
-            <ListItemText
-              primary="Cerrar Sesión"
-              sx={{ opacity: open ? 1 : 0 }}
-            />
-          </ListItemButton>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <Logout />
+              </ListItemIcon>
+              <ListItemText
+                primary="Cerrar Sesión"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
         </ListItem>
       </List>
     </>

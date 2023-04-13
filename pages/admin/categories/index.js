@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Tag } from "antd";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Typography, Button, Container } from "@mui/material";
 import { Add } from "@mui/icons-material";
@@ -45,7 +45,7 @@ const CategoriesPage = () => {
       .delete(`http://localhost:3001/categories/${cat.id}`, {
         withCredentials: true,
       })
-      .then((res) => {
+      .then(() => {
         customMessage("success", "Categoría borrada");
         setRefresh(!refresh);
       })
@@ -58,8 +58,7 @@ const CategoriesPage = () => {
       .then((response) => setCategories(response.data))
       .catch((error) => console.log(error));
   }, [refresh]);
-
-  // headers
+  // Headers
   const headers = [
     {
       field: "id",
@@ -108,8 +107,25 @@ const CategoriesPage = () => {
 
   return (
     <IsAdmin>
-      <Container style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6">CATEGORIAS</Typography>
+      <Container
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem",
+        }}
+      >
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginTop: "0.5rem",
+            color: "#565659",
+            backgroundColor: "#CCE5FF",
+            borderColor: "#CCE5FF",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">Categorías</Typography>
+        </Tag>
         <Button onClick={toggleCategoryModal}>
           Agregar Categoría
           <Add />

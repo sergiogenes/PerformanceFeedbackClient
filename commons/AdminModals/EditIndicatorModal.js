@@ -8,16 +8,21 @@ import {
   Paper,
   Avatar,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { customMessage } from "../CustomMessage/CustomMessage";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import axios from "axios";
 import Input from "../Input/Input";
 
-const EditPositionModal = ({ category, open, onClose, indicator }) => {
+const EditPositionModal = ({ categories, open, onClose, indicator }) => {
   const indicatorFormData = {
     description: indicator.description,
     goal: indicator.goal,
+    category: indicator?.categoryId || null,
   };
   // States
   const [formData, setFormData] = useState(indicatorFormData);
@@ -27,20 +32,25 @@ const EditPositionModal = ({ category, open, onClose, indicator }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData["category"] = category.name;
     await axios
       .put(`http://localhost:3001/indicators/${indicator.id}`, formData, {
         withCredentials: true,
       })
       .then((response) =>
-        customMessage("success", `Editado Indicador ID:${response.data.id}`)
+        customMessage("success", `Indicador ${response.data.id} actualizado`)
       )
       .catch((error) => customMessage("error", error.message));
     onClose();
   };
   // Effects
   useEffect(() => {
-    setFormData(indicator);
+    if (open) {
+      setFormData({
+        description: indicator.description,
+        goal: indicator.goal,
+        category: indicator?.categoryId || null,
+      });
+    }
   }, [open]);
 
   return (
@@ -95,6 +105,32 @@ const EditPositionModal = ({ category, open, onClose, indicator }) => {
                 type="text"
                 defaultValue={indicatorFormData.goal?.toString()}
               />
+              <FormControl
+                fullWidth
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <InputLabel id="category-label">Categoría</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category-select"
+                  value={formData?.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  label={formData?.category || "Categoría"}
+                  required
+                >
+                  {categories.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Box
               sx={{

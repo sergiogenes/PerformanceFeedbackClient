@@ -25,7 +25,7 @@ export const NavAdmin = ({ handleLogout, open }) => {
   return (
     <>
       <ListItem disablePadding sx={{ display: "block" }}>
-        <Link href="/admin/dashboard">
+        <Link href="/">
           <Tooltip title="Dashboard" placement="right">
             <ListItemButton
               sx={{

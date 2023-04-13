@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Grid, Typography, Button, Container } from "@mui/material";
+import { Tag } from "antd";
 import { Add } from "@mui/icons-material";
 import AddUserModal from "../../../commons/AdminModals/AddUserModal";
 import EditUserModal from "../../../commons/AdminModals/EditUserModal";
@@ -91,8 +92,7 @@ const UserPage = () => {
       .then((res) => setActiveOffices(res.data))
       .catch((error) => console.log(error));
   }, []);
-
-  // headers
+  // Headers
   const headers = [
     {
       field: "firstName",
@@ -178,15 +178,29 @@ const UserPage = () => {
       <div
         style={{
           flexGrow: 1,
-          padding: "2rem",
         }}
       >
         <Grid item xs={12} sm={9} md={12}>
           <div style={{ marginBottom: "2rem" }}>
             <Container
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "0.5rem",
+              }}
             >
-              <Typography variant="h6">USUARIOS</Typography>
+              <Tag
+                style={{
+                  borderRadius: 25,
+                  marginTop: "0.5rem",
+                  color: "#565659",
+                  backgroundColor: "#CDEEDC",
+                  borderColor: "#CDEEDC",
+                  maxHeight: "34px",
+                }}
+              >
+                <Typography variant="h6">Usuarios</Typography>
+              </Tag>
               <Button onClick={toggleUserModal}>
                 Agregar Usuario
                 <Add />

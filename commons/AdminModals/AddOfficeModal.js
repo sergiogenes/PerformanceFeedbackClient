@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { message } from "antd";
-
+import React, { useState } from "react";
 import {
   Modal,
   Box,
@@ -25,7 +23,6 @@ const AddOfficeModal = ({ open, onClose, countries }) => {
     name: "",
     countryId: null,
   };
-
   // States
   const [formData, setFormData] = useState(officeFormData);
   // Handlers
@@ -42,9 +39,9 @@ const AddOfficeModal = ({ open, onClose, countries }) => {
         { withCredentials: true }
       )
       .then((newOffice) =>
-        message.success(`Nuevo oficina creada: ${newOffice.data.name}!`)
+        customMessage("success", `Nueva Oficina: ${newOffice.data.name}`)
       )
-      .catch((err) => message.error(err));
+      .catch((err) => customMessage("error", err.message));
     onClose();
   };
 
@@ -96,7 +93,10 @@ const AddOfficeModal = ({ open, onClose, countries }) => {
                 handleChange={handleChange}
                 type="text"
               />
-              <FormControl fullWidth sx={{ mb: 2, margin: "1rem" }}>
+              <FormControl
+                fullWidth
+                sx={{ mb: 2, marginTop: "1rem", marginLeft: "1rem" }}
+              >
                 <InputLabel id="country-label">País</InputLabel>
                 <Select
                   labelId="country-label"

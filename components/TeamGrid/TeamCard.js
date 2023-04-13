@@ -181,9 +181,15 @@ const TeamCard = ({ team }) => {
     },
   ];
   return (
-    <Suspense fallback={<h1>Cargando...</h1>}>
-      <Grid item xs={12} sm={4} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
-        <Card
+    <Grid item xs={12} sm={6} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
+      <Card
+        style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <CardContent
           style={{
             height: "100%",
             display: "flex",
@@ -230,7 +236,6 @@ const TeamCard = ({ team }) => {
                 )}
               </div>
             </div>
-
             {openCard ? (
               <>
                 <Typography variant="h6">Integrantes:</Typography>
@@ -260,7 +265,6 @@ const TeamCard = ({ team }) => {
           </CardContent>
         </Card>
       </Grid>
-    </Suspense>
   );
 };
 

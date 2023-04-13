@@ -98,7 +98,10 @@ const EditOfficeModal = ({ open, onClose, office, countries }) => {
                 type="text"
                 defaultValue={office?.name}
               />
-              <FormControl fullWidth sx={{ mb: 2, margin: "1rem" }}>
+              <FormControl
+                fullWidth
+                sx={{ mb: 2, marginLeft: "1rem", marginTop: "1rem" }}
+              >
                 <InputLabel id="country-label">País</InputLabel>
                 <Select
                   labelId="country-label"
@@ -125,7 +128,7 @@ const EditOfficeModal = ({ open, onClose, office, countries }) => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginTop: "1rem",
+                marginTop: "0.5rem",
               }}
             >
               <Button

@@ -153,7 +153,8 @@ export function Navbar() {
                   width={160}
                   height={40}
                   priority
-                ></Image>
+                  style={{ cursor: "pointer" }}
+                />
               </Link>
             </Toolbar>
           </AppBar>

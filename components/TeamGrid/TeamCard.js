@@ -163,7 +163,7 @@ const TeamCard = ({ team }) => {
       type: "number",
       headerClassName: "theme--header",
       renderCell: (index) => (
-        <>
+        <Tooltip placement="left" title="Quitar del Equipo">
           <IconButton aria-label="remove">
             <Popconfirm
               title="Remover Usuario del Equipo"
@@ -176,7 +176,7 @@ const TeamCard = ({ team }) => {
               <PersonRemoveIcon />
             </Popconfirm>
           </IconButton>
-        </>
+        </Tooltip>
       ),
     },
   ];
@@ -191,80 +191,73 @@ const TeamCard = ({ team }) => {
       >
         <CardContent
           style={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
+            flexGrow: 1,
           }}
         >
-          <CardContent
+          <div
             style={{
-              flexGrow: 1,
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
-            <div
+            <Tag
               style={{
-                display: "flex",
-                justifyContent: "space-between",
+                borderRadius: 25,
+                color: "#565659",
+                backgroundColor: "#EBCDFF",
+                borderColor: "#EBCDFF",
+                maxHeight: "24px",
               }}
             >
-              <Tag
-                style={{
-                  borderRadius: 25,
-                  color: "#565659",
-                  backgroundColor: "#EBCDFF",
-                  borderColor: "#EBCDFF",
-                  maxHeight: "24px",
-                }}
-              >
-                <Typography variant="subtitle2">{team.name}</Typography>
-              </Tag>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button onClick={toggleCard}>
-                  {openCard ? "Cerrar" : "Ver Equipo"}
-                </Button>
-                {user.isAdmin ? (
-                  <Tooltip placement="top" title="Editar">
-                    <IconButton
-                      aria-label="edit-team"
-                      onClick={() => console.log(team)}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                  </Tooltip>
-                ) : (
-                  ""
-                )}
-              </div>
+              <Typography variant="subtitle2">{team.name}</Typography>
+            </Tag>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button onClick={toggleCard}>
+                {openCard ? "Cerrar" : "Ver Equipo"}
+              </Button>
+              {user.isAdmin ? (
+                <Tooltip placement="top" title="Editar">
+                  <IconButton
+                    aria-label="edit-team"
+                    onClick={() => console.log(team)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                ""
+              )}
             </div>
-            {openCard ? (
-              <>
-                <Typography variant="h6">Integrantes:</Typography>
-                {user.isAdmin ? (
-                  <Table
-                    columns={headersAdmin}
-                    rows={teamMembers || team.Users}
-                    pageSize={5}
-                  />
-                ) : (
-                  <Table
-                    columns={headersUser}
-                    rows={teamMembers || team.Users}
-                    pageSize={5}
-                  />
-                )}
-              </>
-            ) : (
-              <Image
-                src="/team.jpg"
-                alt="default-team-img"
-                width={350}
-                height={200}
-                priority
-              />
-            )}
-          </CardContent>
-        </Card>
-      </Grid>
+          </div>
+          {openCard ? (
+            <>
+              <Typography variant="h6">Integrantes:</Typography>
+              {user.isAdmin ? (
+                <Table
+                  columns={headersAdmin}
+                  rows={teamMembers || team.Users}
+                  pageSize={5}
+                />
+              ) : (
+                <Table
+                  columns={headersUser}
+                  rows={teamMembers || team.Users}
+                  pageSize={5}
+                />
+              )}
+            </>
+          ) : (
+            <Image
+              src="/team.jpg"
+              alt="default-team-img"
+              width={350}
+              height={200}
+              priority
+            />
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

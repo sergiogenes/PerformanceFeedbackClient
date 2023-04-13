@@ -46,7 +46,6 @@ const EditUserModal = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
-    console.log("EDITAR USER", formData);
     e.preventDefault();
     await axios
       .put(`http://localhost:3001/users/${user.id}`, formData, {

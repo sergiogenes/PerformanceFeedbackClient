@@ -1,5 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -164,7 +163,6 @@ const FeedbacksPage = () => {
 
   return evaluated.id && indicators.length && feedbacks.length ? (
     <>
-      <Suspense fallback={<h1>Cargando...</h1>}>
         <div
           style={{
             display: "flex",
@@ -187,7 +185,6 @@ const FeedbacksPage = () => {
           Histórico de devoluciones
         </Typography>
         <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
-      </Suspense>
     </>
   ) : (
     <h1>Cargando...</h1>

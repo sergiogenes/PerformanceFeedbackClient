@@ -37,7 +37,6 @@ export function User() {
             <>
               <UserCard user={user} />
               <TeamCard team={myTeam} />
-
               <UserList />
             </>
           )}

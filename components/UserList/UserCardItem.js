@@ -12,13 +12,13 @@ import { Tooltip } from "antd";
 const UserCardItem = ({ employee }) => {
   return (
     <Grid item lg={3} md={3} sm={4} xs={6}>
-      <Link href={`employee/feedbacks/${employee.id}`} underline="none">
+      <Link
+        href={`employee/feedbacks/${employee.id}`}
+        underline="none"
+        props={employee.id}
+      >
         <Tooltip title="click para hacer Devolución" placement="topLeft">
-          <ListItem
-            key={employee.id}
-            style={{ cursor: "pointer" }}
-            onClick={() => console.log(employee)}
-          >
+          <ListItem key={employee.id} style={{ cursor: "pointer" }}>
             <ListItemAvatar>
               <Avatar
                 src={employee.image}

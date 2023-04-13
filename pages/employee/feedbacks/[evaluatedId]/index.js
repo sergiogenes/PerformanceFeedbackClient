@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -11,7 +11,7 @@ import SaveButton from "../../../../commons/SaveButton";
 const FeedbacksPage = () => {
   const user = useSelector((state) => state.user);
   const router = useRouter();
-  const { evaluatedId } = router.query;
+  const evaluatedId = router.query.evaluatedId;
 
   const [indicators, setIndicators] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
@@ -148,7 +148,6 @@ const FeedbacksPage = () => {
       data: row.data,
       review: row.review,
       date: row.date,
-      period: row.period,
     };
     axios
       .post(`http://localhost:3001/reviews`, newReview, {
@@ -162,7 +161,7 @@ const FeedbacksPage = () => {
       .catch((error) => customMessage("error", error.response.data));
   };
 
-  return (
+  return evaluated.id && indicators.length && feedbacks.length ? (
     <>
       <div
         style={{
@@ -187,6 +186,8 @@ const FeedbacksPage = () => {
       </Typography>
       <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
     </>
+  ) : (
+    <h1>Cargando...</h1>
   );
 };
 

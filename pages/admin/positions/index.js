@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import IsAdmin from "../../../commons/IsAdmin";
-import { Popconfirm } from "antd";
+import { Tag } from "antd";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Typography, Button, Container } from "@mui/material";
 import { Add } from "@mui/icons-material";
@@ -58,8 +58,7 @@ const PositionsPage = () => {
       .then((res) => setPositions(res.data))
       .catch((err) => customMessage("error", err.data));
   }, [refresh]);
-
-  // headers
+  // Headers
   const headers = [
     {
       field: "id",
@@ -96,8 +95,25 @@ const PositionsPage = () => {
 
   return (
     <IsAdmin>
-      <Container style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6">PUESTOS</Typography>
+      <Container
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem",
+        }}
+      >
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginTop: "0.5rem",
+            color: "#565659",
+            backgroundColor: "#EBCDFF",
+            borderColor: "#EBCDFF",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">Puestos</Typography>
+        </Tag>
         <Button onClick={togglePositionModal}>
           Agregar Puesto
           <Add />

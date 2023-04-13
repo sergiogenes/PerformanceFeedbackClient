@@ -137,7 +137,7 @@ const TeamCard = ({ team }) => {
     },
   ];
   return (
-    <Grid item xs={12} sm={4} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
+    <Grid item xs={12} sm={6} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
       <Card
         style={{
           height: "100%",

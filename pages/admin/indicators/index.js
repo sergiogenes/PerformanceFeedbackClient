@@ -10,7 +10,7 @@ import {
   Container,
   IconButton,
 } from "@mui/material";
-import { Popconfirm } from "antd";
+import { Popconfirm, Tag } from "antd";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import Table from "../../../commons/Table";
 import AddIndicatorModal from "../../../commons/AdminModals/AddIndicatorModal";
@@ -130,25 +130,33 @@ const IndicatorsAdmin = () => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
-        Indicadores
-      </Typography>
       <Container
         style={{
-          marginBottom: "10px",
-          marginTop: "10px",
+          marginBottom: "1rem",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
-        <FormControl sx={{ width: "200px" }}>
-          <InputLabel id="category-label">Categoría</InputLabel>
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginTop: "0.5rem",
+            color: "#565659",
+            backgroundColor: "#FFCDF4",
+            borderColor: "#FFCDF4",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">Indicadores</Typography>
+        </Tag>
+        <FormControl sx={{ width: "300px" }}>
+          <InputLabel id="category-label">Seleccione una Categoría</InputLabel>
           <Select
             labelId="category-label"
             id="category-select"
             value={selectedCategory.id}
             onChange={(e) => handleCategoryChange({ ...e.target.value })}
-            label="Categoría"
+            label="Seleccione una Categoría"
             required
           >
             {categories.map((cat) => (
@@ -165,7 +173,7 @@ const IndicatorsAdmin = () => {
         <AddIndicatorModal
           open={indicatorModal}
           onClose={toggleIndicatorModal}
-          category={selectedCategory}
+          categories={categories}
         />
       </Container>
       <Table columns={headers} rows={indicators} pageSize={5} />
@@ -173,7 +181,7 @@ const IndicatorsAdmin = () => {
         open={editIndicatorModal}
         onClose={handleClose}
         indicator={selectedIndicator}
-        category={selectedCategory}
+        categories={categories}
       />
     </>
   );

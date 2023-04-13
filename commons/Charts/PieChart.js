@@ -12,8 +12,18 @@ const data = [
 
 const options = {
   title: "Porcentaje de Puestos",
-  is3D: true,
-  colors: ["#1369B4", "#FFD7CA", "#EBCDFF", "#FFECAB", "#CDEEDC"],
+  pieHole: 0.4,
+  is3D: false,
+  pieSliceText: "none",
+  colors: [
+    "#EBCDFF",
+    "#CDEEDC",
+    "#FFD7CA",
+    "#FFECAB",
+    "#1A86F7",
+    "#1369B4",
+    "#FB9B14",
+  ],
 };
 
 export function PieChart() {

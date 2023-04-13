@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message } from "antd";
+import { Tag } from "antd";
 import { Typography, Button, Container } from "@mui/material";
-
 import IsAdmin from "../../../commons/IsAdmin";
 import Table from "../../../commons/Table";
 import { Add } from "@mui/icons-material";
+import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import AddOfficeModal from "../../../commons/AdminModals/AddOfficeModal";
 import EditOfficeModal from "../../../commons/AdminModals/EditOfficeModal";
 import EditButton from "../../../commons/EditButton";
@@ -19,46 +19,39 @@ const OfficesPage = () => {
   const [allOffices, setAllOffices] = useState([]);
   const [countries, setCountries] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
   // Handlers
   const toggleAddOfficeModal = () => {
     setAddOfficeModal(!addOfficeModal);
     setRefresh(!refresh);
   };
-
   const togglEditOfficeModal = (office) => {
     setSelectedOffice(office);
     setEditOfficeModal(!editOfficeModal);
     setRefresh(!refresh);
   };
-
   const handleClose = () => {
     setSelectedOffice({});
     setEditOfficeModal(false);
     setAddOfficeModal(false);
     setRefresh(!refresh);
   };
-
   const handleDeleteOffice = (office) => {
     axios
       .delete(`http://localhost:3001/offices/${office.id}`, {
         withCredentials: true,
       })
       .then(() => {
-        message.success("Oficina borrada");
+        customMessage("success", "Oficina eliminada");
         setRefresh(!refresh);
       });
   };
-
   const alertConfirm = (office) => {
     handleDeleteOffice(office);
   };
   const alertCancel = () => {
-    message.info("Acción cancelada");
+    customMessage("info", "Acción Cancelada");
   };
-
-  // useEffecs
-
+  // Effects
   useEffect(() => {
     axios
       .get("http://localhost:3001/offices", {
@@ -67,7 +60,6 @@ const OfficesPage = () => {
       .then((response) => response.data)
       .then((offices) => setAllOffices(offices));
   }, [refresh]);
-
   useEffect(() => {
     axios
       .get("http://localhost:3001/countries", {
@@ -76,8 +68,7 @@ const OfficesPage = () => {
       .then((response) => response.data)
       .then((countries) => setCountries(countries));
   }, []);
-
-  // headers
+  // Headers
   const headers = [
     {
       field: "id",
@@ -121,8 +112,25 @@ const OfficesPage = () => {
 
   return (
     <IsAdmin>
-      <Container style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6">OFICINAS</Typography>
+      <Container
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "0.5rem",
+        }}
+      >
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginTop: "0.5rem",
+            color: "#565659",
+            backgroundColor: "#FFEDAB",
+            borderColor: "#FFEDAB",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">Oficinas</Typography>
+        </Tag>
         <Button onClick={toggleAddOfficeModal}>
           Agregar oficina
           <Add />

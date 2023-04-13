@@ -33,6 +33,14 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     axios
+      .get("http://localhost:3001/users/disabled", { withCredentials: true })
+      .then((response) => {
+        setDeactivatedUsers(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  useEffect(() => {
+    axios
       .get("http://localhost:3001/offices", {
         withCredentials: true,
       })

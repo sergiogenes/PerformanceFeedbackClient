@@ -8,17 +8,22 @@ import {
   Paper,
   Avatar,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { customMessage } from "../CustomMessage/CustomMessage";
 import WorkIcon from "@mui/icons-material/Work";
 import axios from "axios";
 import Input from "../Input/Input";
 
-const AddIndicatorModal = ({ open, onClose, category }) => {
+const AddIndicatorModal = ({ open, onClose, categories }) => {
   // States
   const indicatorFormData = {
     description: "",
     goal: "",
+    category: "",
   };
   const [formData, setFormData] = useState(indicatorFormData);
   // Handlers
@@ -30,7 +35,6 @@ const AddIndicatorModal = ({ open, onClose, category }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    formData["category"] = category.name;
     await axios
       .post("http://localhost:3001/indicators/", formData, {
         withCredentials: true,
@@ -95,6 +99,32 @@ const AddIndicatorModal = ({ open, onClose, category }) => {
                 handleChange={handleChange}
                 type="text"
               />
+              <FormControl
+                sx={{
+                  mb: 2,
+                  marginLeft: "1rem",
+                  marginTop: "1rem",
+                }}
+                fullWidth
+              >
+                <InputLabel id="category-label">Categoría</InputLabel>
+                <Select
+                  labelId="category-label"
+                  id="category-select"
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  label="Categoría"
+                  required
+                >
+                  {categories.map((cat) => (
+                    <MenuItem key={cat.id} value={cat.name}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Box
               sx={{

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
 import Table from "../../../../commons/Table";
 import { Typography } from "@mui/material";
 import { customMessage } from "../../../../commons/CustomMessage/CustomMessage";
@@ -12,42 +11,44 @@ const FeedbacksPage = () => {
   const user = useSelector((state) => state.user);
   const router = useRouter();
   const evaluatedId = router.query.evaluatedId;
-
+  // States
   const [indicators, setIndicators] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
   const [evaluated, setEvaluated] = useState({});
   const [refresh, setRefresh] = useState(false);
-
+  // Effects
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/users/${evaluatedId}`, {
-        withCredentials: true,
-      })
-      .then((response) => response.data)
-      .then((newEvaluated) => {
-        setEvaluated(newEvaluated);
-        return newEvaluated;
-      })
-      .then((newEvaluated) => {
-        axios
-          .get(
-            `http://localhost:3001/indicators/category/${newEvaluated.category.id}`,
-            {
+    if (evaluatedId) {
+      axios
+        .get(`http://localhost:3001/users/${evaluatedId}`, {
+          withCredentials: true,
+        })
+        .then((response) => response.data)
+        .then((newEvaluated) => {
+          setEvaluated(newEvaluated);
+          return newEvaluated;
+        })
+        .then((newEvaluated) => {
+          axios
+            .get(
+              `http://localhost:3001/indicators/category/${newEvaluated.category.id}`,
+              {
+                withCredentials: true,
+              }
+            )
+            .then((response) => response.data)
+            .then((newIndicators) => setIndicators(newIndicators));
+          axios
+            .get(`http://localhost:3001/reviews/${newEvaluated.id}`, {
               withCredentials: true,
-            }
-          )
-          .then((response) => response.data)
-          .then((newIndicators) => setIndicators(newIndicators));
-        axios
-          .get(`http://localhost:3001/reviews/${newEvaluated.id}`, {
-            withCredentials: true,
-          })
-          .then((response) => response.data)
-          .then((newFeedbacks) => setFeedbacks(newFeedbacks));
-      })
-      .catch((error) => customMessage(error.message));
+            })
+            .then((response) => response.data)
+            .then((newFeedbacks) => setFeedbacks(newFeedbacks));
+        })
+        .catch((error) => customMessage(error.message));
+    }
   }, [evaluatedId, refresh]);
-
+  // Headers
   const headers = [
     {
       field: "id",
@@ -131,12 +132,9 @@ const FeedbacksPage = () => {
       ),
     },
   ];
-
   const headerHistory = headers.map((x) => x);
   headerHistory.pop();
-
-  // handlers
-
+  // Handlers
   const handleEdit = (row) => {
     const newReview = {
       evaluatedId,
@@ -161,30 +159,30 @@ const FeedbacksPage = () => {
       .catch((error) => customMessage("error", error.response.data));
   };
 
-  return evaluated.id && indicators.length && feedbacks.length ? (
+  return evaluated.id ? (
     <>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
-          <Typography variant="h5" sx={{ marginLeft: "10px" }}>
-            {`Personal evaluado: ${evaluated.firstName} ${evaluated.lastName}`}
-          </Typography>
-          <Typography variant="h5" sx={{ marginLeft: "10px" }}>
-            {`Legajo: ${evaluated.fileNumber}`}
-          </Typography>
-        </div>
-        <Typography variant="h6" sx={{ marginLeft: "10px" }}>
-          Devolución actual
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "20px",
+        }}
+      >
+        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
+          {`Personal evaluado: ${evaluated.firstName} ${evaluated.lastName}`}
         </Typography>
-        <Table columns={headers} rows={indicators} pageSize={5} />
-        <Typography variant="h6" sx={{ marginLeft: "10px", marginTop: "20px" }}>
-          Histórico de devoluciones
+        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
+          {`Legajo: ${evaluated.fileNumber}`}
         </Typography>
-        <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
+      </div>
+      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
+        Devolución actual
+      </Typography>
+      <Table columns={headers} rows={indicators} pageSize={5} />
+      <Typography variant="h6" sx={{ marginLeft: "10px", marginTop: "20px" }}>
+        Histórico de devoluciones
+      </Typography>
+      <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
     </>
   ) : (
     <h1>Cargando...</h1>

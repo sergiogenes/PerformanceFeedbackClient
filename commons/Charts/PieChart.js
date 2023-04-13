@@ -1,14 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Chart } from "react-google-charts";
-
-const data = [
-  ["Puesto", "Porcentaje"],
-  ["Operario", 50],
-  ["Gerente", 10],
-  ["Coordinador", 15],
-  ["Gerente Regional", 3],
-  ["Gerente General", 1],
-];
 
 const options = {
   title: "Porcentaje de Puestos",
@@ -27,6 +19,23 @@ const options = {
 };
 
 export function PieChart() {
+  // States
+  const [data, setData] = useState([]);
+  // Effects
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/users/counts", { withCredentials: true })
+      .then((res) => res.data)
+      .then((positionCount) => {
+        const newData = positionCount.map((elem) => [
+          elem.position.name,
+          Number(elem.count),
+        ]);
+        newData.unshift(["Puesto", "Porcentaje"]);
+        setData(newData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <Chart
       chartType="PieChart"

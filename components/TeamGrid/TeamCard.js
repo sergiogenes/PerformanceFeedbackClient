@@ -263,8 +263,9 @@ const TeamCard = ({ team }) => {
               />
             )}
           </CardContent>
-        </Card>
-      </Grid>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

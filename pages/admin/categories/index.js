@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Popconfirm } from "antd";
+
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Typography, Button, Container } from "@mui/material";
 import { Add } from "@mui/icons-material";
@@ -11,7 +11,7 @@ import Table from "../../../commons/Table";
 import EditButton from "../../../commons/EditButton";
 import DeleteButton from "../../../commons/DeleteButton";
 
-const categories = () => {
+const CategoriesPage = () => {
   // States
   const [selectedCategory, setSelectedCategory] = useState({});
   const [categoryModal, setCategoryModal] = useState(false);
@@ -126,4 +126,4 @@ const categories = () => {
   );
 };
 
-export default categories;
+export default CategoriesPage;

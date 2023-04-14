@@ -2,16 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Chart } from "react-google-charts";
 
-const data = [
-  ["País", "Oficinas"],
-  ["Argentina", 5],
-  ["Uruguay", 3],
-  ["Colombia", 2],
-  ["Peru", 2],
-  ["Mexico", 3],
-  ["United States", 1],
-];
-
 const options = {
   displayMode: "regions",
   resolution: "countries",
@@ -33,11 +23,17 @@ export function GeoChart() {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/offices", {
+      .get("http://localhost:3001/offices/counts", {
         withCredentials: true,
       })
-      .then((res) => {
-        console.log(res.data);
+      .then((res) => res.data)
+      .then((officesCount) => {
+        const newData = officesCount.map((elem) => [
+          elem.country.name,
+          Number(elem.count),
+        ]);
+        newData.unshift(["País", "Oficinas"]);
+        setOffices(newData);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -46,7 +42,7 @@ export function GeoChart() {
       chartType="GeoChart"
       width="100%"
       height="400px"
-      data={data}
+      data={offices}
       options={options}
     />
   );

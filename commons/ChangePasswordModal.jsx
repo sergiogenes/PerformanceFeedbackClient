@@ -23,8 +23,14 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
   // States
   const [formData, setFormData] = useState(userFormData);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPreviousPass, setShowPreviousPass] = useState(false);
   // Handlers
-  const handleShowPassword = () => setShowPassword((prev) => !prev);
+  const handleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const handleShowPreviousPass = () => {
+    setShowPreviousPass((prev) => !prev);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
@@ -36,6 +42,7 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
       )
       .catch((err) => customMessage("error", err.response.data));
     onClose();
+    setFormData(userFormData);
   };
 
   const handleChange = (e) => {
@@ -85,8 +92,8 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
                 name="previousPass"
                 label="Anterior Contraseña"
                 handleChange={handleChange}
-                type={showPassword ? "text" : "password"}
-                handleShowPassword={handleShowPassword}
+                type={showPreviousPass ? "text" : "password"}
+                handleShowPassword={handleShowPreviousPass}
               />
               <Input
                 name="password"
@@ -94,6 +101,11 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
                 handleChange={handleChange}
                 type={showPassword ? "text" : "password"}
                 handleShowPassword={handleShowPassword}
+                error={formData.password.length < 6}
+                helperText={
+                  formData.password.length < 6 &&
+                  "La contraseña debe tener al menos 6 caracteres"
+                }
               />
             </Grid>
             <Box
@@ -105,7 +117,10 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
             >
               <Button
                 variant="contained"
-                onClick={onClose}
+                onClick={(e) => {
+                  onClose();
+                  setFormData(userFormData);
+                }}
                 sx={{
                   mr: 1,
                   backgroundColor: "#1369B4",
@@ -117,15 +132,20 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
                 Cancelar
               </Button>
               <Button
-                variant="contained"
                 sx={{
                   mr: 1,
                   backgroundColor: "#1369B4",
+                  color: "#FFFFFF",
                   "&:hover": {
                     backgroundColor: "#FB9B14",
                   },
                 }}
                 type="submit"
+                variant="container"
+                disabled={formData.password.length < 6}
+                className={
+                  formData.password.length < 6 ? "disabled-button" : ""
+                }
               >
                 Modificar
               </Button>

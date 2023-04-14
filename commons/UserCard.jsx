@@ -79,6 +79,10 @@ export function UserCard({ user }) {
         <Button
           onClick={togglePasswordModal}
           variant="contained"
+          sx={{
+            backgroundColor: "#49A2FB",
+            "&hover": { backgroundColor: "#1686F7" },
+          }}
           startIcon={<Edit />}
         >
           Cambiar Contraseña

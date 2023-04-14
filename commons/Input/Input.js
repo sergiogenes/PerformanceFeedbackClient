@@ -10,6 +10,8 @@ function Input({
   type,
   handleShowPassword,
   defaultValue,
+  error,
+  helperText,
 }) {
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
@@ -35,6 +37,8 @@ function Input({
               }
             : null
         }
+        error={error}
+        helperText={helperText}
       />
     </Grid>
   );

@@ -50,10 +50,13 @@ export const Login = () => {
         customMessage("success", "Sesión Iniciada!");
         router.push("/");
       } catch (error) {
-        return error;
+        return customMessage(
+          "error",
+          "Credenciales inválidas, intente otra vez"
+        );
       }
     } else {
-      customMessage("error", "Credenciales inválidas, intente otra vez");
+      customMessage("error", "El email no es válido");
     }
   };
 

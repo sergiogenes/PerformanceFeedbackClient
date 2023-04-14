@@ -120,7 +120,7 @@ const PositionsPage = () => {
         </Button>
         <AddPositionModal open={positionModal} onClose={togglePositionModal} />
       </Container>
-      <Table columns={headers} rows={positions} pageSize={5} />
+      <Table columns={headers} rows={positions} pageSize={10} />
       <EditPositionModal
         open={editPositionModal}
         onClose={handleClose}

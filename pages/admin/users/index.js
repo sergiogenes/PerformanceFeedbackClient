@@ -214,7 +214,7 @@ const UserPage = () => {
                 offices={activeOffices}
               />
             </Container>
-            <Table columns={headers} rows={activeUsers} pageSize={5} />
+            <Table columns={headers} rows={activeUsers} pageSize={10} />
             <EditUserModal
               open={editUserModal}
               onClose={handleClose}

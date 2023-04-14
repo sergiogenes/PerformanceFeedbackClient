@@ -132,7 +132,7 @@ const CategoriesPage = () => {
         </Button>
         <AddCategoryModal open={categoryModal} onClose={toggleCategoryModal} />
       </Container>
-      <Table columns={headers} rows={categories} pageSize={5} />
+      <Table columns={headers} rows={categories} pageSize={10} />
       <EditCategoryModal
         open={editCategoryModal}
         onClose={handleClose}

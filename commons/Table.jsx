@@ -71,7 +71,7 @@ export default function Table({ columns, rows, pageSize }) {
           ...columns.initialState,
           pagination: { paginationModel: { pageSize: pageSize } },
         }}
-        pageSizeOptions={[5, 10, 25]}
+        pageSizeOptions={[5, 10, 25, 50]}
         getRowHeight={() => "auto"}
         getEstimatedRowHeight={() => 300}
         sx={{

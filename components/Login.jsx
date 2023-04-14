@@ -11,7 +11,7 @@ import Input from "../commons/Input/Input";
 export const Login = () => {
   const initialFormState = {
     email: "",
-    password: "",
+    password: "******",
   };
   // Redux
   const dispatch = useDispatch();

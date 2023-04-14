@@ -17,7 +17,7 @@ import Input from "../commons/Input/Input";
 const ChangePasswordModal = ({ user, open, onClose }) => {
   const userFormData = {
     previousPass: "",
-    password: "",
+    password: "******",
   };
 
   // States

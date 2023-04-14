@@ -105,10 +105,15 @@ export const Login = () => {
           </Typography>
           <Input
             name="password"
-            label="Ingresar 6 dígitos"
+            label="Ingrese su clave"
             handleChange={handleChange}
             type={showPassword ? "text" : "password"}
             handleShowPassword={handleShowPassword}
+            error={formData.password.length < 6}
+            helperText={
+              formData.password.length < 6 &&
+              "La contraseña debe tener al menos 6 caracteres"
+            }
           />
           <Button
             style={{

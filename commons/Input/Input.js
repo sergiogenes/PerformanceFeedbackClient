@@ -10,6 +10,8 @@ function Input({
   type,
   handleShowPassword,
   defaultValue,
+  error,
+  helperText,
 }) {
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
@@ -23,7 +25,7 @@ function Input({
         type={type}
         defaultValue={defaultValue}
         InputProps={
-          name === "password"
+          name === "password" || name === "previousPass"
             ? {
                 endAdornment: (
                   <InputAdornment position="end">
@@ -35,6 +37,8 @@ function Input({
               }
             : null
         }
+        error={error}
+        helperText={helperText}
       />
     </Grid>
   );

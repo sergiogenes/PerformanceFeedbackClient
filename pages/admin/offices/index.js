@@ -141,7 +141,7 @@ const OfficesPage = () => {
           countries={countries}
         />
       </Container>
-      <Table columns={headers} rows={allOffices} pageSize={5} />
+      <Table columns={headers} rows={allOffices} pageSize={10} />
       <EditOfficeModal
         open={editOfficeModal}
         onClose={handleClose}

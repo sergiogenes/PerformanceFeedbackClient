@@ -54,7 +54,7 @@ const Indicators = () => {
       <Typography variant="h6" sx={{ marginLeft: "10px" }}>
         Mis Indicadores
       </Typography>
-      <Table columns={headers} rows={indicators} pageSize={5} />
+      <Table columns={headers} rows={indicators} pageSize={10} />
     </>
   );
 };

@@ -90,7 +90,7 @@ const HistoryPage = () => {
       <Typography variant="h6" sx={{ marginLeft: "10px" }}>
         Mis Feedbacks
       </Typography>
-      <Table columns={headers} rows={feedbacks} pageSize={5} />
+      <Table columns={headers} rows={feedbacks} pageSize={10} />
     </>
   );
 };

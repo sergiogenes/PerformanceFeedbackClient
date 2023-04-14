@@ -176,7 +176,7 @@ const IndicatorsAdmin = () => {
           categories={categories}
         />
       </Container>
-      <Table columns={headers} rows={indicators} pageSize={5} />
+      <Table columns={headers} rows={indicators} pageSize={10} />
       <EditIndicatorModal
         open={editIndicatorModal}
         onClose={handleClose}

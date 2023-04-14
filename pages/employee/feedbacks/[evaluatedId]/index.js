@@ -182,7 +182,7 @@ const FeedbacksPage = () => {
       <Typography variant="h6" sx={{ marginLeft: "10px", marginTop: "20px" }}>
         Histórico de devoluciones
       </Typography>
-      <Table columns={headerHistory} rows={feedbacks} pageSize={5} />
+      <Table columns={headerHistory} rows={feedbacks} pageSize={10} />
     </>
   ) : (
     <h1>Cargando...</h1>

@@ -22,7 +22,7 @@ export function UserCard({ user }) {
   };
 
   return (
-    <Grid item lg={6} md={6} sm={8} xs={12}>
+    <Grid item lg={6} md={6} sm={12} xs={12}>
       <Card
         style={{
           height: "100%",

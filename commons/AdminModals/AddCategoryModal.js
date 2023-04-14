@@ -33,10 +33,7 @@ const AddCategoryModal = ({ open, onClose }) => {
         withCredentials: true,
       })
       .then((response) =>
-        customMessage(
-          "success",
-          `Nueva categoría creada: ${response.data.name}`
-        )
+        customMessage("success", `Nueva Categoría: ${response.data.name}`)
       )
       .catch((error) => customMessage("error", error.message));
     onClose();

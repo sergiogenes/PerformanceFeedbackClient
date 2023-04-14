@@ -33,7 +33,7 @@ const EditCategoryModal = ({ category, open, onClose }) => {
       .put(`http://localhost:3001/categories/${category.id}`, formData, {
         withCredentials: true,
       })
-      .then(() => customMessage("success", "Categoría modificada"))
+      .then(() => customMessage("success", "Categoría actualizada"))
       .catch((error) => customMessage("error", error));
     onClose();
   };

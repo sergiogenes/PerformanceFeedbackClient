@@ -4,11 +4,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Table from "../../../../commons/Table";
 import { Typography } from "@mui/material";
+import { Tag } from "antd";
 import { customMessage } from "../../../../commons/CustomMessage/CustomMessage";
 import SaveButton from "../../../../commons/SaveButton";
 
 const FeedbacksPage = () => {
+  // Redux
   const user = useSelector((state) => state.user);
+  // Router
   const router = useRouter();
   const evaluatedId = router.query.evaluatedId;
   // States
@@ -168,20 +171,65 @@ const FeedbacksPage = () => {
           marginBottom: "20px",
         }}
       >
-        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
-          {`Personal evaluado: ${evaluated.firstName} ${evaluated.lastName}`}
-        </Typography>
-        <Typography variant="h5" sx={{ marginLeft: "10px" }}>
-          {`Legajo: ${evaluated.fileNumber}`}
-        </Typography>
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginBottom: "0.5rem",
+            marginLeft: "1rem",
+            color: "#565659",
+            backgroundColor: "#FFD7CA",
+            borderColor: "#FFD7CA",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">
+            {`Personal evaluado: ${evaluated.firstName} ${evaluated.lastName}`}
+          </Typography>
+        </Tag>
+        <Tag
+          style={{
+            borderRadius: 25,
+            marginBottom: "0.5rem",
+            marginLeft: "1rem",
+            color: "#565659",
+            backgroundColor: "#EACEFF",
+            borderColor: "#EACEFF",
+            maxHeight: "34px",
+          }}
+        >
+          <Typography variant="h6">
+            {`Legajo: ${evaluated.fileNumber}`}
+          </Typography>
+        </Tag>
       </div>
-      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
-        Devolución actual
-      </Typography>
+      <Tag
+        style={{
+          borderRadius: 25,
+          marginBottom: "0.5rem",
+          marginLeft: "1rem",
+          color: "#565659",
+          backgroundColor: "#CCE5FF",
+          borderColor: "#CCE5FF",
+          maxHeight: "34px",
+        }}
+      >
+        <Typography variant="h6">Indicadores Activos</Typography>
+      </Tag>
       <Table columns={headers} rows={indicators} pageSize={5} />
-      <Typography variant="h6" sx={{ marginLeft: "10px", marginTop: "20px" }}>
-        Histórico de devoluciones
-      </Typography>
+      <Tag
+        style={{
+          borderRadius: 25,
+          marginTop: "1rem",
+          marginBottom: "0.5rem",
+          marginLeft: "1rem",
+          color: "#565659",
+          backgroundColor: "#FFEDAB",
+          borderColor: "#FFEDAB",
+          maxHeight: "34px",
+        }}
+      >
+        <Typography variant="h6">Histórico de Devoluciones</Typography>
+      </Tag>
       <Table columns={headerHistory} rows={feedbacks} pageSize={10} />
     </>
   ) : (

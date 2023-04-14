@@ -49,10 +49,7 @@ const AddUserModal = ({
     await axios
       .post("http://localhost:3001/users", formData, { withCredentials: true })
       .then((newUser) =>
-        customMessage(
-          "success",
-          `Nuevo Usuario (${newUser.data.fileNumber}) creado!`
-        )
+        customMessage("success", `Nuevo Usuario: ${newUser.data.fileNumber}`)
       )
       .catch((err) => customMessage("error", err.message));
     onClose();

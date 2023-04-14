@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
 import Table from "../../../commons/Table";
 import { Typography } from "@mui/material";
+import { Tag } from "antd";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 
 const HistoryPage = () => {
+  // Redux
   const user = useSelector((state) => state.user);
-
+  // States
   const [feedbacks, setFeedbacks] = useState([]);
-
+  // Effects
   useEffect(() => {
     axios
       .get(`http://localhost:3001/reviews/${user.id}`, {
@@ -20,7 +21,7 @@ const HistoryPage = () => {
       .then((newFeedbacks) => setFeedbacks(newFeedbacks))
       .catch((error) => customMessage(error.message));
   }, []);
-
+  // Headers
   const headers = [
     {
       field: "id",
@@ -87,9 +88,19 @@ const HistoryPage = () => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
-        Mis Feedbacks
-      </Typography>
+      <Tag
+        style={{
+          borderRadius: 25,
+          marginBottom: "0.5rem",
+          marginLeft: "1rem",
+          color: "#565659",
+          backgroundColor: "#FFEDAB",
+          borderColor: "#FFEDAB",
+          maxHeight: "34px",
+        }}
+      >
+        <Typography variant="h6">Mis Devoluciones</Typography>
+      </Tag>
       <Table columns={headers} rows={feedbacks} pageSize={10} />
     </>
   );

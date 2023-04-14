@@ -21,7 +21,7 @@ const UserCardItem = ({ employee }) => {
           <ListItem key={employee.id} style={{ cursor: "pointer" }}>
             <ListItemAvatar>
               <Avatar
-                src={employee.image}
+                src={`${employee.image}`}
                 alt={employee.name}
                 sx={{ width: 50, height: 50 }}
               />

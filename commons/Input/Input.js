@@ -23,7 +23,7 @@ function Input({
         type={type}
         defaultValue={defaultValue}
         InputProps={
-          name === "password"
+          name === "password" || name === "previousPass"
             ? {
                 endAdornment: (
                   <InputAdornment position="end">

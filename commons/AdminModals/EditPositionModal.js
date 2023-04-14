@@ -30,7 +30,7 @@ const EditPositionModal = ({ position, open, onClose }) => {
       .put(`http://localhost:3001/positions/${position.id}`, formData, {
         withCredentials: true,
       })
-      .then((response) => customMessage("success", `${response.data}`))
+      .then(() => customMessage("success", "Puesto actualizado"))
       .catch((error) => customMessage("error", error.message));
     onClose();
   };

@@ -4,11 +4,14 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { customMessage } from "../../../commons/CustomMessage/CustomMessage";
 import { Typography } from "@mui/material";
+import { Tag } from "antd";
 
 const Indicators = () => {
+  //Redux
   const user = useSelector((state) => state.user);
+  // States
   const [indicators, setIndicators] = useState([]);
-
+  // Effects
   useEffect(() => {
     axios
       .get(`http://localhost:3001/indicators/category/${user.categoryId}`, {
@@ -18,7 +21,7 @@ const Indicators = () => {
       .then((indicators) => setIndicators(indicators))
       .catch((error) => customMessage(error.message));
   }, []);
-
+  // Headers
   const headers = [
     {
       field: "id",
@@ -51,9 +54,19 @@ const Indicators = () => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ marginLeft: "10px" }}>
-        Mis Indicadores
-      </Typography>
+      <Tag
+        style={{
+          borderRadius: 25,
+          marginBottom: "0.5rem",
+          marginLeft: "1rem",
+          color: "#565659",
+          backgroundColor: "#CCE5FF",
+          borderColor: "#CCE5FF",
+          maxHeight: "34px",
+        }}
+      >
+        <Typography variant="h6">Mis Indicadores</Typography>
+      </Tag>
       <Table columns={headers} rows={indicators} pageSize={10} />
     </>
   );

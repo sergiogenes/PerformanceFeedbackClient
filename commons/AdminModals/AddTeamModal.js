@@ -33,7 +33,7 @@ const AddTeamModal = ({ open, onClose }) => {
         withCredentials: true,
       })
       .then((response) =>
-        customMessage("success", `Nueva equipo creado: ${response.data.name}`)
+        customMessage("success", `Nuevo Equipo: ${response.data.name}`)
       )
       .catch((error) => customMessage("error", error.response.data));
     onClose();

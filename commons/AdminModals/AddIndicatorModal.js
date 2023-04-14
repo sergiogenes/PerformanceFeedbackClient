@@ -40,10 +40,7 @@ const AddIndicatorModal = ({ open, onClose, categories }) => {
         withCredentials: true,
       })
       .then((response) =>
-        customMessage(
-          "success",
-          `Nuevo Indicador creado ID: ${response.data.id}`
-        )
+        customMessage("success", `Nuevo Indicador: ${response.data.id}`)
       )
       .catch((error) => customMessage("error", error.message));
     onClose();

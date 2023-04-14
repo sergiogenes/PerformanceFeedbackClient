@@ -52,7 +52,7 @@ const EditUserModal = ({
         withCredentials: true,
       })
       .then(() =>
-        customMessage("success", `Usuario (${user.fileNumber}) modificado`)
+        customMessage("success", `Usuario (${user.fileNumber}) actualizado`)
       )
       .catch((err) => customMessage("error", err.message));
     onClose();

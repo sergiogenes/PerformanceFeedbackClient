@@ -31,7 +31,7 @@ const AddPositionModal = ({ open, onClose }) => {
         withCredentials: true,
       })
       .then((response) =>
-        customMessage("success", `Nueva posición creada: ${response.data.name}`)
+        customMessage("success", `Nuevo Puesto: ${response.data.name}`)
       )
       .catch((error) => customMessage("error", error.message));
     onClose();

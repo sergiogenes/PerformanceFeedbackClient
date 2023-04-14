@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -24,11 +24,10 @@ const TeamCard = ({ team }) => {
   const [removeUserTeam, setRemoveUserTeam] = useState(false);
   // Redux
   const user = useSelector((store) => store.user);
-  // Togglers
+  // Togglers & Handlers
   const toggleCard = () => {
     setOpenCard((prevState) => !prevState);
   };
-
   const alertConfirm = (member) => {
     setRemoveUserTeam((prevState) => !prevState);
     handleRemoveUser(member);
@@ -36,13 +35,6 @@ const TeamCard = ({ team }) => {
   const alertCancel = () => {
     customMessage("info", "Acción cancelada");
   };
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3001/teams/${team.id}`, { withCredentials: true })
-      .then((res) => setTeamMembers(res.data.Users))
-      .catch((err) => customMessage("error", err.response));
-  }, [removeUserTeam, openCard]);
-
   const handleRemoveUser = (member) => {
     axios
       .put(
@@ -61,6 +53,14 @@ const TeamCard = ({ team }) => {
       })
       .catch((err) => customMessage("error", err.message));
   };
+  // Effects
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/teams/${team.id}`, { withCredentials: true })
+      .then((res) => setTeamMembers(res.data.Users))
+      .catch((err) => customMessage("error", err.response));
+  }, [removeUserTeam, openCard]);
+  // Headers
   const headersUser = [
     {
       field: "id",
@@ -180,8 +180,9 @@ const TeamCard = ({ team }) => {
       ),
     },
   ];
+
   return (
-    <Grid item xs={12} sm={6} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
+    <Grid item xs={12} sm={12} md={openCard ? 12 : 6} lg={openCard ? 12 : 6}>
       <Card
         style={{
           height: "100%",

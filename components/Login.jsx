@@ -75,10 +75,10 @@ export const Login = () => {
       >
         <Typography>Te damos la bienvenida a</Typography>
         <Image
-          src="/GlobalNews.svg"
+          src="/Performance Feedback.png"
           alt="GlobalNews Group Logo"
-          width={190}
-          height={50}
+          width={270}
+          height={60}
           priority
         />
         <form

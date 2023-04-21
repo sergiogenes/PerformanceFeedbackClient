@@ -148,10 +148,10 @@ export function Navbar() {
               </IconButton>
               <Link href="/">
                 <Image
-                  src="/logoGN.png"
+                  src="/Performance Feedback Blue.png"
                   alt="GlobalNews Group Logo"
-                  width={160}
-                  height={40}
+                  width={200}
+                  height={70}
                   priority
                   style={{ cursor: "pointer" }}
                 />

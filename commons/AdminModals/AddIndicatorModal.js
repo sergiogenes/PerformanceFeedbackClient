@@ -36,7 +36,7 @@ const AddIndicatorModal = ({ open, onClose, categories }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/indicators/", formData, {
+      .post("/api/indicators/", formData, {
         withCredentials: true,
       })
       .then((response) =>

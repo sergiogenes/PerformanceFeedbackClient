@@ -39,13 +39,9 @@ export const Login = () => {
 
     if (validEmail) {
       try {
-        cookie = await axios.post(
-          "/auth/login",
-          formData,
-          {
-            withCredentials: true,
-          }
-        );
+        cookie = await axios.post("/api/auth/login", formData, {
+          withCredentials: true,
+        });
         dispatch(logIn(cookie.data));
         customMessage("success", "Sesión Iniciada!");
         router.push("/");

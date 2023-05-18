@@ -29,7 +29,7 @@ const AddCategoryModal = ({ open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/categories", formData, {
+      .post("/api/categories", formData, {
         withCredentials: true,
       })
       .then((response) =>

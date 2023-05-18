@@ -27,7 +27,7 @@ const EditPositionModal = ({ position, open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`/positions/${position.id}`, formData, {
+      .put(`/api/positions/${position.id}`, formData, {
         withCredentials: true,
       })
       .then((response) => customMessage("success", `${response.data}`))

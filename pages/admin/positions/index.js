@@ -42,7 +42,7 @@ const PositionsPage = () => {
   };
   const handleDeletePositions = (position) => {
     axios
-      .delete(`/positions/${position.id}`, {
+      .delete(`/api/positions/${position.id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -54,7 +54,7 @@ const PositionsPage = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("/positions", { withCredentials: true })
+      .get("/api/positions", { withCredentials: true })
       .then((res) => setPositions(res.data))
       .catch((err) => customMessage("error", err.data));
   }, [refresh]);

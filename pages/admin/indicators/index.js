@@ -52,7 +52,7 @@ const IndicatorsAdmin = () => {
   };
   const handleDeleteIndicator = async (indicator) => {
     await axios
-      .delete(`/indicators/${indicator.id}`, {
+      .delete(`/api/indicators/${indicator.id}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -64,14 +64,14 @@ const IndicatorsAdmin = () => {
 
   useEffect(() => {
     axios
-      .get("/categories/", { withCredentials: true })
+      .get("/api/categories/", { withCredentials: true })
       .then((response) => setCategories(response.data))
       .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`/indicators/category/${selectedCategory.id}`, {
+      .get(`/api/indicators/category/${selectedCategory.id}`, {
         withCredentials: true,
       })
       .then((response) => response.data)

@@ -1,30 +1,30 @@
-import React, { useState, useEffect, Suspense } from 'react'
-import { Grid, Container } from '@mui/material'
-import axios from 'axios'
-import { UserCard } from '../commons/UserCard'
-import { useSelector } from 'react-redux'
-import UserList from './UserList/UserList'
-import TeamCard from './TeamGrid/TeamCard'
-import Dashboard from './Dashboard'
+import React, { useState, useEffect, Suspense } from "react";
+import { Grid, Container } from "@mui/material";
+import axios from "axios";
+import { UserCard } from "../commons/UserCard";
+import { useSelector } from "react-redux";
+import UserList from "./UserList/UserList";
+import TeamCard from "./TeamGrid/TeamCard";
+import Dashboard from "./Dashboard";
 
 export function User() {
   // States
-  const [myTeam, setMyTeam] = useState([])
+  const [myTeam, setMyTeam] = useState([]);
 
   // Redux
-  const user = useSelector(store => store.user)
+  const user = useSelector((store) => store.user);
 
   // Effects
   useEffect(() => {
-    if (user.teamId === null) return
+    if (user.teamId === null) return;
 
     axios
-      .get(`/teams/${user.teamId}`, {
+      .get(`/api/teams/${user.teamId}`, {
         withCredentials: true,
       })
-      .then(res => setMyTeam(res.data))
-      .catch(error => console.log(error))
-  }, [])
+      .then((res) => setMyTeam(res.data))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Suspense fallback={<h1>Cargando...</h1>}>
       <Container>
@@ -43,5 +43,5 @@ export function User() {
         </Grid>
       </Container>
     </Suspense>
-  )
+  );
 }

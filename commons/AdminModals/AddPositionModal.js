@@ -27,7 +27,7 @@ const AddPositionModal = ({ open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/positions", formData, {
+      .post("/api/positions", formData, {
         withCredentials: true,
       })
       .then((response) =>

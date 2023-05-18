@@ -32,7 +32,7 @@ const TeamGrid = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("/teams", { withCredentials: true })
+      .get("/api/teams", { withCredentials: true })
       .then((res) => setAllTeams(res.data))
       .catch((err) => customMessage("error", err.response.data));
   }, [refresh, openModal]);

@@ -37,7 +37,7 @@ const OfficesPage = () => {
   };
   const handleDeleteOffice = (office) => {
     axios
-      .delete(`/offices/${office.id}`, {
+      .delete(`/api/offices/${office.id}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -54,7 +54,7 @@ const OfficesPage = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("/offices", {
+      .get("/api/offices", {
         withCredentials: true,
       })
       .then((response) => response.data)
@@ -62,7 +62,7 @@ const OfficesPage = () => {
   }, [refresh]);
   useEffect(() => {
     axios
-      .get("/countries", {
+      .get("/api/countries", {
         withCredentials: true,
       })
       .then((response) => response.data)

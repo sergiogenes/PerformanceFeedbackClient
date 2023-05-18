@@ -13,7 +13,7 @@ const UserList = () => {
   // Effects
   useEffect(() => {
     axios
-      .get(`/users/empleados/${leader.id}`, {
+      .get(`/api/users/empleados/${leader.id}`, {
         withCredentials: true,
       })
       .then((res) => {

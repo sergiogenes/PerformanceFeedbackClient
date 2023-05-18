@@ -47,7 +47,7 @@ const AddUserModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/users", formData, { withCredentials: true })
+      .post("/api/users", formData, { withCredentials: true })
       .then((newUser) =>
         customMessage(
           "success",

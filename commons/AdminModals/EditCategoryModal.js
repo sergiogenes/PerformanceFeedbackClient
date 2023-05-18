@@ -30,7 +30,7 @@ const EditCategoryModal = ({ category, open, onClose }) => {
     console.log(formData);
     e.preventDefault();
     await axios
-      .put(`/categories/${category.id}`, formData, {
+      .put(`/api/categories/${category.id}`, formData, {
         withCredentials: true,
       })
       .then(() => customMessage("success", "Categoría modificada"))

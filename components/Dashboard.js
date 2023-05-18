@@ -25,7 +25,7 @@ const Dashboard = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("/users", { withCredentials: true })
+      .get("/api/users", { withCredentials: true })
       .then((response) => {
         setActiveUsers(response.data);
       })
@@ -33,7 +33,7 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("/users/disabled", { withCredentials: true })
+      .get("/api/users/disabled", { withCredentials: true })
       .then((response) => {
         setDeactivatedUsers(response.data);
       })
@@ -41,7 +41,7 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("/offices", {
+      .get("/api/offices", {
         withCredentials: true,
       })
       .then((res) => setAllOffices(res.data))
@@ -49,7 +49,7 @@ const Dashboard = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("/teams", {
+      .get("/api/teams", {
         withCredentials: true,
       })
       .then((res) => setAllTeams(res.data))

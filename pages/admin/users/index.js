@@ -47,7 +47,7 @@ const UserPage = () => {
   const handleDeleteUser = (user) => {
     axios
       .put(
-        `/users/deactivate/${user.id}`,
+        `/api/users/deactivate/${user.id}`,
         {},
         {
           withCredentials: true,
@@ -62,7 +62,7 @@ const UserPage = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("/users", { withCredentials: true })
+      .get("/api/users", { withCredentials: true })
       .then((response) => {
         setActiveUsers(response.data);
       })
@@ -70,25 +70,25 @@ const UserPage = () => {
   }, [refresh]);
   useEffect(() => {
     axios
-      .get("/positions", { withCredentials: true })
+      .get("/api/positions", { withCredentials: true })
       .then((response) => setActivePositions(response.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("/teams", { withCredentials: true })
+      .get("/api/teams", { withCredentials: true })
       .then((res) => setActiveTeams(res.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("/categories", { withCredentials: true })
+      .get("/api/categories", { withCredentials: true })
       .then((res) => setActiveCategories(res.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("/offices", { withCredentials: true })
+      .get("/api/offices", { withCredentials: true })
       .then((res) => setActiveOffices(res.data))
       .catch((error) => console.log(error));
   }, []);

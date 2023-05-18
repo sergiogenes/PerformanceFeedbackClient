@@ -48,7 +48,7 @@ const EditUserModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`/users/${user.id}`, formData, {
+      .put(`/api/users/${user.id}`, formData, {
         withCredentials: true,
       })
       .then(() =>

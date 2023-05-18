@@ -5,8 +5,9 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "https://performance-feedback-server.vercel.app/:path*",
+        source: "/api/:path*",
+        destination:
+          "https://performance-feedback-server.vercel.app/api/:path*",
       },
     ];
   },

@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "https://performance-feedback-server.vercel.app/"
+      "destination": "https://performance-feedback-server.vercel.app/$1"
     }
   ]
 }

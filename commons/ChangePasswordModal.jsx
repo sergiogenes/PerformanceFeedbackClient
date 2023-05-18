@@ -28,7 +28,7 @@ const ChangePasswordModal = ({ user, open, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`http://localhost:3001/users/me/edit`, formData, {
+      .put(`/users/me/edit`, formData, {
         withCredentials: true,
       })
       .then(() =>

@@ -57,7 +57,7 @@ const UserTable = () => {
   const handleDeleteUser = (user) => {
     axios
       .put(
-        `http://localhost:3001/users/deactivate/${user.id}`,
+        `/users/deactivate/${user.id}`,
         {},
         {
           withCredentials: true,
@@ -72,7 +72,7 @@ const UserTable = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/users", { withCredentials: true })
+      .get("/users", { withCredentials: true })
       .then((response) => {
         setActiveUsers(response.data);
       })
@@ -80,25 +80,25 @@ const UserTable = () => {
   }, [refresh]);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/positions", { withCredentials: true })
+      .get("/positions", { withCredentials: true })
       .then((response) => setActivePositions(response.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/teams", { withCredentials: true })
+      .get("/teams", { withCredentials: true })
       .then((res) => setActiveTeams(res.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/categories", { withCredentials: true })
+      .get("/categories", { withCredentials: true })
       .then((res) => setActiveCategories(res.data))
       .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/offices", { withCredentials: true })
+      .get("/offices", { withCredentials: true })
       .then((res) => setActiveOffices(res.data))
       .catch((error) => console.log(error));
   }, []);

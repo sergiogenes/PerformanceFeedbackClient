@@ -13,7 +13,7 @@ const HistoryPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/reviews/${user.id}`, {
+      .get(`/reviews/${user.id}`, {
         withCredentials: true,
       })
       .then((response) => response.data)

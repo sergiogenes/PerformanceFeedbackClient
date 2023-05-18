@@ -23,7 +23,7 @@ export function GeoChart() {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/offices/counts", {
+      .get("/offices/counts", {
         withCredentials: true,
       })
       .then((res) => res.data)

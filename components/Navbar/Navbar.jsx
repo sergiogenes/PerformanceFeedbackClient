@@ -107,7 +107,7 @@ export function Navbar() {
 
   const handleLogout = () => {
     axios
-      .post("http://localhost:3001/auth/logout", {}, { withCredentials: true })
+      .post("/auth/logout", {}, { withCredentials: true })
       .then(() => {
         dispatch(logOut());
         message.success("Sesión Finalizada");

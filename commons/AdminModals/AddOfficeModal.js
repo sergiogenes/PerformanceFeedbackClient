@@ -34,7 +34,7 @@ const AddOfficeModal = ({ open, onClose, countries }) => {
 
     await axios
       .post(
-        "http://localhost:3001/offices",
+        "/offices",
         { name: formData.name, countryId: formData.countryId },
         { withCredentials: true }
       )

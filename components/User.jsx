@@ -19,7 +19,7 @@ export function User() {
     if (user.teamId === null) return
 
     axios
-      .get(`http://localhost:3001/teams/${user.teamId}`, {
+      .get(`/teams/${user.teamId}`, {
         withCredentials: true,
       })
       .then(res => setMyTeam(res.data))

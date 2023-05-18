@@ -33,7 +33,7 @@ const EditPositionModal = ({ categories, open, onClose, indicator }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`http://localhost:3001/indicators/${indicator.id}`, formData, {
+      .put(`/indicators/${indicator.id}`, formData, {
         withCredentials: true,
       })
       .then((response) =>

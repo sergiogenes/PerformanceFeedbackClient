@@ -29,7 +29,7 @@ const AddTeamModal = ({ open, onClose }) => {
     console.log(formData);
     e.preventDefault();
     await axios
-      .post("http://localhost:3001/teams", formData, {
+      .post("/teams", formData, {
         withCredentials: true,
       })
       .then((response) =>

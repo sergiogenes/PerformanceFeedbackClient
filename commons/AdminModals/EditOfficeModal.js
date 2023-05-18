@@ -33,7 +33,7 @@ const EditOfficeModal = ({ open, onClose, office, countries }) => {
     e.preventDefault();
     await axios
       .put(
-        `http://localhost:3001/offices/${office.id}`,
+        `/offices/${office.id}`,
         { name: formData.name, countryId: formData.countryId },
         { withCredentials: true }
       )

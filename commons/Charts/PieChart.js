@@ -24,7 +24,7 @@ export function PieChart() {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/users/counts", { withCredentials: true })
+      .get("/users/counts", { withCredentials: true })
       .then((res) => res.data)
       .then((positionCount) => {
         const newData = positionCount.map((elem) => [

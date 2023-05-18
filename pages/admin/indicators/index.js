@@ -52,7 +52,7 @@ const IndicatorsAdmin = () => {
   };
   const handleDeleteIndicator = async (indicator) => {
     await axios
-      .delete(`http://localhost:3001/indicators/${indicator.id}`, {
+      .delete(`/indicators/${indicator.id}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -64,14 +64,14 @@ const IndicatorsAdmin = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/categories/", { withCredentials: true })
+      .get("/categories/", { withCredentials: true })
       .then((response) => setCategories(response.data))
       .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/indicators/category/${selectedCategory.id}`, {
+      .get(`/indicators/category/${selectedCategory.id}`, {
         withCredentials: true,
       })
       .then((response) => response.data)

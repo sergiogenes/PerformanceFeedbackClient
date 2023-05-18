@@ -38,7 +38,7 @@ const TeamCard = ({ team }) => {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/teams/${team.id}`, { withCredentials: true })
+      .get(`/teams/${team.id}`, { withCredentials: true })
       .then((res) => setTeamMembers(res.data.Users))
       .catch((err) => customMessage("error", err.response));
   }, [removeUserTeam, openCard]);
@@ -46,7 +46,7 @@ const TeamCard = ({ team }) => {
   const handleRemoveUser = (member) => {
     axios
       .put(
-        `http://localhost:3001/users/${member.id}`,
+        `/users/${member.id}`,
         { team: null },
         {
           withCredentials: true,

@@ -51,7 +51,7 @@ const CategoryTable = () => {
   };
   const handleDeleteCategory = async (cat) => {
     await axios
-      .delete(`http://localhost:3001/categories/${cat.id}`, {
+      .delete(`/categories/${cat.id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -63,7 +63,7 @@ const CategoryTable = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/categories", { withCredentials: true })
+      .get("/categories", { withCredentials: true })
       .then((response) => setCategories(response.data))
       .catch((error) => console.log(error));
   }, [refresh]);

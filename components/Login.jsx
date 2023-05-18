@@ -40,7 +40,7 @@ export const Login = () => {
     if (validEmail) {
       try {
         cookie = await axios.post(
-          "http://localhost:3001/auth/login",
+          "/auth/login",
           formData,
           {
             withCredentials: true,

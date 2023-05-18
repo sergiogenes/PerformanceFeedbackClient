@@ -20,7 +20,7 @@ const FeedbacksPage = () => {
   useEffect(() => {
     if (evaluatedId) {
       axios
-        .get(`http://localhost:3001/users/${evaluatedId}`, {
+        .get(`/users/${evaluatedId}`, {
           withCredentials: true,
         })
         .then((response) => response.data)
@@ -31,7 +31,7 @@ const FeedbacksPage = () => {
         .then((newEvaluated) => {
           axios
             .get(
-              `http://localhost:3001/indicators/category/${newEvaluated.category.id}`,
+              `/indicators/category/${newEvaluated.category.id}`,
               {
                 withCredentials: true,
               }
@@ -39,7 +39,7 @@ const FeedbacksPage = () => {
             .then((response) => response.data)
             .then((newIndicators) => setIndicators(newIndicators));
           axios
-            .get(`http://localhost:3001/reviews/${newEvaluated.id}`, {
+            .get(`/reviews/${newEvaluated.id}`, {
               withCredentials: true,
             })
             .then((response) => response.data)
@@ -148,7 +148,7 @@ const FeedbacksPage = () => {
       date: row.date,
     };
     axios
-      .post(`http://localhost:3001/reviews`, newReview, {
+      .post(`/reviews`, newReview, {
         withCredentials: true,
       })
       .then((response) => response.data)

@@ -11,7 +11,7 @@ const Indicators = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/indicators/category/${user.categoryId}`, {
+      .get(`/indicators/category/${user.categoryId}`, {
         withCredentials: true,
       })
       .then((response) => response.data)

@@ -42,7 +42,7 @@ const PositionsPage = () => {
   };
   const handleDeletePositions = (position) => {
     axios
-      .delete(`http://localhost:3001/positions/${position.id}`, {
+      .delete(`/positions/${position.id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -54,7 +54,7 @@ const PositionsPage = () => {
   // Effects
   useEffect(() => {
     axios
-      .get("http://localhost:3001/positions", { withCredentials: true })
+      .get("/positions", { withCredentials: true })
       .then((res) => setPositions(res.data))
       .catch((err) => customMessage("error", err.data));
   }, [refresh]);

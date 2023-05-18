@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "https://performance-feedback-server.vercel.app/"
+    }
+  ]
+}

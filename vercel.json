@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "https://performance-feedback-server.vercel.app/$1"
+      "source": "/:path*",
+      "destination": "https://performance-feedback-server.vercel.app/:path*"
     }
   ]
 }
